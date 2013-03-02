@@ -20,7 +20,7 @@
 {
     [super viewDidLoad];
 
-    entries = [NSArray arrayWithObjects:@"Settings", @"About", nil];
+    entries = [NSArray arrayWithObjects:@"Account", @"Notifications", @"Settings", @"About", @"Logout", nil];
 }
 
 - (IBAction)showSettings:(id)sender
@@ -63,7 +63,9 @@
         case 0:
             [self showSettings:nil];
             break;
-
+        case 4:
+            [LoginViewController performLogout];
+            break;
         default:
             break;
     }

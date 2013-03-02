@@ -21,4 +21,6 @@
     #import "ILBarButtonItem.h"
     #import "ILSideScrollView.h"
     #import "PKRevealController.h"
+
+    #import "AppDelegate.h"
 #endif

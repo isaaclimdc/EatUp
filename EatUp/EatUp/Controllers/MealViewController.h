@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EUEvent.h"
 
-@interface MealViewController : UIViewController
+@interface MealViewController : UIViewController {
+    EUEvent *event;
+}
+
+@property (strong, nonatomic) EUEvent *event;
 
 @end

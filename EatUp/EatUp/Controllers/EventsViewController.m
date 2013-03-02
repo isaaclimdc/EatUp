@@ -23,18 +23,26 @@
     events = [NSMutableArray array];
 
     // Fill with random elements
-    EUEvent *event1 = [EUEvent eventWithTitle:@"Birthday Dinner" time:[NSDate date] participants:nil];
-    [events addObject:event1];
+    EUEvent *event = [EUEvent eventWithTitle:@"Birthday Dinner" time:[NSDate date] participants:nil];
+    [events addObject:event];
+    event = [EUEvent eventWithTitle:@"Party at Brgr!" time:[NSDate dateWithTimeIntervalSinceNow:500] participants:nil];
+    [events addObject:event];
+    event = [EUEvent eventWithTitle:@"Aunt Lily's Home" time:[NSDate dateWithTimeIntervalSinceNow:12500] participants:nil];
+    [events addObject:event];
+    event = [EUEvent eventWithTitle:@"Date with Julia" time:[NSDate dateWithTimeIntervalSinceNow:5003500] participants:nil];
+    [events addObject:event];
 
-    self.navigationItem.leftBarButtonItem = [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
-                                                                selectedImage:[UIImage imageNamed:@"gearSelected.png"]
-                                                                       target:self
-                                                                       action:@selector(showSideMenu:)];
+    self.navigationItem.leftBarButtonItem =
+    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
+                        selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+                               target:self
+                               action:@selector(showSideMenu:)];
 
-    self.navigationItem.rightBarButtonItem = [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
-                                                                 selectedImage:[UIImage imageNamed:@"gearSelected.png"]
-                                                                        target:self
-                                                                        action:@selector(showNewMeal:)];
+    self.navigationItem.rightBarButtonItem =
+    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
+                        selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+                               target:self
+                               action:@selector(showNewMeal:)];
 }
 
 - (void)showNewMeal:(id)sender
@@ -47,7 +55,7 @@
 - (void)showSideMenu:(id)sender
 {
     UIViewController *VC;
-    
+
     if (self.navigationController.revealController.focusedController ==
         self.navigationController.revealController.leftViewController)
     {
@@ -133,12 +141,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard"
+                                                         bundle:nil];
+    MealViewController *mealVC =
+        [storyboard instantiateViewControllerWithIdentifier:@"MealViewController"];
+    EUEvent *event = [events objectAtIndex:indexPath.row];
+    mealVC.event = event;
+    
+    [self.navigationController pushViewController:mealVC animated:YES];
 }
 
 @end

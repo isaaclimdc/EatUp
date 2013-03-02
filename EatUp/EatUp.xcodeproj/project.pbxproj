@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A9743F216E287D5003D5667 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9743F116E287D5003D5667 /* LoginViewController.m */; };
+		6A9743F516E29C2C003D5667 /* alertBkg.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9743F316E29C2C003D5667 /* alertBkg.png */; };
+		6A9743F616E29C2C003D5667 /* alertBkg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9743F416E29C2C003D5667 /* alertBkg@2x.png */; };
 		6AA860B416E1C91F00655BE9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AA860B316E1C91F00655BE9 /* UIKit.framework */; };
 		6AA860B616E1C91F00655BE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AA860B516E1C91F00655BE9 /* Foundation.framework */; };
 		6AA860B816E1C91F00655BE9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AA860B716E1C91F00655BE9 /* CoreGraphics.framework */; };
@@ -53,9 +56,18 @@
 		6AAD180216E249A4007145EE /* EUEventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD180116E249A4007145EE /* EUEventCell.m */; };
 		6AAD180716E24D58007145EE /* SORelativeDateTransformer.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6AAD180416E24D58007145EE /* SORelativeDateTransformer.bundle */; };
 		6AAD180816E24D58007145EE /* SORelativeDateTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD180616E24D58007145EE /* SORelativeDateTransformer.m */; };
+		6AAD180F16E254DC007145EE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAD180E16E254DC007145EE /* FacebookSDK.framework */; };
+		6AAD181116E254F3007145EE /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6AAD181016E254F3007145EE /* FacebookSDKResources.bundle */; };
+		6AAD181616E25532007145EE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAD181316E25532007145EE /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		6AAD181716E25532007145EE /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAD181416E25532007145EE /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		6AAD181816E25532007145EE /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAD181516E25532007145EE /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A9743F016E287D5003D5667 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		6A9743F116E287D5003D5667 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		6A9743F316E29C2C003D5667 /* alertBkg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alertBkg.png; sourceTree = "<group>"; };
+		6A9743F416E29C2C003D5667 /* alertBkg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertBkg@2x.png"; sourceTree = "<group>"; };
 		6AA860B016E1C91F00655BE9 /* EatUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EatUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AA860B316E1C91F00655BE9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6AA860B516E1C91F00655BE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -134,6 +146,11 @@
 		6AAD180416E24D58007145EE /* SORelativeDateTransformer.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SORelativeDateTransformer.bundle; sourceTree = "<group>"; };
 		6AAD180516E24D58007145EE /* SORelativeDateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SORelativeDateTransformer.h; sourceTree = "<group>"; };
 		6AAD180616E24D58007145EE /* SORelativeDateTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SORelativeDateTransformer.m; sourceTree = "<group>"; };
+		6AAD180E16E254DC007145EE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../../Development/Resources/APIs/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		6AAD181016E254F3007145EE /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKResources.bundle; path = ../../../../../Development/Resources/APIs/FacebookSDK/FacebookSDK.framework/Versions/A/Resources/FacebookSDKResources.bundle; sourceTree = "<group>"; };
+		6AAD181316E25532007145EE /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		6AAD181416E25532007145EE /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		6AAD181516E25532007145EE /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,12 +158,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AAD181616E25532007145EE /* Accounts.framework in Frameworks */,
+				6AAD181716E25532007145EE /* AdSupport.framework in Frameworks */,
+				6AAD181816E25532007145EE /* Social.framework in Frameworks */,
 				6AAD17DB16E2318F007145EE /* MobileCoreServices.framework in Frameworks */,
 				6AAD17CE16E23128007145EE /* SystemConfiguration.framework in Frameworks */,
 				6AAD17CC16E23121007145EE /* QuartzCore.framework in Frameworks */,
 				6AA860B416E1C91F00655BE9 /* UIKit.framework in Frameworks */,
 				6AA860B616E1C91F00655BE9 /* Foundation.framework in Frameworks */,
 				6AA860B816E1C91F00655BE9 /* CoreGraphics.framework in Frameworks */,
+				6AAD180F16E254DC007145EE /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,12 +194,16 @@
 		6AA860B216E1C91F00655BE9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6AAD181216E25509007145EE /* Facebook */,
 				6AAD180316E24D58007145EE /* SORelativeDateTransformer */,
 				6AAD17E716E24208007145EE /* PKRevealController */,
 				6AAD179E16E22F5C007145EE /* ILAlertView */,
 				6AAD17A216E22F7D007145EE /* ILBarButtonItem */,
 				6AAD17AD16E22FC6007145EE /* ILHTTPClient */,
 				6AAD17D516E23148007145EE /* ILSideScrollView */,
+				6AAD181316E25532007145EE /* Accounts.framework */,
+				6AAD181416E25532007145EE /* AdSupport.framework */,
+				6AAD181516E25532007145EE /* Social.framework */,
 				6AAD17DA16E2318F007145EE /* MobileCoreServices.framework */,
 				6AAD17CD16E23128007145EE /* SystemConfiguration.framework */,
 				6AAD17CB16E23121007145EE /* QuartzCore.framework */,
@@ -218,6 +243,8 @@
 		6AAD179E16E22F5C007145EE /* ILAlertView */ = {
 			isa = PBXGroup;
 			children = (
+				6A9743F316E29C2C003D5667 /* alertBkg.png */,
+				6A9743F416E29C2C003D5667 /* alertBkg@2x.png */,
 				6AAD179A16E22F56007145EE /* ILAlertView.h */,
 				6AAD179B16E22F56007145EE /* ILAlertView.m */,
 				6AAD179C16E22F56007145EE /* ILAlertViewConfig.h */,
@@ -353,6 +380,8 @@
 				6AAD167316E22C97007145EE /* MealViewController.m */,
 				6AAD167516E22CE4007145EE /* NewMealViewController.h */,
 				6AAD167616E22CE4007145EE /* NewMealViewController.m */,
+				6A9743F016E287D5003D5667 /* LoginViewController.h */,
+				6A9743F116E287D5003D5667 /* LoginViewController.m */,
 				6AAD17F416E24462007145EE /* SideViewController.h */,
 				6AAD17F516E24462007145EE /* SideViewController.m */,
 			);
@@ -377,6 +406,15 @@
 			);
 			name = SORelativeDateTransformer;
 			path = EatUp/Frameworks/SORelativeDateTransformer;
+			sourceTree = "<group>";
+		};
+		6AAD181216E25509007145EE /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				6AAD181016E254F3007145EE /* FacebookSDKResources.bundle */,
+				6AAD180E16E254DC007145EE /* FacebookSDK.framework */,
+			);
+			name = Facebook;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -443,6 +481,9 @@
 				6AAD17E216E23284007145EE /* gearSelected.png in Resources */,
 				6AAD17E316E23284007145EE /* gearSelected@2x.png in Resources */,
 				6AAD180716E24D58007145EE /* SORelativeDateTransformer.bundle in Resources */,
+				6AAD181116E254F3007145EE /* FacebookSDKResources.bundle in Resources */,
+				6A9743F516E29C2C003D5667 /* alertBkg.png in Resources */,
+				6A9743F616E29C2C003D5667 /* alertBkg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,6 +538,7 @@
 				6AAD17FE16E24987007145EE /* EUEvent.m in Sources */,
 				6AAD180216E249A4007145EE /* EUEventCell.m in Sources */,
 				6AAD180816E24D58007145EE /* SORelativeDateTransformer.m in Sources */,
+				6A9743F216E287D5003D5667 /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,10 +623,19 @@
 		6AA860D716E1C92000655BE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../../../../Development/Resources/APIs/FacebookSDK\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EatUp/EatUp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/EatUp/EatUp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -593,10 +644,19 @@
 		6AA860D816E1C92000655BE9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../../../../Development/Resources/APIs/FacebookSDK\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EatUp/EatUp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/EatUp/EatUp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
