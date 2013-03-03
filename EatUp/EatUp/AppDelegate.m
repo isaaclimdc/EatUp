@@ -45,7 +45,24 @@
         [self showLoginView];
     }
 
+    [self setupAppearances];
+
     return YES;
+}
+
+- (void)setupAppearances
+{
+    UINavigationBar *navBar = [UINavigationBar appearance];
+    [navBar setBackgroundImage:[UIImage imageNamed:@"navBar.png"]
+                 forBarMetrics:UIBarMetricsDefault];
+    [navBar setTintColor:[UIColor colorWithRed:0.9294 green:0.4078 blue:0.0353 alpha:1.0]];
+
+//    [navBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+//                                    [UIColor whiteColor], UITextAttributeTextColor,
+//                                    [UIColor grayColor], UITextAttributeTextShadowColor,
+//                                    [UIFont fontWithName:@"Futura-CondensedExtraBold" size:23], UITextAttributeFont
+//                                    , nil]];
+//    [navBar setTitleVerticalPositionAdjustment:-3.0f forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)showLoginView

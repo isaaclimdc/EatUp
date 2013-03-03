@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SideViewController.h"
+#import "EventsViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "LoginViewController.h"
 

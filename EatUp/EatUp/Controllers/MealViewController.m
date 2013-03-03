@@ -14,6 +14,8 @@
 
 @implementation MealViewController
 
+@synthesize event;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

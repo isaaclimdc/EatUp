@@ -12,6 +12,8 @@
     NSString *title;
     NSDate *dateTime;
     NSMutableArray *participants;
+    NSMutableArray *locations;
+    NSString *description;
 }
 
 @property (strong, nonatomic) NSString *title;
