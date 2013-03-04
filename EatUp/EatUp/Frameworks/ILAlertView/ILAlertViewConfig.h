@@ -31,7 +31,7 @@
 /* Change kILAlertViewTitleColor to your "theme" color. The rest can be left
  * untouched.
  */
-#define kILAlertViewTitleColor [UIColor redColor]
+#define kILAlertViewTitleColor kEUMainColor
 #define kILAlertViewMessageColor [UIColor blackColor]
 #define kILAlertViewButtonColorDefault [UIColor blackColor]
 #define kILAlertViewButtonColorSelected kILAlertViewTitleColor

@@ -27,21 +27,20 @@
 
     // Convenience initializer for a one-sided reveal controller.
     PKRevealController *revealController = [PKRevealController revealControllerWithFrontViewController:eventsNC
-                                                                                    leftViewController:sideVC options:options];
-    self.navController = [[UINavigationController alloc]
-                          initWithRootViewController:revealController];
-    self.navController.navigationBarHidden = YES;
+                                                                                    leftViewController:sideVC
+                                                                                               options:options];
 
+    /* Setup another UINavigationController for the Facebook login */
+    self.navController = [[UINavigationController alloc] initWithRootViewController:revealController];
+    self.navController.navigationBarHidden = YES;
     self.window.rootViewController = self.navController;
     [self.window makeKeyAndVisible];
 
     // See if we have a valid token for the current state.
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-        // Already logged in; show logged in view
         [self openSession];
     }
     else {
-        // No, display the login page.
         [self showLoginView];
     }
 
@@ -52,10 +51,12 @@
 
 - (void)setupAppearances
 {
+    self.window.backgroundColor = [UIColor whiteColor];
+    
     UINavigationBar *navBar = [UINavigationBar appearance];
     [navBar setBackgroundImage:[UIImage imageNamed:@"navBar.png"]
                  forBarMetrics:UIBarMetricsDefault];
-    [navBar setTintColor:[UIColor colorWithRed:0.9294 green:0.4078 blue:0.0353 alpha:1.0]];
+    [navBar setTintColor:kEUMainColor];
 
 //    [navBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
 //                                    [UIColor whiteColor], UITextAttributeTextColor,
@@ -84,8 +85,7 @@
                                       completion:nil];
     }
     else {
-        LoginViewController* loginViewController =
-            (LoginViewController*)modalViewController;
+        LoginViewController* loginViewController = (LoginViewController*)modalViewController;
         [loginViewController loginFailed];
     }
 }
@@ -117,8 +117,7 @@
             break;
         case FBSessionStateClosed:
         case FBSessionStateClosedLoginFailed:
-            // Once the user has logged in, we want them to
-            // be looking at the root view.
+            // Once the user has logged in, redirect them to the root view.
             [self.navController popToRootViewControllerAnimated:NO];
 
             [FBSession.activeSession closeAndClearTokenInformation];

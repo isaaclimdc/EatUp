@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewMealViewController : UIViewController
+@interface NewMealViewController : UIViewController {
+    UIImageView *selectionImg;
+}
+
+@property (strong, nonatomic) IBOutlet UIImageView *selectionImg;
+
+- (IBAction)changeToWhen:(id)sender;
+- (IBAction)changeToWhere:(id)sender;
+- (IBAction)changeToWho:(id)sender;
 
 @end

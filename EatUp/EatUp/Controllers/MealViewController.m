@@ -19,7 +19,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+
+    ILBarButtonItem *backBtn = [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear"]
+                                                   selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+                                                          target:self
+                                                          action:@selector(goBack:)];
+    self.navigationItem.leftBarButtonItem = backBtn;
+}
+
+- (IBAction)goBack:(id)sender {
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.4;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:
+                                 kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromLeft;
+    transition.delegate = self;
+    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

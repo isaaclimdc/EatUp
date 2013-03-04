@@ -14,17 +14,48 @@
 
 @implementation NewMealViewController
 
+@synthesize selectionImg;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    self.navigationItem.leftBarButtonItem = [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
-                                                                selectedImage:[UIImage imageNamed:@"gearSelected.png"]
-                                                                       target:self
-                                                                       action:@selector(dismiss:)];
+    self.navigationItem.leftBarButtonItem =
+    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
+                        selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+                               target:self
+                               action:@selector(performDismiss)];
+
+    self.navigationItem.rightBarButtonItem =
+    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
+                        selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+                               target:self
+                               action:@selector(performSave)];
 }
 
-- (void)dismiss:(id)sender
+- (IBAction)changeToWhen:(id)sender
+{
+    selectionImg.image = [UIImage imageNamed:@"when.png"];
+}
+
+- (IBAction)changeToWhere:(id)sender
+{
+    selectionImg.image = [UIImage imageNamed:@"where.png"];
+}
+
+- (IBAction)changeToWho:(id)sender
+{
+    selectionImg.image = [UIImage imageNamed:@"who.png"];
+}
+
+- (void)performSave
+{
+    NSLog(@"Saving...");
+    
+    [self performDismiss];
+}
+
+- (void)performDismiss
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }

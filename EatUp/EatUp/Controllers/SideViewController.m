@@ -20,12 +20,36 @@
 {
     [super viewDidLoad];
 
-    entries = [NSArray arrayWithObjects:@"Account", @"Notifications", @"Settings", @"About", @"Logout", nil];
+    entries = [NSArray arrayWithObjects:@"Home", @"Account", @"Notifications", @"Settings", @"About", @"Logout", nil];
 }
 
-- (IBAction)showSettings:(id)sender
+- (IBAction)showViewController:(NSString *)VCId
 {
-    [self.revealController showViewController:self.revealController.frontViewController];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    UIViewController *VC = [storyboard instantiateViewControllerWithIdentifier:VCId];
+    [self.revealController setFrontViewController:VC focusAfterChange:YES completion:nil];
+}
+
+- (IBAction)showLogoutConfirmation {
+    ILAlertView *alert = [ILAlertView showWithTitle:@"Logout?"
+                                            message:@"This logs your Facebook account out of the EatUp! service."
+                                   closeButtonTitle:@"No"
+                                  secondButtonTitle:@"Yes"];
+    alert.delegate = self;
+}
+
+#pragma mark - ILAlertViewDelegate Methods
+
+- (void)alertView:(ILAlertView *)alertView tappedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        /* Do nothing */
+        [self.revealController showViewController:self.revealController.frontViewController];
+    }
+    else if (buttonIndex == 1) {
+        /* Do what you want when tapping the second button here */
+        [LoginViewController performLogout];
+    }
 }
 
 #pragma mark - Table view data source
@@ -46,11 +70,15 @@
 {
     static NSString *CellIdentifier = @"SideCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
+
     // Configure the cell...
     NSUInteger row = indexPath.row;
     cell.textLabel.text = [entries objectAtIndex:row];
-    
+
+    UIView *bgColorView = [[UIView alloc] init];
+    [bgColorView setBackgroundColor:kEUMainColor];
+    [cell setSelectedBackgroundView:bgColorView];
+
     return cell;
 }
 
@@ -61,14 +89,19 @@
     NSUInteger row = indexPath.row;
     switch (row) {
         case 0:
-            [self showSettings:nil];
+            [self showViewController:@"EventsNavController"];
             break;
-        case 4:
-            [LoginViewController performLogout];
+        case 3:
+            [self showViewController:@"SettingsNavController"];
+            break;
+        case 5:
+            [self showLogoutConfirmation];
             break;
         default:
             break;
     }
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

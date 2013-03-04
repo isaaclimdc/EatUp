@@ -22,5 +22,6 @@
     #import "ILSideScrollView.h"
     #import "PKRevealController.h"
 
+    #import "EUConstants.h"
     #import "AppDelegate.h"
 #endif

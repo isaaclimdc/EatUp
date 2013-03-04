@@ -36,23 +36,23 @@
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
                         selectedImage:[UIImage imageNamed:@"gearSelected.png"]
                                target:self
-                               action:@selector(showSideMenu:)];
+                               action:@selector(showSideMenu)];
 
     self.navigationItem.rightBarButtonItem =
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
                         selectedImage:[UIImage imageNamed:@"gearSelected.png"]
                                target:self
-                               action:@selector(showNewMeal:)];
+                               action:@selector(showNewMeal)];
 }
 
-- (void)showNewMeal:(id)sender
+- (void)showNewMeal
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     UINavigationController *newMealNC = [storyboard instantiateViewControllerWithIdentifier:@"NewMeaNavController"];
     [self presentViewController:newMealNC animated:YES completion:nil];
 }
 
-- (void)showSideMenu:(id)sender
+- (void)showSideMenu
 {
     UIViewController *VC;
 
@@ -67,6 +67,19 @@
     }
 
     [self.navigationController.revealController showViewController:VC];
+}
+
+- (void)customAnimationToViewController:(UIViewController *)viewController {
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.4;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:
+                                 kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromRight;
+    transition.delegate = self;
+    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -148,7 +161,7 @@
     EUEvent *event = [events objectAtIndex:indexPath.row];
     mealVC.event = event;
     
-    [self.navigationController pushViewController:mealVC animated:YES];
+    [self customAnimationToViewController:mealVC];
 }
 
 @end
