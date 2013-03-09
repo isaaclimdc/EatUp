@@ -74,6 +74,7 @@
     // Configure the cell...
     NSUInteger row = indexPath.row;
     cell.textLabel.text = [entries objectAtIndex:row];
+    cell.textLabel.font = kEUFontTextBold;
 
     UIView *bgColorView = [[UIView alloc] init];
     [bgColorView setBackgroundColor:kEUMainColor];

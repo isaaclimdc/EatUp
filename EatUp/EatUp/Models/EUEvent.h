@@ -22,5 +22,6 @@
 
 - (NSString *)dateString;
 - (NSString *)participantsString;
+- (NSString *)locationsString;
 
 @end

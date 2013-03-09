@@ -10,11 +10,11 @@
 
 @implementation EUEventCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self = [super initWithCoder:aDecoder];
     if (self) {
-        // Initialization code
+
     }
     return self;
 }
@@ -28,6 +28,12 @@
 
 - (void)populateWithEvent:(EUEvent *)event
 {
+    /* Set fonts */
+    self.titleLabel.font = kEUFontTitle;
+    self.dateTimeLabel.font = kEUFontTextItalic;
+    self.participantsLabel.font = kEUFontSubText;
+
+    /* Put in text */
     self.titleLabel.text = event.title;
     self.dateTimeLabel.text = [event dateString];
     self.participantsLabel.text = [event participantsString];

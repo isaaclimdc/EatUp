@@ -66,6 +66,11 @@
 		6ADC644E16EAD93900E0F401 /* EUEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADC644D16EAD93900E0F401 /* EUEventView.m */; };
 		6ADC645116EB93CE00E0F401 /* EUUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADC645016EB93CE00E0F401 /* EUUser.m */; };
 		6ADC645416EB9C5600E0F401 /* EULocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADC645316EB9C5600E0F401 /* EULocation.m */; };
+		6ADC645616EBF80400E0F401 /* profPlaceholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ADC645516EBF80400E0F401 /* profPlaceholder@2x.png */; };
+		6ADC645B16EBFB5800E0F401 /* backArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ADC645716EBFB5800E0F401 /* backArrow.png */; };
+		6ADC645C16EBFB5800E0F401 /* backArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ADC645816EBFB5800E0F401 /* backArrow@2x.png */; };
+		6ADC645D16EBFB5800E0F401 /* backArrowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ADC645916EBFB5800E0F401 /* backArrowSelected.png */; };
+		6ADC645E16EBFB5800E0F401 /* backArrowSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ADC645A16EBFB5800E0F401 /* backArrowSelected@2x.png */; };
 		6AFBF49B16E438D100D8C33B /* protoFaces.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AFBF49A16E438D100D8C33B /* protoFaces.png */; };
 		6AFBF49E16E43A1200D8C33B /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFBF49D16E43A1200D8C33B /* SettingsViewController.m */; };
 		6AFBF4A616E45C3000D8C33B /* when.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AFBF4A316E45C3000D8C33B /* when.png */; };
@@ -169,6 +174,11 @@
 		6ADC645016EB93CE00E0F401 /* EUUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EUUser.m; sourceTree = "<group>"; };
 		6ADC645216EB9C5600E0F401 /* EULocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EULocation.h; sourceTree = "<group>"; };
 		6ADC645316EB9C5600E0F401 /* EULocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EULocation.m; sourceTree = "<group>"; };
+		6ADC645516EBF80400E0F401 /* profPlaceholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profPlaceholder@2x.png"; sourceTree = "<group>"; };
+		6ADC645716EBFB5800E0F401 /* backArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backArrow.png; sourceTree = "<group>"; };
+		6ADC645816EBFB5800E0F401 /* backArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backArrow@2x.png"; sourceTree = "<group>"; };
+		6ADC645916EBFB5800E0F401 /* backArrowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backArrowSelected.png; sourceTree = "<group>"; };
+		6ADC645A16EBFB5800E0F401 /* backArrowSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backArrowSelected@2x.png"; sourceTree = "<group>"; };
 		6AFBF49A16E438D100D8C33B /* protoFaces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = protoFaces.png; sourceTree = "<group>"; };
 		6AFBF49C16E43A1200D8C33B /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6AFBF49D16E43A1200D8C33B /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
@@ -355,6 +365,7 @@
 		6AAD17E416E2328E007145EE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6ADC645516EBF80400E0F401 /* profPlaceholder@2x.png */,
 				6AFBF4A316E45C3000D8C33B /* when.png */,
 				6AFBF4A416E45C3000D8C33B /* who.png */,
 				6AFBF4A516E45C3000D8C33B /* where.png */,
@@ -372,6 +383,10 @@
 		6AAD17E516E2329A007145EE /* Bar Icons */ = {
 			isa = PBXGroup;
 			children = (
+				6ADC645716EBFB5800E0F401 /* backArrow.png */,
+				6ADC645816EBFB5800E0F401 /* backArrow@2x.png */,
+				6ADC645916EBFB5800E0F401 /* backArrowSelected.png */,
+				6ADC645A16EBFB5800E0F401 /* backArrowSelected@2x.png */,
 				6AAD17DC16E23283007145EE /* gear.png */,
 				6AAD17DD16E23283007145EE /* gear@2x.png */,
 				6AAD17DE16E23283007145EE /* gearSelected.png */,
@@ -530,6 +545,11 @@
 				6AFBF4A616E45C3000D8C33B /* when.png in Resources */,
 				6AFBF4A716E45C3000D8C33B /* who.png in Resources */,
 				6AFBF4A816E45C3000D8C33B /* where.png in Resources */,
+				6ADC645616EBF80400E0F401 /* profPlaceholder@2x.png in Resources */,
+				6ADC645B16EBFB5800E0F401 /* backArrow.png in Resources */,
+				6ADC645C16EBFB5800E0F401 /* backArrow@2x.png in Resources */,
+				6ADC645D16EBFB5800E0F401 /* backArrowSelected.png in Resources */,
+				6ADC645E16EBFB5800E0F401 /* backArrowSelected@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -681,7 +701,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EatUp/EatUp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/EatUp/EatUp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-lsqlite3.0",
 					"-ObjC",
@@ -704,7 +724,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EatUp/EatUp-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/EatUp/EatUp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-lsqlite3.0",
 					"-ObjC",

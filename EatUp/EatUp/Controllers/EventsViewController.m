@@ -46,13 +46,20 @@
     EUUser *user4 = [EUUser userFromParams:@{@"EUUserFirstName" : @"Julia", @"EUUserLastName" : @"Green"}];
     EUUser *user5 = [EUUser userFromParams:@{@"EUUserFirstName" : @"Wendy", @"EUUserLastName" : @"Krafts"}];
 
+    EULocation *loc1 = [EULocation locationFromParams:@{@"EULocationFriendlyName" : @"Lulu's Craig Street"}];
+    EULocation *loc2 = [EULocation locationFromParams:@{@"EULocationFriendlyName" : @"Sun Penang"}];
+    EULocation *loc3 = [EULocation locationFromParams:@{@"EULocationFriendlyName" : @"P.F. Chang's"}];
+    EULocation *loc4 = [EULocation locationFromParams:@{@"EULocationFriendlyName" : @"BRGR"}];
+
     EUEvent *event;
     
     event = [EUEvent eventFromParams:
              @{
              @"EUEventTitle": @"Birthday Dinner",
              @"EUEventDateTime" : [NSDate date],
-             @"EUEventParticipants" : @[user1, user2, user3]
+             @"EUEventParticipants" : @[user1, user2, user3],
+             @"EUEventLocations" : @[loc1, loc3, loc2],
+             @"EUEventDescription" : @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque diam ante, condimentum et rhoncus eu, rhoncus vel tortor. Mauris eget odio quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi semper commodo sapien, ac consectetur urna vulputate eu. Nam blandit, orci ut porta dictum, magna massa rhoncus est, feugiat venenatis metus enim in felis. Suspendisse luctus, nibh vitae vulputate porttitor, leo elit volutpat sapien, vel aliquam dolor elit sit amet nulla. Nulla dapibus porttitor dolor, in tempus nisi blandit in. Vivamus et lorem sit amet justo pharetra semper. Proin faucibus convallis sem eget ultrices. Proin pulvinar odio quis diam congue feugiat. In id pretium lorem. Curabitur sodales ipsum quis orci eleifend quis facilisis urna blandit.\n\nVestibulum dapibus dolor nec enim facilisis ullamcorper. Vestibulum lobortis purus at leo consectetur feugiat. Fusce sodales metus et tellus auctor auctor. Vivamus porta tristique tellus, in fringilla purus iaculis non. Nam viverra vestibulum augue id elementum. Etiam varius sem a elit mattis consequat. Duis eu nisi nec libero dictum sodales.\n\nVivamus elementum porta augue eu fringilla. Morbi suscipit, magna vitae laoreet faucibus, quam orci venenatis tellus, vitae consequat eros erat nec ligula. Mauris in neque arcu. Nulla id libero massa, ac semper nisi. Nullam egestas erat vitae odio molestie interdum. Curabitur ac auctor arcu. Phasellus mattis fermentum felis, ultrices porttitor urna pulvinar et. Curabitur blandit neque sit amet nunc rhoncus placerat. Curabitur varius orci at erat mollis dictum."
              }];
     [events addObject:event];
 
@@ -61,7 +68,8 @@
              @"EUEventTitle": @"Party at Brgr!",
              @"EUEventDateTime" : [NSDate dateWithTimeIntervalSinceNow:500],
              @"EUEventDescription" : @"Come visit the brand new reopening of Brgr with new daily hours and a brand new menu selection!",
-             @"EUEventParticipants" : @[user5, user4]
+             @"EUEventParticipants" : @[user5, user4],
+             @"EUEventLocations" : @[loc4]
              }];
     [events addObject:event];
     
@@ -69,7 +77,9 @@
              @{
              @"EUEventTitle": @"Aunt Lily's Home",
              @"EUEventDateTime" : [NSDate dateWithTimeIntervalSinceNow:12500],
-             @"EUEventParticipants" : @[]
+             @"EUEventDescription" : @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque diam ante, condimentum et rhoncus eu, rhoncus vel tortor. Mauris eget odio quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi semper commodo sapien, ac consectetur urna vulputate eu. Nam blandit, orci ut porta dictum, magna massa rhoncus est, feugiat venenatis metus enim in felis. Suspendisse luctus, nibh vitae vulputate porttitor, leo elit volutpat sapien, vel aliquam dolor elit sit amet nulla. Nulla dapibus porttitor dolor, in tempus nisi blandit in. Vivamus et lorem sit amet justo pharetra semper. Proin faucibus convallis sem eget ultrices. Proin pulvinar odio quis diam congue feugiat. In id pretium lorem. Curabitur sodales ipsum quis orci eleifend quis facilisis urna blandit.\n\nVestibulum dapibus dolor nec enim facilisis ullamcorper. Vestibulum lobortis purus at leo consectetur feugiat. Fusce sodales metus et tellus auctor auctor. Vivamus porta tristique tellus, in fringilla purus iaculis non. Nam viverra vestibulum augue id elementum. Etiam varius sem a elit mattis consequat. Duis eu nisi nec libero dictum sodales.\n\nVivamus elementum porta augue eu fringilla. Morbi suscipit, magna vitae laoreet faucibus, quam orci venenatis tellus, vitae consequat eros erat nec ligula. Mauris in neque arcu. Nulla id libero massa, ac semper nisi. Nullam egestas erat vitae odio molestie interdum. Curabitur ac auctor arcu. Phasellus mattis fermentum felis, ultrices porttitor urna pulvinar et. Curabitur blandit neque sit amet nunc rhoncus placerat. Curabitur varius orci at erat mollis dictum.",
+             @"EUEventParticipants" : @[],
+             @"EUEventLocations" : @[loc3]
              }];
     [events addObject:event];
     
@@ -77,7 +87,8 @@
              @{
              @"EUEventTitle": @"Fun outing",
              @"EUEventDateTime" : [NSDate dateWithTimeIntervalSinceNow:5003500],
-             @"EUEventParticipants" : @[user1, user5, user3, user2, user4]
+             @"EUEventParticipants" : @[user1, user5, user3, user2, user4],
+             @"EUEventLocations" : @[]
              }];
     [events addObject:event];
 
@@ -85,7 +96,8 @@
              @{
              @"EUEventTitle": @"Date with Julia",
              @"EUEventDateTime" : [NSDate dateWithTimeIntervalSinceNow:6003500],
-             @"EUEventParticipants" : @[user4]
+             @"EUEventParticipants" : @[user4],
+             @"EUEventLocations" : @[loc2]
              }];
     [events addObject:event];
 }

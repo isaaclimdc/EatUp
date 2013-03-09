@@ -13,8 +13,11 @@
 @synthesize event;
 @synthesize titleLabel, dateTimeLabel, locationLabel, participantsScrollView, descriptionTextView;
 
-CGFloat CGFloatGetAfterY(CGRect rect) {
-    return rect.origin.y + rect.size.height + kEUEventVertBuffer;
++ (EUEventView *)newEventViewWithFrame:(CGRect)aFrame andEvent:(EUEvent *)anEvent
+{
+    EUEventView *eventView = [[EUEventView alloc] initWithFrame:aFrame];
+    [eventView customizeForEvent:anEvent];
+    return eventView;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -25,37 +28,35 @@ CGFloat CGFloatGetAfterY(CGRect rect) {
         
         /* Date label */
         dateTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kEUEventHorzBuffer,
-                                                                  kEUEventVertBuffer,
+                                                                  kEUEventHorzBuffer,
                                                                   width,
-                                                                  30)];
-        dateTimeLabel.font = [UIFont italicSystemFontOfSize:18];
+                                                                  20)];
+        dateTimeLabel.font = kEUFontTextItalic;
         dateTimeLabel.textColor = [UIColor grayColor];
-        dateTimeLabel.backgroundColor = [UIColor greenColor];
         [self addSubview:dateTimeLabel];
 
         /* Title label */
         titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kEUEventHorzBuffer,
                                                                CGFloatGetAfterY(dateTimeLabel.frame),
                                                                width,
-                                                               50)];
-        titleLabel.font = [UIFont boldSystemFontOfSize:30];
-        titleLabel.backgroundColor = [UIColor blueColor];
+                                                               30)];
+        titleLabel.font = kEUFontTitle;
         [self addSubview:titleLabel];
 
         /* Location label */
         locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(kEUEventHorzBuffer,
                                                                   CGFloatGetAfterY(titleLabel.frame),
                                                                   width,
-                                                                  30)];
-        locationLabel.backgroundColor = [UIColor grayColor];
+                                                                  20)];
+        locationLabel.font = kEUFontText;
         [self addSubview:locationLabel];
 
         /* Participants Scroller */
-        participantsScrollView = [[ILSideScrollView alloc] initWithFrame:CGRectMake(kEUEventHorzBuffer,
+        participantsScrollView = [[ILSideScrollView alloc] initWithFrame:CGRectMake(0,
                                                                                     CGFloatGetAfterY(locationLabel.frame),
-                                                                                    width,
+                                                                                    self.frame.size.width,
                                                                                     150)];
-        [participantsScrollView setBackgroundColor:[UIColor redColor]
+        [participantsScrollView setBackgroundColor:[UIColor colorWithWhite:0.9 alpha:1.0]
                                     indicatorStyle:UIScrollViewIndicatorStyleBlack
                                    itemBorderColor:kEUMainColor];
         [self addSubview:participantsScrollView];
@@ -65,14 +66,47 @@ CGFloat CGFloatGetAfterY(CGRect rect) {
                                                                            CGFloatGetAfterY(participantsScrollView.frame),
                                                                            width,
                                                                            200)];
+        descriptionTextView.font = kEUFontText;
         descriptionTextView.editable = NO;
-        descriptionTextView.backgroundColor = [UIColor purpleColor];
+        descriptionTextView.scrollEnabled = NO;
         [self addSubview:descriptionTextView];
 
         /* Self customization */
-        self.contentSize = CGSizeMake(frame.size.width, CGFloatGetAfterY(descriptionTextView.frame));
+        
     }
     return self;
+}
+
+- (void)customizeForEvent:(EUEvent *)anEvent
+{
+    self.event = anEvent;
+    self.dateTimeLabel.text = [self.event dateString];
+    self.titleLabel.text = self.event.title;
+    self.descriptionTextView.text = self.event.description;
+    [self autoResize:descriptionTextView];
+    self.locationLabel.text = [self.event locationsString];
+
+    /* Populate side scroll view */
+    NSMutableArray *items = [NSMutableArray array];
+    for (EUUser *participant in self.event.participants) {
+        ILSideScrollViewItem *item = [ILSideScrollViewItem item];
+        item.defaultBackgroundImage = [UIImage imageNamed:@"profPlaceholder.png"];
+        item.titleFont = kEUFontTitle;
+        item.defaultTitleColor = kEUMainColor;
+        item.title = [NSString stringWithFormat:@"%c %c", [participant.firstName characterAtIndex:0],
+                                                          [participant.lastName characterAtIndex:0]];
+        [item setTarget:self action:@selector(pictureTapped:) withObject:participant];
+        [items addObject:item];
+    }
+    [self.participantsScrollView populateSideScrollViewWithItems:items];
+
+    /* Finalize content size */
+    self.contentSize = CGSizeMake(self.frame.size.width, CGFloatGetAfterY(descriptionTextView.frame));
+}
+
+- (void)pictureTapped:(EUUser *)user
+{
+    NSLog(@"%@ tapped", [user fullName]);
 }
 
 /* Vertically autoresize a UITextView or a UILabel to fit its content */
@@ -92,25 +126,13 @@ CGFloat CGFloatGetAfterY(CGRect rect) {
     }
 
     CGRect rect = view.frame;
-    CGSize newSize = [text sizeWithFont:font constrainedToSize:CGSizeMake(view.frame.size.width, view.frame.size.height)];
-    rect.size.height = newSize.height + 2*kEUEventVertBuffer;
+    CGSize newSize = [text sizeWithFont:font constrainedToSize:CGSizeMake(view.frame.size.width, MAXFLOAT)];
+    rect.size.height = newSize.height + 4*kEUEventVertBuffer;
     view.frame = rect;
 }
 
-- (void)customizeForEvent:(EUEvent *)anEvent
-{
-    self.event = anEvent;
-    self.dateTimeLabel.text = [self.event dateString];
-    self.titleLabel.text = self.event.title;
-    self.descriptionTextView.text = self.event.description;
-    [self autoResize:descriptionTextView];
-}
-
-+ (EUEventView *)newEventViewWithFrame:(CGRect)aFrame andEvent:(EUEvent *)anEvent
-{
-    EUEventView *eventView = [[EUEventView alloc] initWithFrame:aFrame];
-    [eventView customizeForEvent:anEvent];
-    return eventView;
+CGFloat CGFloatGetAfterY(CGRect rect) {
+    return rect.origin.y + rect.size.height + kEUEventVertBuffer;
 }
 
 @end

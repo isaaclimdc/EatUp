@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>215</string>
+	<string>284</string>
 	<key>FacebookAppID</key>
 	<string>347065252079040</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -41,6 +41,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleBlackOpaque</string>
 	<key>UIStatusBarTintParameters</key>
 	<dict>
 		<key>UINavigationBar</key>

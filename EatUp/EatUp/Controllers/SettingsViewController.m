@@ -68,6 +68,7 @@
     // Configure the cell...
     NSUInteger row = indexPath.row;
     cell.textLabel.text = [settings objectAtIndex:row];
+    cell.textLabel.font = kEUFontTextBold;
     
     return cell;
 }

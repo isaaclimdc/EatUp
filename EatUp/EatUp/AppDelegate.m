@@ -58,18 +58,18 @@
                  forBarMetrics:UIBarMetricsDefault];
     [navBar setTintColor:kEUMainColor];
 
-//    [navBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-//                                    [UIColor whiteColor], UITextAttributeTextColor,
-//                                    [UIColor grayColor], UITextAttributeTextShadowColor,
-//                                    [UIFont fontWithName:@"Futura-CondensedExtraBold" size:23], UITextAttributeFont
-//                                    , nil]];
-//    [navBar setTitleVerticalPositionAdjustment:-3.0f forBarMetrics:UIBarMetricsDefault];
+    [navBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                    [UIColor whiteColor], UITextAttributeTextColor,
+                                    [UIColor grayColor], UITextAttributeTextShadowColor,
+                                    kEUFontBarTitle, UITextAttributeFont
+                                    , nil]];
+    [navBar setTitleVerticalPositionAdjustment:-2.0f forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)showLoginView
 {
     UIViewController *topViewController = [self.navController topViewController];
-    UIViewController *modalViewController = [topViewController modalViewController];
+    UIViewController *modalViewController = topViewController.presentedViewController;
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
 
@@ -85,7 +85,7 @@
                                       completion:nil];
     }
     else {
-        LoginViewController* loginViewController = (LoginViewController*)modalViewController;
+        LoginViewController *loginViewController = (LoginViewController *)modalViewController;
         [loginViewController loginFailed];
     }
 }
@@ -107,11 +107,9 @@
 {
     switch (state) {
         case FBSessionStateOpen: {
-            UIViewController *topViewController =
-            [self.navController topViewController];
-            if ([[topViewController modalViewController]
-                 isKindOfClass:[LoginViewController class]]) {
-                [topViewController dismissModalViewControllerAnimated:YES];
+            UIViewController *topViewController = self.navController.topViewController;
+            if ([topViewController.presentedViewController isKindOfClass:[LoginViewController class]]) {
+                [topViewController dismissViewControllerAnimated:YES completion:nil];
             }
         }
             break;

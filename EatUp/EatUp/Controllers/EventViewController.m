@@ -20,8 +20,8 @@
 {
     [super viewDidLoad];
 
-    ILBarButtonItem *backBtn = [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear"]
-                                                   selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+    ILBarButtonItem *backBtn = [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"backArrow.png"]
+                                                   selectedImage:[UIImage imageNamed:@"backArrowSelected.png"]
                                                           target:self
                                                           action:@selector(goBack:)];
     self.navigationItem.leftBarButtonItem = backBtn;

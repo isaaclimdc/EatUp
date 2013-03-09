@@ -20,6 +20,7 @@
     event.dateTime = [params objectForKey:@"EUEventDateTime"];
     event.description = [params objectForKey:@"EUEventDescription"];
     event.participants = [[params objectForKey:@"EUEventParticipants"] mutableCopy];
+    event.locations = [[params objectForKey:@"EUEventLocations"] mutableCopy];
     
     return event;
 }
@@ -49,6 +50,26 @@
     if (count >= 3) {
         NSInteger numLeft = count-2;
         result = [result stringByAppendingFormat:@" and %d other%@", numLeft, numLeft > 1 ? @"s" : @""];
+    }
+
+    return result;
+}
+
+/* Transform the locations array into a Facebook-like friendly string */
+- (NSString *)locationsString
+{
+    NSInteger count = self.locations.count;
+
+    if (count == 0) {
+        return @"No location yet";
+    }
+    
+    EULocation *location0 = self.locations[0];
+    NSString *result = [@"@ " stringByAppendingString:location0.friendlyName];
+
+    if (count >= 2) {
+        NSInteger numLeft = count-1;
+        result = [result stringByAppendingFormat:@" or %d other%@", numLeft, numLeft > 1 ? @"s" : @""];
     }
 
     return result;
