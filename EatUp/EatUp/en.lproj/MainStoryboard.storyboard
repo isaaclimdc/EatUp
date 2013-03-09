@@ -7,7 +7,6 @@
         <!--Navigation Controller-->
         <scene sceneID="11">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="EventsNavController" id="3" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="4">
                         <autoresizingMask key="autoresizingMask"/>
@@ -16,6 +15,7 @@
                         <segue destination="12" kind="relationship" relationship="rootViewController" id="19"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1" y="64"/>
         </scene>
@@ -52,7 +52,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="27" id="HeY-gT-uJ0"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
@@ -90,10 +90,10 @@
             </objects>
             <point key="canvasLocation" x="459" y="64"/>
         </scene>
-        <!--New Meal View Controller - New Meal-->
+        <!--New Event View Controller - New Meal-->
         <scene sceneID="4Uo-pD-olg">
             <objects>
-                <viewController id="1or-Xr-p1n" customClass="NewMealViewController" sceneMemberID="viewController">
+                <viewController id="1or-Xr-p1n" customClass="NewEventViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="X5s-tb-9b6">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -165,81 +165,14 @@
             </objects>
             <point key="canvasLocation" x="902" y="817"/>
         </scene>
-        <!--Meal View Controller - Detail-->
+        <!--Event View Controller - Detail-->
         <scene sceneID="24">
             <objects>
-                <viewController storyboardIdentifier="MealViewController" title="Detail" id="21" customClass="MealViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EventViewController" title="Detail" id="21" customClass="EventViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="22">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gGx-jZ-qKY">
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2/18 5-8pm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZDb-TA-ahQ">
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="GBI-6W-3iP"/>
-                                            <constraint firstAttribute="width" constant="110" id="JTx-Co-w8A"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="BIRTHDAY DINNER" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YXc-JM-wOF">
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="24" id="ue7-sZ-nJ9"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="BRGR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kH2-qZ-ZxJ">
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="29" id="hns-E4-dma"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="protoFaces.png" translatesAutoresizingMaskIntoConstraints="NO" id="xrZ-mp-rbq">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="273" id="9zg-GL-esl"/>
-                                            <constraint firstAttribute="height" constant="142" id="cUr-Fx-Bja"/>
-                                        </constraints>
-                                    </imageView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Let's celebrate Max's birthday! Meet at BRGR. Contact me if you have any issues. Remember: it's a surprise!!" translatesAutoresizingMaskIntoConstraints="NO" id="Fcy-m5-9vG">
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="rvY-Df-MU7"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="YXc-JM-wOF" firstAttribute="top" secondItem="gGx-jZ-qKY" secondAttribute="top" constant="70" id="5Q3-L9-dsh"/>
-                                    <constraint firstItem="ZDb-TA-ahQ" firstAttribute="top" secondItem="gGx-jZ-qKY" secondAttribute="top" constant="20" symbolic="YES" type="default" id="5vh-sX-Lqo"/>
-                                    <constraint firstAttribute="trailing" secondItem="YXc-JM-wOF" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="7Xg-DD-ScN"/>
-                                    <constraint firstAttribute="trailing" secondItem="kH2-qZ-ZxJ" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="EK1-ys-1C3"/>
-                                    <constraint firstItem="ZDb-TA-ahQ" firstAttribute="leading" secondItem="gGx-jZ-qKY" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="ES0-Jh-1eq"/>
-                                    <constraint firstItem="Fcy-m5-9vG" firstAttribute="top" secondItem="gGx-jZ-qKY" secondAttribute="top" constant="336" id="Eie-EE-QYQ"/>
-                                    <constraint firstItem="xrZ-mp-rbq" firstAttribute="top" secondItem="gGx-jZ-qKY" secondAttribute="top" constant="174" id="Mva-3a-JL7"/>
-                                    <constraint firstItem="YXc-JM-wOF" firstAttribute="centerX" secondItem="gGx-jZ-qKY" secondAttribute="centerX" type="default" id="OQW-cI-s5O"/>
-                                    <constraint firstItem="kH2-qZ-ZxJ" firstAttribute="centerX" secondItem="xrZ-mp-rbq" secondAttribute="centerX" type="default" id="PBT-PB-f8p"/>
-                                    <constraint firstItem="Fcy-m5-9vG" firstAttribute="leading" secondItem="gGx-jZ-qKY" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="QpS-6J-owO"/>
-                                    <constraint firstAttribute="trailing" secondItem="Fcy-m5-9vG" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="TCv-EB-rfP"/>
-                                    <constraint firstItem="kH2-qZ-ZxJ" firstAttribute="top" secondItem="gGx-jZ-qKY" secondAttribute="top" constant="119" id="WyE-2F-hIU"/>
-                                    <constraint firstAttribute="bottom" secondItem="Fcy-m5-9vG" secondAttribute="bottom" constant="98" id="dhu-K1-hvl"/>
-                                    <constraint firstItem="kH2-qZ-ZxJ" firstAttribute="leading" secondItem="gGx-jZ-qKY" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="jd8-RW-4Ib"/>
-                                    <constraint firstItem="YXc-JM-wOF" firstAttribute="leading" secondItem="gGx-jZ-qKY" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="tIw-l1-5bW"/>
-                                </constraints>
-                            </scrollView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="gGx-jZ-qKY" firstAttribute="trailing" secondItem="22" secondAttribute="trailing" type="default" id="ee9-U7-5Ps"/>
-                            <constraint firstItem="gGx-jZ-qKY" firstAttribute="bottom" secondItem="22" secondAttribute="bottom" type="default" id="fAJ-0F-oCZ"/>
-                            <constraint firstItem="gGx-jZ-qKY" firstAttribute="leading" secondItem="22" secondAttribute="leading" type="default" id="jAh-yM-aib"/>
-                            <constraint firstItem="gGx-jZ-qKY" firstAttribute="top" secondItem="22" secondAttribute="top" type="default" id="pSQ-dY-5PS"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="EatUp!" id="26"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -371,7 +304,7 @@
         <!--Navigation Controller-->
         <scene sceneID="T2U-An-2mv">
             <objects>
-                <navigationController storyboardIdentifier="NewMeaNavController" id="sQD-zP-HMj" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NewEventNavController" id="sQD-zP-HMj" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="omH-Jv-Aqo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -406,9 +339,69 @@
         </scene>
     </scenes>
     <resources>
-        <image name="protoFaces.png" width="325" height="169"/>
         <image name="when.png" width="375" height="612"/>
     </resources>
+    <classes>
+        <class className="EUEventCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EUEventCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="dateTimeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="participantsLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="EUEventView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EUEventView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="dateTimeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="descriptionTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="participantsScrollView" candidateClass="ILSideScrollView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="EventViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EventViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="goBack:"/>
+                <relationship kind="outlet" name="eventView" candidateClass="EUEventView"/>
+            </relationships>
+        </class>
+        <class className="EventsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EventsViewController.h"/>
+        </class>
+        <class className="ILSideScrollView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ILSideScrollView.h"/>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="performLogin:"/>
+                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="NewEventViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewEventViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="changeToWhen:"/>
+                <relationship kind="action" name="changeToWhere:"/>
+                <relationship kind="action" name="changeToWho:"/>
+                <relationship kind="outlet" name="selectionImg" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="SettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+        </class>
+        <class className="SideViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SideViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="showViewController:" candidateClass="NSString"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

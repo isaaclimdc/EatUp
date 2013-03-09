@@ -26,4 +26,11 @@
     // Configure the view for the selected state
 }
 
+- (void)populateWithEvent:(EUEvent *)event
+{
+    self.titleLabel.text = event.title;
+    self.dateTimeLabel.text = [event dateString];
+    self.participantsLabel.text = [event participantsString];
+}
+
 @end

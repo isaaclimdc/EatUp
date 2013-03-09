@@ -1,5 +1,5 @@
 //
-//  NewMealViewController.h
+//  NewEventViewController.h
 //  EatUp
 //
 //  Created by Isaac Lim on 3/2/13.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewMealViewController : UIViewController {
+@interface NewEventViewController : UIViewController {
     UIImageView *selectionImg;
 }
 

@@ -1,18 +1,18 @@
 //
-//  NewMealViewController.m
+//  NewEventViewController.m
 //  EatUp
 //
 //  Created by Isaac Lim on 3/2/13.
 //  Copyright (c) 2013 isaacl.net. All rights reserved.
 //
 
-#import "NewMealViewController.h"
+#import "NewEventViewController.h"
 
-@interface NewMealViewController ()
+@interface NewEventViewController ()
 
 @end
 
-@implementation NewMealViewController
+@implementation NewEventViewController
 
 @synthesize selectionImg;
 

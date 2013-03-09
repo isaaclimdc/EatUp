@@ -22,15 +22,7 @@
 
     events = [NSMutableArray array];
 
-    // Fill with random elements
-    EUEvent *event = [EUEvent eventWithTitle:@"Birthday Dinner" time:[NSDate date] participants:nil];
-    [events addObject:event];
-    event = [EUEvent eventWithTitle:@"Party at Brgr!" time:[NSDate dateWithTimeIntervalSinceNow:500] participants:nil];
-    [events addObject:event];
-    event = [EUEvent eventWithTitle:@"Aunt Lily's Home" time:[NSDate dateWithTimeIntervalSinceNow:12500] participants:nil];
-    [events addObject:event];
-    event = [EUEvent eventWithTitle:@"Date with Julia" time:[NSDate dateWithTimeIntervalSinceNow:5003500] participants:nil];
-    [events addObject:event];
+    [self sampleData];
 
     self.navigationItem.leftBarButtonItem =
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
@@ -42,14 +34,67 @@
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
                         selectedImage:[UIImage imageNamed:@"gearSelected.png"]
                                target:self
-                               action:@selector(showNewMeal)];
+                               action:@selector(showNewEvent)];
 }
 
-- (void)showNewMeal
+/* Insert random elements */
+- (void)sampleData
+{
+    EUUser *user1 = [EUUser userFromParams:@{@"EUUserFirstName" : @"Michael", @"EUUserLastName" : @"Stone"}];
+    EUUser *user2 = [EUUser userFromParams:@{@"EUUserFirstName" : @"Katherine", @"EUUserLastName" : @"Lee"}];
+    EUUser *user3 = [EUUser userFromParams:@{@"EUUserFirstName" : @"John", @"EUUserLastName" : @"Mitchell"}];
+    EUUser *user4 = [EUUser userFromParams:@{@"EUUserFirstName" : @"Julia", @"EUUserLastName" : @"Green"}];
+    EUUser *user5 = [EUUser userFromParams:@{@"EUUserFirstName" : @"Wendy", @"EUUserLastName" : @"Krafts"}];
+
+    EUEvent *event;
+    
+    event = [EUEvent eventFromParams:
+             @{
+             @"EUEventTitle": @"Birthday Dinner",
+             @"EUEventDateTime" : [NSDate date],
+             @"EUEventParticipants" : @[user1, user2, user3]
+             }];
+    [events addObject:event];
+
+    event = [EUEvent eventFromParams:
+             @{
+             @"EUEventTitle": @"Party at Brgr!",
+             @"EUEventDateTime" : [NSDate dateWithTimeIntervalSinceNow:500],
+             @"EUEventDescription" : @"Come visit the brand new reopening of Brgr with new daily hours and a brand new menu selection!",
+             @"EUEventParticipants" : @[user5, user4]
+             }];
+    [events addObject:event];
+    
+    event = [EUEvent eventFromParams:
+             @{
+             @"EUEventTitle": @"Aunt Lily's Home",
+             @"EUEventDateTime" : [NSDate dateWithTimeIntervalSinceNow:12500],
+             @"EUEventParticipants" : @[]
+             }];
+    [events addObject:event];
+    
+    event = [EUEvent eventFromParams:
+             @{
+             @"EUEventTitle": @"Fun outing",
+             @"EUEventDateTime" : [NSDate dateWithTimeIntervalSinceNow:5003500],
+             @"EUEventParticipants" : @[user1, user5, user3, user2, user4]
+             }];
+    [events addObject:event];
+
+    event = [EUEvent eventFromParams:
+             @{
+             @"EUEventTitle": @"Date with Julia",
+             @"EUEventDateTime" : [NSDate dateWithTimeIntervalSinceNow:6003500],
+             @"EUEventParticipants" : @[user4]
+             }];
+    [events addObject:event];
+}
+
+- (void)showNewEvent
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    UINavigationController *newMealNC = [storyboard instantiateViewControllerWithIdentifier:@"NewMeaNavController"];
-    [self presentViewController:newMealNC animated:YES completion:nil];
+    UINavigationController *newEventNC = [storyboard instantiateViewControllerWithIdentifier:@"NewEventNavController"];
+    [self presentViewController:newEventNC animated:YES completion:nil];
 }
 
 - (void)showSideMenu
@@ -104,8 +149,7 @@
     // Configure the cell...
     NSUInteger row = indexPath.row;
     EUEvent *event = [events objectAtIndex:row];
-    cell.titleLabel.text = event.title;
-    cell.dateTimeLabel.text = [event stringDate];
+    [cell populateWithEvent:event];
 
     return cell;
 }
@@ -156,12 +200,12 @@
     // Navigation logic may go here. Create and push another view controller.
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard"
                                                          bundle:nil];
-    MealViewController *mealVC =
-        [storyboard instantiateViewControllerWithIdentifier:@"MealViewController"];
+    EventViewController *eventVC =
+    [storyboard instantiateViewControllerWithIdentifier:@"EventViewController"];
     EUEvent *event = [events objectAtIndex:indexPath.row];
-    mealVC.event = event;
-    
-    [self customAnimationToViewController:mealVC];
+    eventVC.event = event;
+
+    [self customAnimationToViewController:eventVC];
 }
 
 @end

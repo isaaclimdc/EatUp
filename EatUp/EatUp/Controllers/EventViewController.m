@@ -1,20 +1,20 @@
 //
-//  MealViewController.m
+//  EventViewController.m
 //  EatUp
 //
 //  Created by Isaac Lim on 3/2/13.
 //  Copyright (c) 2013 isaacl.net. All rights reserved.
 //
 
-#import "MealViewController.h"
+#import "EventViewController.h"
 
-@interface MealViewController ()
+@interface EventViewController ()
 
 @end
 
-@implementation MealViewController
+@implementation EventViewController
 
-@synthesize event;
+@synthesize eventView, event;
 
 - (void)viewDidLoad
 {
@@ -25,6 +25,14 @@
                                                           target:self
                                                           action:@selector(goBack:)];
     self.navigationItem.leftBarButtonItem = backBtn;
+
+    /* Initialize EUEventView */
+    eventView = [EUEventView newEventViewWithFrame:CGRectMake(0,
+                                                              0,
+                                                              self.view.frame.size.width,
+                                                              self.view.frame.size.height-self.navigationController.navigationBar.frame.size.height)
+                                          andEvent:event];
+    [self.view addSubview:eventView];
 }
 
 - (IBAction)goBack:(id)sender {

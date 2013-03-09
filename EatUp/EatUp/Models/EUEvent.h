@@ -7,20 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EUUser.h"
+#import "EULocation.h"
 
-@interface EUEvent : NSObject {
-    NSString *title;
-    NSDate *dateTime;
-    NSMutableArray *participants;
-    NSMutableArray *locations;
-    NSString *description;
-}
+@interface EUEvent : NSObject
 
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSDate *dateTime;
-@property (strong, nonatomic) NSMutableArray *participants;
+@property (strong, nonatomic) NSString *description;
+@property (strong, nonatomic) NSMutableArray *participants;  /* EUUser[] */
+@property (strong, nonatomic) NSMutableArray *locations;  /* EULocation[] */
 
-+ (EUEvent *)eventWithTitle:(NSString *)aTitle time:(NSDate *)aTime participants:(NSArray *)aPart;
-- (NSString *)stringDate;
++ (EUEvent *)eventFromParams:(NSDictionary *)params;
+
+- (NSString *)dateString;
+- (NSString *)participantsString;
 
 @end
