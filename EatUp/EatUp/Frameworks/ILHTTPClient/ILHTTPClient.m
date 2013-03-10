@@ -1,6 +1,6 @@
 //
 // ILHTTPClient
-// Version 1.11
+// Version 1.2
 // Created by Isaac Lim (isaacl.net) on 1/1/13.
 //
 
@@ -197,6 +197,14 @@
                           successText:successText
                               success:success
                               failure:failure];
+}
+
+#pragma mark - Helper functions
+
+- (void)forceHideHUD
+{
+    [MBProgressHUD fadeOutHUDInView:self.view withSuccessText:nil];
+    self.isShowingHUD = NO;
 }
 
 @end

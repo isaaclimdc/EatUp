@@ -15,12 +15,24 @@
 + (EUUser *)userFromParams:(NSDictionary *)params
 {
     EUUser *user = [[EUUser alloc] init];
-    user.uid = [params objectForKey:@"uid"];
+    user.uid = [[params objectForKey:@"uid"] doubleValue];
     user.firstName = [params objectForKey:@"first_name"];
     user.lastName = [params objectForKey:@"last_name"];
     user.profPic = [NSURL URLWithString:[params objectForKey:@"prof_pic"]];
-    user.participating = [params objectForKey:@"participating"];
-    user.friends = [params objectForKey:@"friends"];
+
+    NSMutableArray *partEvents = [NSMutableArray array];
+    for (NSDictionary *partEventsDict in [params objectForKey:@"participating"]) {
+        EUEvent *partEvent = [EUEvent eventFromParams:partEventsDict];
+        [partEvents addObject:partEvent];
+    }
+    user.participating = partEvents;
+
+    NSMutableArray *friends = [NSMutableArray array];
+    for (NSDictionary *friendsDict in [params objectForKey:@"friends"]) {
+        EUUser *friend = [EUUser userFromParams:friendsDict];
+        [friends addObject:friend];
+    }
+    user.friends = friends;
     
     return user;
 }

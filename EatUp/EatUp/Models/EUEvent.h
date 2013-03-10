@@ -12,7 +12,7 @@
 
 @interface EUEvent : NSObject
 
-@property (strong, nonatomic) NSString *eid;
+@property (nonatomic) double eid;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSDate *dateTime;
 @property (strong, nonatomic) NSString *description;

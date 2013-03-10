@@ -66,12 +66,10 @@
 		6ADC644E16EAD93900E0F401 /* EUEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADC644D16EAD93900E0F401 /* EUEventView.m */; };
 		6ADC645116EB93CE00E0F401 /* EUUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADC645016EB93CE00E0F401 /* EUUser.m */; };
 		6ADC645416EB9C5600E0F401 /* EULocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADC645316EB9C5600E0F401 /* EULocation.m */; };
-		6ADC645616EBF80400E0F401 /* profPlaceholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ADC645516EBF80400E0F401 /* profPlaceholder@2x.png */; };
 		6ADC645B16EBFB5800E0F401 /* backArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ADC645716EBFB5800E0F401 /* backArrow.png */; };
 		6ADC645C16EBFB5800E0F401 /* backArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ADC645816EBFB5800E0F401 /* backArrow@2x.png */; };
 		6ADC645D16EBFB5800E0F401 /* backArrowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ADC645916EBFB5800E0F401 /* backArrowSelected.png */; };
 		6ADC645E16EBFB5800E0F401 /* backArrowSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ADC645A16EBFB5800E0F401 /* backArrowSelected@2x.png */; };
-		6AFBF49B16E438D100D8C33B /* protoFaces.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AFBF49A16E438D100D8C33B /* protoFaces.png */; };
 		6AFBF49E16E43A1200D8C33B /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFBF49D16E43A1200D8C33B /* SettingsViewController.m */; };
 		6AFBF4A616E45C3000D8C33B /* when.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AFBF4A316E45C3000D8C33B /* when.png */; };
 		6AFBF4A716E45C3000D8C33B /* who.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AFBF4A416E45C3000D8C33B /* who.png */; };
@@ -174,12 +172,10 @@
 		6ADC645016EB93CE00E0F401 /* EUUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EUUser.m; sourceTree = "<group>"; };
 		6ADC645216EB9C5600E0F401 /* EULocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EULocation.h; sourceTree = "<group>"; };
 		6ADC645316EB9C5600E0F401 /* EULocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EULocation.m; sourceTree = "<group>"; };
-		6ADC645516EBF80400E0F401 /* profPlaceholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profPlaceholder@2x.png"; sourceTree = "<group>"; };
 		6ADC645716EBFB5800E0F401 /* backArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backArrow.png; sourceTree = "<group>"; };
 		6ADC645816EBFB5800E0F401 /* backArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backArrow@2x.png"; sourceTree = "<group>"; };
 		6ADC645916EBFB5800E0F401 /* backArrowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backArrowSelected.png; sourceTree = "<group>"; };
 		6ADC645A16EBFB5800E0F401 /* backArrowSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backArrowSelected@2x.png"; sourceTree = "<group>"; };
-		6AFBF49A16E438D100D8C33B /* protoFaces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = protoFaces.png; sourceTree = "<group>"; };
 		6AFBF49C16E43A1200D8C33B /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6AFBF49D16E43A1200D8C33B /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		6AFBF49F16E43DE700D8C33B /* EUConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUConstants.h; sourceTree = "<group>"; };
@@ -365,11 +361,9 @@
 		6AAD17E416E2328E007145EE /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				6ADC645516EBF80400E0F401 /* profPlaceholder@2x.png */,
 				6AFBF4A316E45C3000D8C33B /* when.png */,
 				6AFBF4A416E45C3000D8C33B /* who.png */,
 				6AFBF4A516E45C3000D8C33B /* where.png */,
-				6AFBF49A16E438D100D8C33B /* protoFaces.png */,
 				6A9743F716E2B0E7003D5667 /* navBar@2x.png */,
 				6A9743F916E2B2A8003D5667 /* navBar.png */,
 				6AA860C516E1C91F00655BE9 /* Default.png */,
@@ -541,11 +535,9 @@
 				6A9743F616E29C2C003D5667 /* alertBkg@2x.png in Resources */,
 				6A9743F816E2B0E7003D5667 /* navBar@2x.png in Resources */,
 				6A9743FA16E2B2A8003D5667 /* navBar.png in Resources */,
-				6AFBF49B16E438D100D8C33B /* protoFaces.png in Resources */,
 				6AFBF4A616E45C3000D8C33B /* when.png in Resources */,
 				6AFBF4A716E45C3000D8C33B /* who.png in Resources */,
 				6AFBF4A816E45C3000D8C33B /* where.png in Resources */,
-				6ADC645616EBF80400E0F401 /* profPlaceholder@2x.png in Resources */,
 				6ADC645B16EBFB5800E0F401 /* backArrow.png in Resources */,
 				6ADC645C16EBFB5800E0F401 /* backArrow@2x.png in Resources */,
 				6ADC645D16EBFB5800E0F401 /* backArrowSelected.png in Resources */,

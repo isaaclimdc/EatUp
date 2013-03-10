@@ -16,11 +16,21 @@
 + (EUEvent *)eventFromParams:(NSDictionary *)params
 {
     EUEvent *event = [[EUEvent alloc] init];
-    event.eid = [params objectForKey:@"eid"];
+    event.eid = [[params objectForKey:@"eid"] doubleValue];
     event.title = [params objectForKey:@"title"];
-    event.dateTime = [params objectForKey:@"date_time"];
+
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZZ"];
+    event.dateTime = [df dateFromString:[params objectForKey:@"date_time"]];
+    
     event.description = [params objectForKey:@"description"];
-    event.participants = [[params objectForKey:@"participants"] mutableCopy];
+
+    NSMutableArray *parts = [NSMutableArray array];
+    for (NSDictionary *partsDict in [params objectForKey:@"participants"]) {
+        EUUser *part = [EUUser userFromParams:partsDict];
+        [parts addObject:part];
+    }
+    event.participants = parts;
 
     NSMutableArray *locs = [NSMutableArray array];
     for (NSDictionary *locDict in [params objectForKey:@"locations"]) {
@@ -42,16 +52,23 @@
 /* Transform the participants array into a Facebook-like friendly string */
 - (NSString *)participantsString
 {
-    NSInteger count = self.participants.count;
-    
+    /* Remove myself from the string */
+    double myUID = [[NSUserDefaults standardUserDefaults] doubleForKey:@"EUMyUID"];
+    NSArray *tmp = [self.participants filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        EUUser *user = (EUUser *)evaluatedObject;
+        return user.uid != myUID;
+    }]];
+
+    /* Empty case */
+    NSInteger count = tmp.count;
     if (count == 0) {
-        return @"No participants";
+        return @"with no others";
     }
 
-    NSString *result = [@"with " stringByAppendingString:[self.participants[0] fullName]];
+    NSString *result = [@"with " stringByAppendingString:[tmp[0] fullName]];
     
     if (count >= 2) {
-        result = [result stringByAppendingFormat:@"%@ %@", count == 2 ? @" and" : @",", [self.participants[1] fullName]];
+        result = [result stringByAppendingFormat:@"%@ %@", count == 2 ? @" and" : @",", [tmp[1] fullName]];
     }
 
     if (count >= 3) {

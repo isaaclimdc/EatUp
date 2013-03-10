@@ -148,10 +148,12 @@
          [self sessionStateChanged:session state:state error:error];
          [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
              NSDictionary *myInfo = (NSDictionary *)result;
-             NSString *myID = [myInfo objectForKey:@"id"];
+             double myUID = [[myInfo objectForKey:@"id"] doubleValue];
              NSString *myName = [myInfo objectForKey:@"name"];
+             [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:@"EUMyUID"];
+             [[NSUserDefaults standardUserDefaults] setObject:myName forKey:@"EUMyName"];
 //             NSLog(@"%@", myInfo);
-             NSLog(@"Logged in as %@ (%@).", myName, myID);
+             NSLog(@"Logged in as %@ (%f).", myName, myUID);
          }];
      }];
 }

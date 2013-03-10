@@ -1,6 +1,6 @@
 //
 // ILHTTPClient
-// Version 1.11
+// Version 1.2
 // Created by Isaac Lim (isaacl.net) on 1/1/13.
 //
 
@@ -126,9 +126,18 @@
         success:(void (^)(AFHTTPRequestOperation *operation, NSString *response))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
+/**
+ * Force the HUD to be hidden.
+ * @param void
+ *
+ * @return void
+ */
+- (void)forceHideHUD;
+
 @end
 
 @interface NSString (JSONAdditions)
+
 /**
  * Converts the receiver NSString into JSON format.
  * @param none
@@ -136,12 +145,15 @@
  * @return The JSON object, e.g. an NSDictionary.
  */
 - (id)JSONValue;
+
 @end
 
 @implementation NSString (JSONAdditions)
+
 - (id)JSONValue {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     return json;
 }
+
 @end

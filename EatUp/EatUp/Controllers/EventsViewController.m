@@ -22,7 +22,14 @@
 {
     [super viewDidLoad];
 
-    [self fetchData];
+    /* Initialize data arrays and HTTP client */
+    events = [NSMutableArray array];
+    users = [NSMutableArray array];
+    client = [ILHTTPClient clientWithBaseURL:kEUBaseURL showingHUDInView:self.view];
+
+    [self fetchUsersWithSuccessHandler:^{
+        [self fetchData];
+    }];
 
     self.navigationItem.leftBarButtonItem =
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
@@ -37,43 +44,49 @@
                                action:@selector(showNewEvent)];
 }
 
-- (void)fetchData
+- (void)fetchUsersWithSuccessHandler:(void (^)(void))success
 {
-    /* Initialize data arrays and HTTP client */
-    events = [NSMutableArray array];
-    users = [NSMutableArray array];
-    client = [ILHTTPClient clientWithBaseURL:kEUBaseURL showingHUDInView:self.view];
-
     /* GET the database of users (FOR PROTOTYPE ONLY) */
     [client getPath:@"sampleusers.json"
          parameters:nil
         loadingText:@"Getting ready"
-        successText:nil
+        successText:@"Done"
             success:^(AFHTTPRequestOperation *operation, NSString *response) {
                 NSArray *allUsers = [[response JSONValue] objectForKey:@"users"];
-                
+
                 for (NSDictionary *dict in allUsers) {
                     EUUser *user = [EUUser userFromParams:dict];
                     [users addObject:user];
                 }
+                
+                [client forceHideHUD];
+                success();
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"Error when fetching users: %@", error);
             }
      ];
-    
+}
+
+- (void)fetchData
+{
     /* GET the user's events data */
     [client getPath:@"sampledata.json"
          parameters:nil
         loadingText:@"Fetching data"
-        successText:nil
+        successText:@"Done"
             success:^(AFHTTPRequestOperation *operation, NSString *response) {
-                NSDictionary *eventsTmp = [[response JSONValue] objectForKey:@"events"];
+                NSDictionary *resDict = [response JSONValue];
+                NSLog(@"%@", resDict);
+//                NSDictionary *myInfo = [resDict objectForKey:@"me"];
+
+                NSDictionary *eventsTmp = [resDict objectForKey:@"events"];
                 for (NSDictionary *dict in eventsTmp) {
                     EUEvent *event = [EUEvent eventFromParams:dict];
                     [events addObject:event];
                 }
-                
+
+                /* Done fetching all data. Reload the UI */
                 [self.tableView reloadData];
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error) {

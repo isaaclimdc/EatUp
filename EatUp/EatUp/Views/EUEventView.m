@@ -48,7 +48,7 @@
                                                                   CGFloatGetAfterY(titleLabel.frame),
                                                                   width,
                                                                   20)];
-        locationLabel.font = kEUFontText;
+        locationLabel.font = kEUFontTextItalic;
         [self addSubview:locationLabel];
 
         /* Participants Scroller */
@@ -90,11 +90,11 @@
     NSMutableArray *items = [NSMutableArray array];
     for (EUUser *participant in self.event.participants) {
         ILSideScrollViewItem *item = [ILSideScrollViewItem item];
-        item.defaultBackgroundImage = [UIImage imageNamed:@"profPlaceholder.png"];
-        item.titleFont = kEUFontTitle;
-        item.defaultTitleColor = kEUMainColor;
-        item.title = [NSString stringWithFormat:@"%c %c", [participant.firstName characterAtIndex:0],
-                                                          [participant.lastName characterAtIndex:0]];
+        item.defaultBackgroundImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:participant.profPic]];
+//        item.titleFont = kEUFontTitle;
+//        item.defaultTitleColor = kEUMainColor;
+//        item.title = [NSString stringWithFormat:@"%c %c", [participant.firstName characterAtIndex:0],
+//                                                          [participant.lastName characterAtIndex:0]];
         [item setTarget:self action:@selector(pictureTapped:) withObject:participant];
         [items addObject:item];
     }
@@ -106,7 +106,19 @@
 
 - (void)pictureTapped:(EUUser *)user
 {
-    NSLog(@"%@ tapped", [user fullName]);
+    NSString *msg;
+    double myUID = [[NSUserDefaults standardUserDefaults] doubleForKey:@"EUMyUID"];
+    if (user.uid == myUID) {
+        msg = @"That's you! You're going right?";
+    }
+    else {
+        msg = [NSString stringWithFormat:@"%@ is also going!", [user fullName]];
+    }
+    
+    [ILAlertView showWithTitle:[NSString stringWithFormat:@"Tapped on %@", user.firstName]
+                       message:msg
+              closeButtonTitle:@"OK"
+             secondButtonTitle:nil];
 }
 
 /* Vertically autoresize a UITextView or a UILabel to fit its content */
