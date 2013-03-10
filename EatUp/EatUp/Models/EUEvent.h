@@ -12,11 +12,12 @@
 
 @interface EUEvent : NSObject
 
+@property (strong, nonatomic) NSString *eid;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSDate *dateTime;
 @property (strong, nonatomic) NSString *description;
-@property (strong, nonatomic) NSMutableArray *participants;  /* EUUser[] */
-@property (strong, nonatomic) NSMutableArray *locations;  /* EULocation[] */
+@property (strong, nonatomic) NSMutableArray *participants;  /* Array of uid */
+@property (strong, nonatomic) NSMutableArray *locations;  /* Array of EULocation */
 
 + (EUEvent *)eventFromParams:(NSDictionary *)params;
 

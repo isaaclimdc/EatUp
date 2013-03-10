@@ -15,7 +15,7 @@
 #define kEUFontFamilyName @"AvenirNext-"
 #define kEUFontText [UIFont fontWithName:kEUFontFamilyName @"Regular" size:18]
 #define kEUFontTextBold [UIFont fontWithName:kEUFontFamilyName @"DemiBold" size:18]
-#define kEUFontTextItalic [UIFont fontWithName:kEUFontFamilyName @"Italic" size:18]
+#define kEUFontTextItalic [UIFont fontWithName:kEUFontFamilyName @"Italic" size:14]
 #define kEUFontTitle [UIFont fontWithName:kEUFontFamilyName @"DemiBold" size:20]
 #define kEUFontBarTitle [UIFont fontWithName:kEUFontFamilyName @"Bold" size:22]
 #define kEUFontSubText [UIFont fontWithName:kEUFontFamilyName @"Regular" size:12]
@@ -23,3 +23,6 @@
 /* Rects */
 #define kEUEventHorzBuffer 20.0f
 #define kEUEventVertBuffer 10.0f
+
+/* HTTP Requests */
+#define kEUBaseURL @"http://isaacl.net/install/apps/EatUp/"

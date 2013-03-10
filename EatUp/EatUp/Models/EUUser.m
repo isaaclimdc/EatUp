@@ -10,16 +10,17 @@
 
 @implementation EUUser
 
-@synthesize firstName, lastName, profPic, participating, friends;
+@synthesize uid, firstName, lastName, profPic, participating, friends;
 
 + (EUUser *)userFromParams:(NSDictionary *)params
 {
     EUUser *user = [[EUUser alloc] init];
-    user.firstName = [params objectForKey:@"EUUserFirstName"];
-    user.lastName = [params objectForKey:@"EUUserLastName"];
-    user.profPic = [NSURL URLWithString:[params objectForKey:@"EUUserProfPic"]];
-    user.participating = [NSMutableArray array];
-    user.friends = [NSMutableArray array];
+    user.uid = [params objectForKey:@"uid"];
+    user.firstName = [params objectForKey:@"first_name"];
+    user.lastName = [params objectForKey:@"last_name"];
+    user.profPic = [NSURL URLWithString:[params objectForKey:@"prof_pic"]];
+    user.participating = [params objectForKey:@"participating"];
+    user.friends = [params objectForKey:@"friends"];
     
     return user;
 }

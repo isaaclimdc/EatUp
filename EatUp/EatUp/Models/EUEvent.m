@@ -11,16 +11,23 @@
 
 @implementation EUEvent
 
-@synthesize title, dateTime, description, participants, locations;
+@synthesize eid, title, dateTime, description, participants, locations;
 
 + (EUEvent *)eventFromParams:(NSDictionary *)params
 {
     EUEvent *event = [[EUEvent alloc] init];
-    event.title = [params objectForKey:@"EUEventTitle"];
-    event.dateTime = [params objectForKey:@"EUEventDateTime"];
-    event.description = [params objectForKey:@"EUEventDescription"];
-    event.participants = [[params objectForKey:@"EUEventParticipants"] mutableCopy];
-    event.locations = [[params objectForKey:@"EUEventLocations"] mutableCopy];
+    event.eid = [params objectForKey:@"eid"];
+    event.title = [params objectForKey:@"title"];
+    event.dateTime = [params objectForKey:@"date_time"];
+    event.description = [params objectForKey:@"description"];
+    event.participants = [[params objectForKey:@"participants"] mutableCopy];
+
+    NSMutableArray *locs = [NSMutableArray array];
+    for (NSDictionary *locDict in [params objectForKey:@"locations"]) {
+        EULocation *loc = [EULocation locationFromParams:locDict];
+        [locs addObject:loc];
+    }
+    event.locations = locs;
     
     return event;
 }

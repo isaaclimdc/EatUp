@@ -10,11 +10,12 @@
 
 @interface EUUser : NSObject
 
+@property (strong, nonatomic) NSString *uid;
 @property (strong, nonatomic) NSString *firstName;
 @property (strong, nonatomic) NSString *lastName;
 @property (strong, nonatomic) NSURL *profPic;
-@property (strong, nonatomic) NSMutableArray *participating;  /* EUEvent[] */
-@property (strong, nonatomic) NSMutableArray *friends;  /* EUUser[] */
+@property (strong, nonatomic) NSMutableArray *participating;  /* Array of eid */
+@property (strong, nonatomic) NSMutableArray *friends;  /* Array of uid */
 
 + (EUUser *)userFromParams:(NSDictionary *)params;
 
