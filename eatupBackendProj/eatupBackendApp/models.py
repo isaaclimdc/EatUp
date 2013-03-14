@@ -15,11 +15,13 @@ class Event(models.Model):
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    first_name = models.CharField(max_length=128, blank=True)
-    last_name = models.CharField(max_length=128, blank=True)
     
-    # TODO: flesh out with info and/or integrate with facebook
-    prof_pic = models.ImageField(upload_to=settings.PROFILE_PICS_FOLDER)
+    # first/last names are part of the Django User model
+    
+    facebook_uid = models.PositiveIntegerField(null=True)
+    
+    prof_pic = models.ImageField(upload_to=settings.PROFILE_PICS_FOLDER,
+                                 blank=True)
     
     participating = models.ManyToManyField(Event, blank=True) 
     friends = models.ManyToManyField(User, related_name="friends", blank=True) 
@@ -28,9 +30,9 @@ class UserProfile(models.Model):
 class Location(models.Model):
     lat = models.FloatField()
     lng = models.FloatField()
-    friendly_name = models.CharField(max_length=128)
-    link = models.URLField()
-    num_votes = models.PositiveIntegerField()
+    friendly_name = models.CharField(max_length=128, blank=True)
+    link = models.URLField(blank=True)
+    num_votes = models.PositiveIntegerField(blank=True)
     
     
 # the lines below register UserProfiles to be auto-created when Users are
