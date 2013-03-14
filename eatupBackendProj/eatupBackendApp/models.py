@@ -15,14 +15,14 @@ class Event(models.Model):
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    first_name = models.CharField(max_length=128)
-    last_name = models.CharField(max_length=128)
+    first_name = models.CharField(max_length=128, blank=True)
+    last_name = models.CharField(max_length=128, blank=True)
     
     # TODO: flesh out with info and/or integrate with facebook
-    # prof_pic = models.ImageField()
+    prof_pic = models.ImageField(upload_to=settings.PROFILE_PICS_FOLDER)
     
-    participating = models.ManyToManyField(Event) 
-    friends = models.ManyToManyField(User, related_name="friends") 
+    participating = models.ManyToManyField(Event, blank=True) 
+    friends = models.ManyToManyField(User, related_name="friends", blank=True) 
     
     
 class Location(models.Model):

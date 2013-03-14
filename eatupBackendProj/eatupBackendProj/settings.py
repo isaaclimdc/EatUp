@@ -1,4 +1,5 @@
 # Django settings for eatupBackendProj project.
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -20,6 +21,11 @@ DATABASES = {
     }
 }
 
+# the absolute path of the root directory containing manage.py for this project
+_settingsFileDirPath = os.path.abspath(os.path.dirname(__file__))
+_projectBasePathRelative = os.path.join(_settingsFileDirPath, '..')
+PROJECT_BASE_PATH = os.path.abspath(_projectBasePathRelative)
+    
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
@@ -49,18 +55,21 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(PROJECT_BASE_PATH, 'userMedia')
+
+PROFILE_PICS_FOLDER = 'profilePics'
+PROFILE_PICS_ROOT = os.path.join(MEDIA_ROOT, PROFILE_PICS_FOLDER)
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = 'media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(PROJECT_BASE_PATH, 'collectedStatic')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -124,6 +133,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'tastypie',
+    #'social_auth',
     'eatupBackendApp'
 )
 
