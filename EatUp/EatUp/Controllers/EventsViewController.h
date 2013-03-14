@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NewMealViewController.h"
-#import "MealViewController.h"
+#import "NewEventViewController.h"
+#import "EventViewController.h"
 #import "EUEventCell.h"
 
 @interface EventsViewController : UITableViewController

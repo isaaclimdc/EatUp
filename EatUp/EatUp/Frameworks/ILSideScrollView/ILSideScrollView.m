@@ -86,10 +86,11 @@
 
         /* Set the item's background properties */
         [btn setBackgroundColor:item.backgroundColor];
-        [btn setBackgroundImage:item.defaultBackgroundImage
+        [btn setImage:item.defaultBackgroundImage
                        forState:UIControlStateNormal];
-        [btn setBackgroundImage:item.selectedBackgroundImage
+        [btn setImage:item.selectedBackgroundImage
                        forState:UIControlStateHighlighted];
+        [btn.imageView setContentMode:UIViewContentModeScaleAspectFill];
 
         /* Set the item's title properties */
         [btn setTitle:item.title

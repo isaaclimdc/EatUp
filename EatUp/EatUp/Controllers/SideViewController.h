@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
+#import "SettingsViewController.h"
 
-@interface SideViewController : UITableViewController
+@interface SideViewController : UITableViewController <ILAlertViewDelegate>
 
 @end

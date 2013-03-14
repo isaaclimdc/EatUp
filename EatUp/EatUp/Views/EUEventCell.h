@@ -15,4 +15,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *dateTimeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *participantsLabel;
 
+- (void)populateWithEvent:(EUEvent *)event;
+
 @end

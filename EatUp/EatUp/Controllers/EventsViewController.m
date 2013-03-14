@@ -10,6 +10,8 @@
 
 @interface EventsViewController () {
     NSMutableArray *events;
+    NSMutableArray *users;
+    ILHTTPClient *client;
 }
 
 @end
@@ -20,39 +22,87 @@
 {
     [super viewDidLoad];
 
+    /* Initialize data arrays and HTTP client */
     events = [NSMutableArray array];
+    users = [NSMutableArray array];
+    client = [ILHTTPClient clientWithBaseURL:kEUBaseURL showingHUDInView:self.view];
 
-    // Fill with random elements
-    EUEvent *event = [EUEvent eventWithTitle:@"Birthday Dinner" time:[NSDate date] participants:nil];
-    [events addObject:event];
-    event = [EUEvent eventWithTitle:@"Party at Brgr!" time:[NSDate dateWithTimeIntervalSinceNow:500] participants:nil];
-    [events addObject:event];
-    event = [EUEvent eventWithTitle:@"Aunt Lily's Home" time:[NSDate dateWithTimeIntervalSinceNow:12500] participants:nil];
-    [events addObject:event];
-    event = [EUEvent eventWithTitle:@"Date with Julia" time:[NSDate dateWithTimeIntervalSinceNow:5003500] participants:nil];
-    [events addObject:event];
+    [self fetchUsersWithSuccessHandler:^{
+        [self fetchData];
+    }];
 
     self.navigationItem.leftBarButtonItem =
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
                         selectedImage:[UIImage imageNamed:@"gearSelected.png"]
                                target:self
-                               action:@selector(showSideMenu:)];
+                               action:@selector(showSideMenu)];
 
     self.navigationItem.rightBarButtonItem =
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
                         selectedImage:[UIImage imageNamed:@"gearSelected.png"]
                                target:self
-                               action:@selector(showNewMeal:)];
+                               action:@selector(showNewEvent)];
 }
 
-- (void)showNewMeal:(id)sender
+- (void)fetchUsersWithSuccessHandler:(void (^)(void))success
+{
+    /* GET the database of users (FOR PROTOTYPE ONLY) */
+    [client getPath:@"sampleusers.json"
+         parameters:nil
+        loadingText:@"Getting ready"
+        successText:@"Done"
+            success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                NSArray *allUsers = [[response JSONValue] objectForKey:@"users"];
+
+                for (NSDictionary *dict in allUsers) {
+                    EUUser *user = [EUUser userFromParams:dict];
+                    [users addObject:user];
+                }
+                
+                [client forceHideHUD];
+                success();
+            }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Error when fetching users: %@", error);
+            }
+     ];
+}
+
+- (void)fetchData
+{
+    /* GET the user's events data */
+    [client getPath:@"sampledata.json"
+         parameters:nil
+        loadingText:@"Fetching data"
+        successText:@"Done"
+            success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                NSDictionary *resDict = [response JSONValue];
+                NSLog(@"%@", resDict);
+//                NSDictionary *myInfo = [resDict objectForKey:@"me"];
+
+                NSDictionary *eventsTmp = [resDict objectForKey:@"events"];
+                for (NSDictionary *dict in eventsTmp) {
+                    EUEvent *event = [EUEvent eventFromParams:dict];
+                    [events addObject:event];
+                }
+
+                /* Done fetching all data. Reload the UI */
+                [self.tableView reloadData];
+            }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Error when fetching data: %@", error);
+            }
+     ];
+}
+
+- (void)showNewEvent
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    UINavigationController *newMealNC = [storyboard instantiateViewControllerWithIdentifier:@"NewMeaNavController"];
-    [self presentViewController:newMealNC animated:YES completion:nil];
+    UINavigationController *newEventNC = [storyboard instantiateViewControllerWithIdentifier:@"NewEventNavController"];
+    [self presentViewController:newEventNC animated:YES completion:nil];
 }
 
-- (void)showSideMenu:(id)sender
+- (void)showSideMenu
 {
     UIViewController *VC;
 
@@ -67,6 +117,19 @@
     }
 
     [self.navigationController.revealController showViewController:VC];
+}
+
+- (void)customAnimationToViewController:(UIViewController *)viewController {
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.4;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:
+                                 kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromRight;
+    transition.delegate = self;
+    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -91,8 +154,7 @@
     // Configure the cell...
     NSUInteger row = indexPath.row;
     EUEvent *event = [events objectAtIndex:row];
-    cell.titleLabel.text = event.title;
-    cell.dateTimeLabel.text = [event stringDate];
+    [cell populateWithEvent:event];
 
     return cell;
 }
@@ -143,12 +205,12 @@
     // Navigation logic may go here. Create and push another view controller.
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard"
                                                          bundle:nil];
-    MealViewController *mealVC =
-        [storyboard instantiateViewControllerWithIdentifier:@"MealViewController"];
+    EventViewController *eventVC =
+    [storyboard instantiateViewControllerWithIdentifier:@"EventViewController"];
     EUEvent *event = [events objectAtIndex:indexPath.row];
-    mealVC.event = event;
-    
-    [self.navigationController pushViewController:mealVC animated:YES];
+    eventVC.event = event;
+
+    [self customAnimationToViewController:eventVC];
 }
 
 @end
