@@ -10,7 +10,7 @@ class Event(models.Model):
     date_time = models.DateTimeField(verbose_name="Date & Time")
     description = models.TextField(blank=True)
     participants = models.ManyToManyField(User)
-    locations = models.ManyToManyField('Location')
+    locations = models.ForeignKey('Location')
     
     
 class UserProfile(models.Model):
@@ -18,7 +18,7 @@ class UserProfile(models.Model):
     
     # first/last names are part of the Django User model
     
-    facebook_uid = models.PositiveIntegerField(null=True)
+    facebook_uid = models.PositiveIntegerField(default=0)
     
     prof_pic = models.ImageField(upload_to=settings.PROFILE_PICS_FOLDER,
                                  blank=True)
