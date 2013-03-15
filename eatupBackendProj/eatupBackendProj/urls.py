@@ -2,7 +2,8 @@ import os
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from tastypie.api import Api
-from eatupBackendApp.resources import LocationResource
+from eatupBackendApp.resources import (LocationResource, AppUserResource,
+                                       EventResource)
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -11,6 +12,8 @@ admin.autodiscover()
 # register api resources
 v1_api = Api(api_name='v1')
 v1_api.register(LocationResource())
+v1_api.register(AppUserResource())
+v1_api.register(EventResource())
 
 urlpatterns = patterns('',
     # Examples:

@@ -7,12 +7,12 @@ class Event(models.Model):
     date_time = models.DateTimeField(verbose_name="Date & Time")
     description = models.TextField(blank=True)
     participants = models.ManyToManyField('AppUser')
-    locations = models.ForeignKey('Location')
+    locations = models.ManyToManyField('Location')
     
     def __unicode__(self):
         return u"%s at %s" % (self.title, self.date_time)
-    
-    
+
+
 # ugh, super insecure, but for the sake of saving time
 # note that this doesn't use Django's User model at all
 class AppUser(models.Model):
@@ -29,8 +29,8 @@ class AppUser(models.Model):
     
     def __unicode__(self):
         return u'%s, %s' % (self.last_name, self.first_name)
-    
-    
+
+
 class Location(models.Model):
     lat = models.FloatField()
     lng = models.FloatField()
