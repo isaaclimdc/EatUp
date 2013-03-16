@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     
     url(r'^info/user/', 'eatupBackendApp.views.getUser', name='get_user'),
     url(r'^info/event/', 'eatupBackendApp.views.getEvent', name='get_event'),
+    url(r'^create/event/', 'eatupBackendApp.views.createEvent', name='create_event'),
     
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

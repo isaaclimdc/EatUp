@@ -9,10 +9,10 @@ from annoying.functions import get_object_or_None
     
 @json_response()    
 def getUser(request):
-    if 'uid' not in request.REQUEST:
+    if 'uid' not in request.GET:
         return {'error': 'missing id argument'}
     
-    uid = request.REQUEST['uid']
+    uid = request.GET['uid']
     if not uid.isdigit():
         return {'error': 'invalid user'}
         
@@ -24,10 +24,10 @@ def getUser(request):
     
 @json_response()    
 def getEvent(request):
-    if 'eid' not in request.REQUEST:
+    if 'eid' not in request.GET:
         return {'error': 'missing id argument'}
     
-    eid = request.REQUEST['eid']
+    eid = request.GET['eid']
     if not eid.isdigit():
         return {'error': 'invalid event'}
     
@@ -36,5 +36,15 @@ def getEvent(request):
         return {'error': 'invalid event'}
     else:
         return foundEvent.getDictForJson()
+    
+@json_response()   
+def createEvent(request):
+    if 'callback' in request.GET:
+        paramDict = request.GET
+    else:
+        paramDict = request.POST
+        
+    print paramDict    
+    return {'status':'ok'}
     
     

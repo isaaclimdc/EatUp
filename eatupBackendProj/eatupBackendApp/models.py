@@ -7,20 +7,17 @@ except ImportError:
     import simplejson as json
 from django.forms.models import model_to_dict
 from django.core import serializers
+import calendar
+from django.utils.timezone import is_aware
 
 class JsonableModel(models.Model):
     class Meta:
         abstract = True
     def getDictForJson(self, inline=False):
-        if hasattr(self, 'inlineFields'):
-            inlineFields = self.inlineFields
-        else:
-            inlineFields = set()
-            
-        if hasattr(self, 'idName'):
-            idName = self.idName
-        else:
-            idName = None
+        inlineFields = getattr(self, 'inlineFields', set())
+        imageFields = getattr(self, 'imageFields', set())
+        rawTimeFields = getattr(self, 'rawTimeFields', set())
+        idName = getattr(self, 'idName', None)
     
         # get default serialized json dictionary for object instance
         # note that because the serializer requires an iterable and we only have
@@ -41,13 +38,26 @@ class JsonableModel(models.Model):
                 else:
                     # map each instance of a related model to a parsed version 
                     # for inline-embedding
+                    # ex: in Events, we essentially do
+                    # d['participants'] = map(<...>, self.participants.all())
                     jsonDict[fieldName] = map(
                         lambda obj: obj.getDictForJson(inline=True), 
                         fieldVal.all()
                     )
-                    
-                    # ex: in Events, we essentially do
-                    # d['participants'] = map(<...>, self.participants.all())
+            # replace image filenames with actual domain-relative urls
+            elif fieldName in imageFields and fieldVal:
+                jsonDict[fieldName] = fieldVal.url
+            #add a <fieldname>_raw field to the json dict with the raw timestamp
+            elif fieldName in rawTimeFields:
+                rawFieldName = ("%s_raw" % fieldName)
+                assert rawFieldName not in jsonDict
+                # correct way to convert to UTC timestamp from here:
+                # http://ruslanspivak.com/2011/07/20/how-to-convert-python-utc-datetime-object-to-unix-timestamp/
+                seconds = calendar.timegm(fieldVal.utctimetuple())
+                # note that javascript timestamps need milliseconds, while
+                # python datetime only tracks seconds, so multiply for saving
+                jsonDict[rawFieldName] = seconds * 1000
+                
         if idName is not None:
             assert idName not in jsonDict
             jsonDict[idName] = self.pk
@@ -62,6 +72,7 @@ class Event(JsonableModel):
     locations = models.ManyToManyField('Location')
     
     inlineFields = {'participants', 'locations'}
+    rawTimeFields = {'date_time'}
     idName = "eid"
     
     def __unicode__(self):
@@ -87,6 +98,7 @@ class AppUser(JsonableModel):
     friends = models.ManyToManyField('self', related_name="friends", blank=True) 
     
     inlineFields = {'participating', 'friends'}
+    imageFields = {'prof_pic'}
     idName = "uid"
     
     def __unicode__(self):
