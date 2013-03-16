@@ -30,16 +30,21 @@
     [self fetchUsersWithSuccessHandler:^{
         [self fetchData];
     }];
+    
+    UIImageView *titleIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
+    titleIcon.center = self.navigationController.navigationBar.center;
+    [self.navigationController.navigationBar addSubview:titleIcon];
+    
 
     self.navigationItem.leftBarButtonItem =
-    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
-                        selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"menu.png"]
+                        selectedImage:[UIImage imageNamed:@"menuSelected.png"]
                                target:self
                                action:@selector(showSideMenu)];
 
     self.navigationItem.rightBarButtonItem =
-    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
-                        selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"add.png"]
+                        selectedImage:[UIImage imageNamed:@"addSelected.png"]
                                target:self
                                action:@selector(showNewEvent)];
 }

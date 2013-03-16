@@ -21,14 +21,14 @@
     [super viewDidLoad];
 
     self.navigationItem.leftBarButtonItem =
-    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
-                        selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"close.png"]
+                        selectedImage:[UIImage imageNamed:@"closeSelected.png"]
                                target:self
                                action:@selector(performDismiss)];
 
     self.navigationItem.rightBarButtonItem =
-    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
-                        selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"save.png"]
+                        selectedImage:[UIImage imageNamed:@"saveSelected.png"]
                                target:self
                                action:@selector(performSave)];
 }

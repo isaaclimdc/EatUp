@@ -84,13 +84,13 @@
                             <outlet property="delegate" destination="12" id="15"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="EatUp!" id="36"/>
+                    <navigationItem key="navigationItem" id="36"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="17" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="459" y="64"/>
         </scene>
-        <!--New Event View Controller - New Meal-->
+        <!--New Event View Controller - Create a new meal-->
         <scene sceneID="4Uo-pD-olg">
             <objects>
                 <viewController id="1or-Xr-p1n" customClass="NewEventViewController" sceneMemberID="viewController">
@@ -156,7 +156,7 @@
                             <constraint firstAttribute="bottom" secondItem="TBZ-S3-eUC" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="tKs-MU-GCQ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="New Meal" id="2IK-yl-l5f"/>
+                    <navigationItem key="navigationItem" title="Create a new meal" id="2IK-yl-l5f"/>
                     <connections>
                         <outlet property="selectionImg" destination="TBZ-S3-eUC" id="TWB-fw-5KS"/>
                     </connections>
@@ -174,7 +174,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="EatUp!" id="26"/>
+                    <navigationItem key="navigationItem" id="26"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>

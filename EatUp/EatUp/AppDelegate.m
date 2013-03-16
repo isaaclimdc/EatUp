@@ -60,10 +60,10 @@
 
     [navBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                     [UIColor whiteColor], UITextAttributeTextColor,
-                                    [UIColor grayColor], UITextAttributeTextShadowColor,
+                                    [UIColor clearColor], UITextAttributeTextShadowColor,
                                     kEUFontBarTitle, UITextAttributeFont
                                     , nil]];
-    [navBar setTitleVerticalPositionAdjustment:-2.0f forBarMetrics:UIBarMetricsDefault];
+    [navBar setTitleVerticalPositionAdjustment:-1.0f forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)showLoginView
