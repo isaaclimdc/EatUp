@@ -1,6 +1,6 @@
 from django.contrib import admin
-
 from eatupBackendApp.models import AppUser, Event, Location
+
 
 
 # makes these models available on the admin console

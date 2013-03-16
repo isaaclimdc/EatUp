@@ -132,13 +132,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    'tastypie',
     'eatupBackendApp'
 )
 
-# The domain to use for session cookies. Set this to whatever front end is 
-# hosted on for cross domain sessions
-#SESSION_COOKIE_DOMAIN = '.jsfiddle.net'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
