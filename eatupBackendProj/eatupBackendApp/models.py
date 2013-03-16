@@ -13,7 +13,10 @@ class Event(models.Model):
         return u"%s at %s" % (self.title, self.date_time)
 
 
-# ugh, super insecure, but for the sake of saving time
+# ugh, super insecure, but since we insisted on facebook authentication and
+# a native mobile app without enough time to learn how to do that,
+# here's a simplified version for the prototype where it relies on the
+# front end to correctly authenticate
 # note that this doesn't use Django's User model at all
 class AppUser(models.Model):
     uid = models.PositiveIntegerField(primary_key=True)
@@ -36,7 +39,7 @@ class Location(models.Model):
     lng = models.FloatField()
     friendly_name = models.CharField(max_length=128, blank=True)
     link = models.URLField(blank=True)
-    num_votes = models.PositiveIntegerField(blank=True)
+    num_votes = models.PositiveIntegerField(default=0)
     
     def __unicode__(self):
         return u"%.3f, %.3f: %s" % (self.lat, self.lng, self.friendly_name)

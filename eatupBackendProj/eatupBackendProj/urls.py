@@ -19,7 +19,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'eatupBackendProj.views.home', name='home'),
     # url(r'^eatupBackendProj/', include('eatupBackendProj.foo.urls')),
-    (r'^api/', include(v1_api.urls)),
+    url(r'^api/', include(v1_api.urls)),
     
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
