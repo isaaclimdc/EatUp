@@ -7,15 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ILSelectionView.h"
 
 @interface NewEventViewController : UIViewController {
-    UIImageView *selectionImg;
+    ILSelectionView *sView;
 }
 
-@property (strong, nonatomic) IBOutlet UIImageView *selectionImg;
-
-- (IBAction)changeToWhen:(id)sender;
-- (IBAction)changeToWhere:(id)sender;
-- (IBAction)changeToWho:(id)sender;
+@property (strong, nonatomic) ILSelectionView *sView;
 
 @end

@@ -97,69 +97,9 @@
                     <view key="view" contentMode="scaleToFill" id="X5s-tb-9b6">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dj5-Cp-a7d">
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="When?">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="changeToWhen:" destination="1or-Xr-p1n" eventType="touchUpInside" id="k4X-a5-vLC"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ofl-vn-4E0">
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Where?">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="changeToWhere:" destination="1or-Xr-p1n" eventType="touchUpInside" id="fkP-yp-FeH"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="auT-kJ-sp0">
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Who?">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="changeToWho:" destination="1or-Xr-p1n" eventType="touchUpInside" id="gzB-tL-Zka"/>
-                                </connections>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="when.png" translatesAutoresizingMaskIntoConstraints="NO" id="TBZ-S3-eUC">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="421" id="dpL-Fo-DNU"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ofl-vn-4E0" firstAttribute="top" secondItem="X5s-tb-9b6" secondAttribute="top" constant="20" symbolic="YES" type="default" id="ACo-qj-5H9"/>
-                            <constraint firstItem="TBZ-S3-eUC" firstAttribute="leading" secondItem="X5s-tb-9b6" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="EVV-fR-mhc"/>
-                            <constraint firstItem="Dj5-Cp-a7d" firstAttribute="top" secondItem="X5s-tb-9b6" secondAttribute="top" constant="20" symbolic="YES" type="default" id="No0-xD-YhP"/>
-                            <constraint firstItem="Dj5-Cp-a7d" firstAttribute="leading" secondItem="X5s-tb-9b6" secondAttribute="leading" constant="24" id="O9w-ab-rH6"/>
-                            <constraint firstItem="auT-kJ-sp0" firstAttribute="top" secondItem="X5s-tb-9b6" secondAttribute="top" constant="20" symbolic="YES" type="default" id="Wyu-MX-1MB"/>
-                            <constraint firstAttribute="trailing" secondItem="auT-kJ-sp0" secondAttribute="trailing" constant="24" id="dH3-bH-hzd"/>
-                            <constraint firstItem="ofl-vn-4E0" firstAttribute="leading" secondItem="X5s-tb-9b6" secondAttribute="leading" constant="124" id="fIQ-l7-PsR"/>
-                            <constraint firstAttribute="trailing" secondItem="TBZ-S3-eUC" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="nVi-vn-CFe"/>
-                            <constraint firstAttribute="bottom" secondItem="TBZ-S3-eUC" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="tKs-MU-GCQ"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Create a new meal" id="2IK-yl-l5f"/>
-                    <connections>
-                        <outlet property="selectionImg" destination="TBZ-S3-eUC" id="TWB-fw-5KS"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q2F-np-DYZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -342,70 +282,6 @@
             <point key="canvasLocation" x="459" y="1563"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="when.png" width="375" height="612"/>
-    </resources>
-    <classes>
-        <class className="EUEventCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EUEventCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="dateTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="participantsLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="EUEventView" superclassName="UIScrollView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EUEventView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="dateTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="descriptionTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="participantsScrollView" candidateClass="ILSideScrollView"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="EventViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EventViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="goBack:"/>
-                <relationship kind="outlet" name="eventView" candidateClass="EUEventView"/>
-            </relationships>
-        </class>
-        <class className="EventsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EventsViewController.h"/>
-        </class>
-        <class className="ILSideScrollView" superclassName="UIScrollView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ILSideScrollView.h"/>
-        </class>
-        <class className="LoginViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="performLogin:"/>
-                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="NewEventViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewEventViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="changeToWhen:"/>
-                <relationship kind="action" name="changeToWhere:"/>
-                <relationship kind="action" name="changeToWho:"/>
-                <relationship kind="outlet" name="selectionImg" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="SettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-        </class>
-        <class className="SideViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SideViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="showViewController:" candidateClass="NSString"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

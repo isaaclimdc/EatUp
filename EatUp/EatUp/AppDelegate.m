@@ -97,6 +97,13 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
+    [self performBlock:^{
+        [ILAlertView showWithTitle:@"Logged in!"
+                           message:@"You are now logged in to the EatUp! service! Here are your upcoming events."
+                  closeButtonTitle:@"OK"
+                 secondButtonTitle:nil];
+    } afterDelay:0.5];
+    
     return [FBSession.activeSession handleOpenURL:url];
 }
 
@@ -153,7 +160,6 @@
              NSString *myName = [myInfo objectForKey:@"name"];
              [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:@"EUMyUID"];
              [[NSUserDefaults standardUserDefaults] setObject:myName forKey:@"EUMyName"];
-//             NSLog(@"%@", myInfo);
              NSLog(@"Logged in as %@ (%f).", myName, myUID);
          }];
      }];

@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ILSelectionViewCategory.h"
 
-@interface ILSelectionView : UIView
+@interface ILSelectionView : UIView {
+    NSArray *_categories;
+    UIView *_contentView;
+    UIImageView *_indicator;
+    NSUInteger _currentIndex;
+}
+
+@property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) UIView *contentView;
+@property (strong, nonatomic) UIImageView *indicator;
+@property (nonatomic) NSUInteger currentIndex;
+
++ (ILSelectionView *)selectionViewWithCategories:(NSArray *)categories inFrame:(CGRect)frame;
 
 @end

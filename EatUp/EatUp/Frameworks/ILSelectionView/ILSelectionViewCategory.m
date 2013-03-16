@@ -10,4 +10,21 @@
 
 @implementation ILSelectionViewCategory
 
+@synthesize buttonImage, selectedButtonImage, contentView, title;
+
++ (ILSelectionViewCategory *)categoryWithButtonImage:(UIImage *)buttonImage
+                                 selectedButtonImage:(UIImage *)selectedButtonImage
+                                        contentView:(UIView *)contentView
+                                               title:(NSString *)title
+{
+    ILSelectionViewCategory *category = [[ILSelectionViewCategory alloc] init];
+    
+    category.buttonImage = buttonImage;
+    category.selectedButtonImage = selectedButtonImage;
+    category.contentView = contentView;
+    category.title = title;
+    
+    return category;
+}
+
 @end
