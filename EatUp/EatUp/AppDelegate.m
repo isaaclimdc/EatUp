@@ -56,6 +56,7 @@
     UINavigationBar *navBar = [UINavigationBar appearance];
     [navBar setBackgroundImage:[UIImage imageNamed:@"navBar.png"]
                  forBarMetrics:UIBarMetricsDefault];
+    [navBar setShadowImage:[[UIImage alloc] init]];
     [navBar setTintColor:kEUMainColor];
 
     [navBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
