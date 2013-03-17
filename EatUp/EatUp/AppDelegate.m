@@ -15,6 +15,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch
+    [UIImage patchImageNamedToSupport568Resources];
+    sleep(1);
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     UINavigationController *eventsNC = [storyboard instantiateInitialViewController];
     SideViewController *sideVC = [storyboard instantiateViewControllerWithIdentifier:@"SideViewController"];

@@ -21,6 +21,7 @@
     #import "ILBarButtonItem.h"
     #import "ILSideScrollView.h"
     #import "PKRevealController.h"
+    #import "UIImage+Additions_568.h"
 
     #import "EUConstants.h"
     #import "AppDelegate.h"
