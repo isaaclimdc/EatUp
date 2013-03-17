@@ -23,8 +23,8 @@
     settings = [NSMutableArray arrayWithObjects:@"Font", @"Font size", @"Notification interval", nil];
 
     self.navigationItem.leftBarButtonItem =
-    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"gear.png"]
-                        selectedImage:[UIImage imageNamed:@"gearSelected.png"]
+    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"menu.png"]
+                        selectedImage:[UIImage imageNamed:@"menuSelected.png"]
                                target:self
                                action:@selector(showSideMenu)];
 }

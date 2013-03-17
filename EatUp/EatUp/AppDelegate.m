@@ -56,14 +56,15 @@
     UINavigationBar *navBar = [UINavigationBar appearance];
     [navBar setBackgroundImage:[UIImage imageNamed:@"navBar.png"]
                  forBarMetrics:UIBarMetricsDefault];
+    [navBar setShadowImage:[[UIImage alloc] init]];
     [navBar setTintColor:kEUMainColor];
 
     [navBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                     [UIColor whiteColor], UITextAttributeTextColor,
-                                    [UIColor grayColor], UITextAttributeTextShadowColor,
+                                    [UIColor clearColor], UITextAttributeTextShadowColor,
                                     kEUFontBarTitle, UITextAttributeFont
                                     , nil]];
-    [navBar setTitleVerticalPositionAdjustment:-2.0f forBarMetrics:UIBarMetricsDefault];
+    [navBar setTitleVerticalPositionAdjustment:-1.0f forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)showLoginView
@@ -96,6 +97,13 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
+    [self performBlock:^{
+        [ILAlertView showWithTitle:@"Logged in!"
+                           message:@"You are now logged in to the EatUp! service! Here are your upcoming events."
+                  closeButtonTitle:@"OK"
+                 secondButtonTitle:nil];
+    } afterDelay:0.5];
+    
     return [FBSession.activeSession handleOpenURL:url];
 }
 
@@ -152,7 +160,6 @@
              NSString *myName = [myInfo objectForKey:@"name"];
              [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:@"EUMyUID"];
              [[NSUserDefaults standardUserDefaults] setObject:myName forKey:@"EUMyName"];
-//             NSLog(@"%@", myInfo);
              NSLog(@"Logged in as %@ (%f).", myName, myUID);
          }];
      }];

@@ -17,7 +17,7 @@
 #define kEUFontTextBold [UIFont fontWithName:kEUFontFamilyName @"DemiBold" size:18]
 #define kEUFontTextItalic [UIFont fontWithName:kEUFontFamilyName @"Italic" size:14]
 #define kEUFontTitle [UIFont fontWithName:kEUFontFamilyName @"DemiBold" size:20]
-#define kEUFontBarTitle [UIFont fontWithName:kEUFontFamilyName @"Bold" size:22]
+#define kEUFontBarTitle [UIFont fontWithName:kEUFontFamilyName @"DemiBold" size:20]
 #define kEUFontSubText [UIFont fontWithName:kEUFontFamilyName @"Regular" size:12]
 
 /* Rects */
