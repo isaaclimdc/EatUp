@@ -18,10 +18,10 @@ $(document).ready(function(){
                   participants: [12345, 67890],
                   locations: [
                     {
-                        lat: 2.44,
-                        lng: 203.1,
+                        lat: (Math.random()*2000)-1000,
+                        lng: (Math.random()*2000)-1000,
                         link: "http://google.com",
-                        friendly_name: "damnit"
+                        friendly_name: "ugh"
                     }
                   ]    
                };
@@ -37,6 +37,31 @@ $(document).ready(function(){
             console.log('failure', data);
         }
     });
+    
+    /*
+    var data = {
+        uid: 777,
+        first_name: "John",
+        last_name: "Doe",
+        
+        participating: [1,2],
+        friends: [12345, 67890]
+    };
+    
+    $.ajax({
+        url: 'create/user/',
+        dataType: 'jsonp',
+        type: 'get',
+        data: data,
+        success: function(data){
+            console.log('success', data);
+        },
+        error: function(data){
+            console.log('failure', data);
+        }
+    });*/
+    
+    
 });
 </script>
 </body>

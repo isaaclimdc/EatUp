@@ -13,6 +13,7 @@ from django.utils.timezone import is_aware
 class JsonableModel(models.Model):
     class Meta:
         abstract = True
+        
     def getDictForJson(self, inline=False):
         inlineExcludeFields = getattr(self, 'inlineExcludeFields', set())
         imageFields = getattr(self, 'imageFields', set())
@@ -55,7 +56,8 @@ class JsonableModel(models.Model):
                 # http://ruslanspivak.com/2011/07/20/how-to-convert-python-utc-datetime-object-to-unix-timestamp/
                 seconds = calendar.timegm(fieldVal.utctimetuple())
                 # note that javascript timestamps need milliseconds, while
-                # python datetime only tracks seconds, so multiply for saving
+                # python datetime only tracks seconds, so multiply 
+                # timestamp for the json dict
                 jsonDict[rawFieldName] = seconds * 1000
                 
         if idName is not None:
@@ -94,9 +96,10 @@ class AppUser(JsonableModel):
                                  blank=True)
     
     participating = models.ManyToManyField(Event, blank=True,
-                                           # define through here so that changes
-                                           # to one side of relationship show up
-                                           # on the other side
+                                           # define 'through' attribute here so 
+                                           # that changes to one side of 
+                                           # relationship show up on the 
+                                           # other side
                                            through=Event.participants.through) 
                                           
     friends = models.ManyToManyField('self', related_name="friends", blank=True) 
@@ -115,7 +118,10 @@ class Location(JsonableModel):
     friendly_name = models.CharField(max_length=128, blank=True)
     link = models.URLField(blank=True)
     num_votes = models.PositiveIntegerField(default=0)
+    eventsHere = models.ManyToManyField(Event, blank=True, 
+                                        through=Event.locations.through)
     
+    inlineExcludeFields = {'eventsHere'}
     idName = 'id'
     
     def __unicode__(self):
