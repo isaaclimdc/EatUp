@@ -158,9 +158,9 @@
              NSDictionary *myInfo = (NSDictionary *)result;
              double myUID = [[myInfo objectForKey:@"id"] doubleValue];
              NSString *myName = [myInfo objectForKey:@"name"];
-             [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:@"EUMyUID"];
-             [[NSUserDefaults standardUserDefaults] setObject:myName forKey:@"EUMyName"];
-             NSLog(@"Logged in as %@ (%f).", myName, myUID);
+             [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:kEUUserDefaultsKeyMyUID];
+             [[NSUserDefaults standardUserDefaults] setObject:myName forKey:kEUUserDefaultsKeyMyName];
+//             NSLog(@"Logged in as %@ (%0.0f).", myName, myUID);
          }];
      }];
 }

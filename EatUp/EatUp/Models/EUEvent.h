@@ -25,4 +25,7 @@
 - (NSString *)participantsString;
 - (NSString *)locationsString;
 
+- (NSDictionary *)semiSerialize;
+- (NSDictionary *)serialize;
+
 @end

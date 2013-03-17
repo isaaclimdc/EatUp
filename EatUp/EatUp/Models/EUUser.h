@@ -21,4 +21,7 @@
 
 - (NSString *)fullName;
 
+- (NSDictionary *)semiSerialize;
+- (NSDictionary *)serialize;
+
 @end

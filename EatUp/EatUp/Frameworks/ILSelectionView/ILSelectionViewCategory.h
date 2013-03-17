@@ -13,11 +13,9 @@
 @property (strong, nonatomic) UIImage *buttonImage;
 @property (strong, nonatomic) UIImage *selectedButtonImage;
 @property (strong, nonatomic) UIView *contentView;
-@property (strong, nonatomic) NSString *title;
 
 + (ILSelectionViewCategory *)categoryWithButtonImage:(UIImage *)buttonImage
                                  selectedButtonImage:(UIImage *)selectedButtonImage
-                                         contentView:(UIView *)contentView
-                                               title:(NSString *)title;
+                                         contentView:(UIView *)contentView;
 
 @end

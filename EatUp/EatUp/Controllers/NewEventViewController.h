@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ILSelectionView.h"
+#import "EUNewEventWhenView.h"
+#import "EUNewEventWhereView.h"
+#import "EUNewEventWhoView.h"
 
 @interface NewEventViewController : UIViewController {
     ILSelectionView *sView;

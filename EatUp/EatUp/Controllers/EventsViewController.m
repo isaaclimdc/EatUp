@@ -82,7 +82,7 @@
         successText:@"Done"
             success:^(AFHTTPRequestOperation *operation, NSString *response) {
                 NSDictionary *resDict = [response JSONValue];
-                NSLog(@"%@", resDict);
+//                NSLog(@"%@", resDict);
 //                NSDictionary *myInfo = [resDict objectForKey:@"me"];
 
                 NSDictionary *eventsTmp = [resDict objectForKey:@"events"];

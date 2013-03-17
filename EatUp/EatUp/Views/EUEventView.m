@@ -143,7 +143,7 @@
     view.frame = rect;
 }
 
-CGFloat CGFloatGetAfterY(CGRect rect) {
+static CGFloat CGFloatGetAfterY(CGRect rect) {
     return rect.origin.y + rect.size.height + kEUEventVertBuffer;
 }
 

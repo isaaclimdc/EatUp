@@ -18,4 +18,6 @@
 
 + (EULocation *)locationFromParams:(NSDictionary *)params;
 
+- (NSDictionary *)serialize;
+
 @end

@@ -9,12 +9,22 @@
 #import "ILSelectionView.h"
 
 #define kILSelectionViewBuffer 10.0f
-#define kILSelectionViewBtnHeight 30.0f
+#define kILSelectionViewBtnHeight 50.0f
+
+@interface ILSelectionView ()
+
+@property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) UIImageView *indicator;
+@property (nonatomic) NSUInteger currentIndex;
+@property (strong, nonatomic) UIView *contentView1;
+@property (strong, nonatomic) UIView *contentView2;
+@property (strong, nonatomic) UIView *contentView3;
+
+@end
 
 @implementation ILSelectionView
 
-@synthesize categories = _categories, contentView = _contentView;
-@synthesize indicator = _indicator, currentIndex = _currentIndex;
+@synthesize contentView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -25,7 +35,7 @@
     return self;
 }
 
-+ (ILSelectionView *)selectionViewWithCategories:(NSArray *)categories inFrame:(CGRect)frame
+- (void)populateWithCategories:(NSArray *)categories
 {
     /* Raise an exception if categories contains foreign-typed objects */
     if (![ILSelectionView arrayContainsCategoryObjects:categories]) {
@@ -39,21 +49,21 @@
                     format:@"ILSelectionViewCategory array must contain only 3 elements."];
     }
 
-    ILSelectionView *sView = [[ILSelectionView alloc] initWithFrame:frame];
-    [sView setupWithCategories:categories];
-
-    return sView;
-}
-
-- (void)setupWithCategories:(NSArray *)categories
-{
     self.categories = categories;
+    
+    CGFloat y = kILSelectionViewBuffer*2+kILSelectionViewBtnHeight;
+    contentView = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                           y,
+                                                           self.frame.size.width,
+                                                           self.frame.size.height-y-kILSelectionViewBuffer)];
+    [self addSubview:contentView];
 
     /* Category buttons (frames are for a fixed category size of 3 */
     CGFloat width = self.frame.size.width;
     CGFloat btnWidth = 2*width/12;
 
     for (int i = 0; i < self.categories.count; i++) {
+        /* Each button */
         ILSelectionViewCategory *category = [self.categories objectAtIndex:i];
 
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -63,38 +73,49 @@
                                btnWidth,
                                kILSelectionViewBtnHeight);
 
-        [btn setTitle:category.title forState:UIControlStateNormal];
         [btn setBackgroundImage:category.buttonImage forState:UIControlStateNormal];
         [btn setBackgroundImage:category.selectedButtonImage forState:UIControlStateHighlighted];
         [btn addTarget:self action:@selector(categoryTapped:) forControlEvents:UIControlEventTouchUpInside];
         btn.backgroundColor = [UIColor redColor];
         [self addSubview:btn];
+
+        /* Content View */
+        UIView *contentViewi = category.contentView;
+        contentViewi.hidden = YES;
+
+        contentViewi.frame = CGRectMake(0,
+                                        0,
+                                        self.contentView.frame.size.width,
+                                        self.contentView.frame.size.height);
+        [self.contentView addSubview:contentViewi];
+
+        if (i == 0)
+            self.contentView1 = contentViewi;
+        else if (i == 1)
+            self.contentView2 = contentViewi;
+        else if (i == 2)
+            self.contentView3 = contentViewi;
     }
 
     /* Indicator */
     self.indicator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"indicator.png"]];
     [self addSubview:self.indicator];
 
-    /* Content View */
+    /* Show first contentView */
     [self changeToCategoryAtIndex:0];
 }
 
 - (void)changeToCategoryAtIndex:(NSUInteger)index
 {
     assert(self.categories.count > index);
-    
-    /* First remove the existing one */
-    [self.contentView removeFromSuperview];
-    
+
+    /* First hide the current one */
+    UIView *oldContentView = [self contentViewForIndex:self.currentIndex];
+    oldContentView.hidden = YES;
+
     /* Change contentView */
-    ILSelectionViewCategory *category = [self.categories objectAtIndex:index];
-    self.contentView = category.contentView;
-    CGFloat y = kILSelectionViewBuffer*2+kILSelectionViewBtnHeight;
-    self.contentView.frame = CGRectMake(0,
-                                        y,
-                                        self.frame.size.width,
-                                        self.frame.size.height-y);
-    [self addSubview:self.contentView];
+    UIView *newContentView = [self contentViewForIndex:index];
+    newContentView.hidden = NO;
 
     /* Change currentIndex */
     self.currentIndex = index;
@@ -138,9 +159,14 @@
     for (int i = 0; i < array.count; i++)
         if (![array[i] isMemberOfClass:[ILSelectionViewCategory class]])
             return NO;
-    
+
     return YES;
 }
 
+- (UIView *)contentViewForIndex:(NSUInteger)index
+{
+    ILSelectionViewCategory *category = [self.categories objectAtIndex:index];
+    return category.contentView;
+}
 
 @end
