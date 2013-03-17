@@ -16,12 +16,19 @@ $(document).ready(function(){
                                "have to be a goddamned ordeal",
                   timestamp: (new Date()).valueOf(), 
                   participants: [12345, 67890],
-                  locations: [{prop1:String.fromCharCode(8594)}, {prop2:42}]    
+                  locations: [
+                    {
+                        lat: 2.44,
+                        lng: 203.1,
+                        link: "http://google.com",
+                        friendly_name: "damnit"
+                    }
+                  ]    
                };
     $.ajax({
         url: 'create/event/',
         dataType: 'jsonp',
-        type: 'POST',
+        type: 'get',
         data: data,
         success: function(data){
             console.log('success', data);

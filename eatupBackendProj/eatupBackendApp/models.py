@@ -69,7 +69,7 @@ class Event(JsonableModel):
     date_time = models.DateTimeField(verbose_name="Date & Time")
     description = models.TextField(blank=True)
     participants = models.ManyToManyField('AppUser')
-    locations = models.ManyToManyField('Location')
+    locations = models.ManyToManyField('Location', blank=True)
     
     inlineExcludeFields = {'participants', 'locations'}
     rawTimeFields = {'date_time'}
@@ -115,6 +115,8 @@ class Location(JsonableModel):
     friendly_name = models.CharField(max_length=128, blank=True)
     link = models.URLField(blank=True)
     num_votes = models.PositiveIntegerField(default=0)
+    
+    idName = 'id'
     
     def __unicode__(self):
         return u"%.3f, %.3f: %s" % (self.lat, self.lng, self.friendly_name)
