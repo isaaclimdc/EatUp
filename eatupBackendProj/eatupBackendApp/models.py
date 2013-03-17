@@ -14,7 +14,7 @@ class JsonableModel(models.Model):
     class Meta:
         abstract = True
     def getDictForJson(self, inline=False):
-        inlineFields = getattr(self, 'inlineFields', set())
+        inlineExcludeFields = getattr(self, 'inlineExcludeFields', set())
         imageFields = getattr(self, 'imageFields', set())
         rawTimeFields = getattr(self, 'rawTimeFields', set())
         idName = getattr(self, 'idName', None)
@@ -32,7 +32,7 @@ class JsonableModel(models.Model):
         # make sure to use .keys, since we'll be editing the dictionary as we go
         for fieldName in jsonDict.keys():
             fieldVal = getattr(self, fieldName)
-            if fieldName in inlineFields:
+            if fieldName in inlineExcludeFields:
                 if inline:
                     del(jsonDict[fieldName])
                 else:
@@ -65,13 +65,13 @@ class JsonableModel(models.Model):
 
 class Event(JsonableModel):
     eid = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, blank=True)
     date_time = models.DateTimeField(verbose_name="Date & Time")
     description = models.TextField(blank=True)
     participants = models.ManyToManyField('AppUser')
     locations = models.ManyToManyField('Location')
     
-    inlineFields = {'participants', 'locations'}
+    inlineExcludeFields = {'participants', 'locations'}
     rawTimeFields = {'date_time'}
     idName = "eid"
     
@@ -94,10 +94,14 @@ class AppUser(JsonableModel):
                                  blank=True)
     
     participating = models.ManyToManyField(Event, blank=True,
-                                           through=Event.participants.through) #define through so that both sides of relationship show up in admin form
+                                           # define through here so that changes
+                                           # to one side of relationship show up
+                                           # on the other side
+                                           through=Event.participants.through) 
+                                          
     friends = models.ManyToManyField('self', related_name="friends", blank=True) 
     
-    inlineFields = {'participating', 'friends'}
+    inlineExcludeFields = {'participating', 'friends'}
     imageFields = {'prof_pic'}
     idName = "uid"
     

@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'eatupBackendProj.views.home', name='home'),
     # url(r'^eatupBackendProj/', include('eatupBackendProj.foo.urls')),
+    url(r'^$', 'eatupBackendApp.views.showIndex', name='index'),
     
     url(r'^info/user/', 'eatupBackendApp.views.getUser', name='get_user'),
     url(r'^info/event/', 'eatupBackendApp.views.getEvent', name='get_event'),

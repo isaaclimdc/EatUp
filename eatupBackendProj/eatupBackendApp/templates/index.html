@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+hello world
+<script src="{{ STATIC_URL }}scripts/jquery-1.9.1.min.js" type="Text/javascript"></script>
+<script src="{{ STATIC_URL }}scripts/csrfAjaxSetup.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(){
+    $("body").append("==jquery loaded==");
+    
+    var data = {
+                  title: "FUCK MY LIFE",
+                  description: "why does every part of developing this thing "+
+                               "have to be a goddamned ordeal",
+                  timestamp: (new Date()).valueOf(), 
+                  participants: [12345, 67890],
+                  locations: [{prop1:String.fromCharCode(8594)}, {prop2:42}]    
+               };
+    $.ajax({
+        url: 'create/event/',
+        dataType: 'jsonp',
+        type: 'POST',
+        data: data,
+        success: function(data){
+            console.log('success', data);
+        },
+        error: function(data){
+            console.log('failure', data);
+        }
+    });
+});
+</script>
+</body>
+</html>
