@@ -30,7 +30,8 @@
     eventView = [EUEventView newEventViewWithFrame:CGRectMake(0,
                                                               0,
                                                               self.view.frame.size.width,
-                                                              self.view.frame.size.height-self.navigationController.navigationBar.frame.size.height)
+                                                              self.view.frame.size.height
+                                                                - self.navigationController.navigationBar.frame.size.height)
                                           andEvent:event];
     [self.view addSubview:eventView];
 }

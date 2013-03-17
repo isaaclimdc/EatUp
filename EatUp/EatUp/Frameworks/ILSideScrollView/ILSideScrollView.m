@@ -86,11 +86,11 @@
 
         /* Set the item's background properties */
         [btn setBackgroundColor:item.backgroundColor];
-        [btn setImage:item.defaultBackgroundImage
-                       forState:UIControlStateNormal];
-        [btn setImage:item.selectedBackgroundImage
-                       forState:UIControlStateHighlighted];
-        [btn.imageView setContentMode:UIViewContentModeScaleAspectFill];
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, btn.frame.size.width, btn.frame.size.height)];
+        [imgView setImageWithURL:item.defaultBackgroundImage placeholderImage:[UIImage imageNamed:@"manPlaceholder.png"]];
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
+        imgView.clipsToBounds = YES;
+        [btn addSubview:imgView];
 
         /* Set the item's title properties */
         [btn setTitle:item.title

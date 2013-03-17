@@ -172,9 +172,9 @@
                                     <constraint firstAttribute="height" constant="44" id="hkO-yD-heZ"/>
                                     <constraint firstAttribute="width" constant="174" id="ofh-ri-khy"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="16"/>
                                 <state key="normal" title="Login with Facebook">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -185,25 +185,12 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Eio-y7-gOg"/>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="EatUp!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cr-Cd-kSo">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="145" id="A3A-ln-5WJ"/>
-                                    <constraint firstAttribute="width" constant="251" id="CXk-H1-8uk"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="69"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.92941176470588238" green="0.40784313725490196" blue="0.035294117647058823" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="Qtv-4w-hhf" firstAttribute="leading" secondItem="x1y-gS-hA4" secondAttribute="leading" constant="74" id="0oC-5c-8tq"/>
-                            <constraint firstItem="6cr-Cd-kSo" firstAttribute="centerX" secondItem="Eio-y7-gOg" secondAttribute="centerX" type="default" id="13n-et-hBF"/>
-                            <constraint firstItem="Eio-y7-gOg" firstAttribute="centerX" secondItem="x1y-gS-hA4" secondAttribute="centerX" type="default" id="DCx-eN-0Gh"/>
-                            <constraint firstAttribute="bottom" secondItem="Eio-y7-gOg" secondAttribute="bottom" constant="40" id="Q6n-nF-W4n"/>
-                            <constraint firstAttribute="bottom" secondItem="Qtv-4w-hhf" secondAttribute="bottom" constant="97" id="Tms-Ay-CV0"/>
-                            <constraint firstItem="6cr-Cd-kSo" firstAttribute="top" secondItem="x1y-gS-hA4" secondAttribute="top" constant="201" id="bJJ-1u-3pg"/>
+                            <constraint firstItem="Qtv-4w-hhf" firstAttribute="centerX" secondItem="Eio-y7-gOg" secondAttribute="centerX" type="default" id="EMf-Gn-TkQ"/>
+                            <constraint firstAttribute="bottom" secondItem="Qtv-4w-hhf" secondAttribute="bottom" constant="96" id="eTv-tl-UQT"/>
+                            <constraint firstAttribute="bottom" secondItem="Eio-y7-gOg" secondAttribute="bottom" constant="44" id="kce-1X-2He"/>
+                            <constraint firstItem="Qtv-4w-hhf" firstAttribute="leading" secondItem="x1y-gS-hA4" secondAttribute="leading" constant="11" id="q6E-fC-SMz"/>
                         </constraints>
                     </view>
                     <connections>

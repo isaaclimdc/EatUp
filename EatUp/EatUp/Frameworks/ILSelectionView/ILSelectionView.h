@@ -9,18 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ILSelectionViewCategory.h"
 
-@interface ILSelectionView : UIView {
-    NSArray *_categories;
-    UIView *_contentView;
-    UIImageView *_indicator;
-    NSUInteger _currentIndex;
-}
+@interface ILSelectionView : UIView 
 
-@property (strong, nonatomic) NSArray *categories;
 @property (strong, nonatomic) UIView *contentView;
-@property (strong, nonatomic) UIImageView *indicator;
-@property (nonatomic) NSUInteger currentIndex;
 
-+ (ILSelectionView *)selectionViewWithCategories:(NSArray *)categories inFrame:(CGRect)frame;
+- (void)populateWithCategories:(NSArray *)categories;
+- (UIView *)contentViewForIndex:(NSUInteger)index;
 
 @end

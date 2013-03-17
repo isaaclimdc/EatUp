@@ -8,8 +8,14 @@
 
 #import "NewEventViewController.h"
 
-@interface NewEventViewController ()
+#define kEUNewEventViewSelectionViewBuffer 10.0f
 
+@interface NewEventViewController ()
+{
+    EUNewEventWhenView *whenView;
+    EUNewEventWhereView *whereView;
+    EUNewEventWhoView *whoView;
+}
 @end
 
 @implementation NewEventViewController
@@ -32,40 +38,68 @@
                                target:self
                                action:@selector(performSave)];
 
-    UIView *view1 = [[UIView alloc] initWithFrame:self.view.frame];
-    view1.backgroundColor = [UIColor blueColor];
-    ILSelectionViewCategory *cat1 = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"close.png"]
-                                                                 selectedButtonImage:[UIImage imageNamed:@"closeSelected.png"]
-                                                                         contentView:view1
-                                                                               title:nil];
+    /* Setup Selection View */
+    sView = [[ILSelectionView alloc] initWithFrame:CGRectMake(kEUNewEventViewSelectionViewBuffer,
+                                                              0,
+                                                              self.view.frame.size.width-kEUNewEventViewSelectionViewBuffer*2,
+                                                              self.view.frame.size.height
+                                                              - self.navigationController.navigationBar.frame.size.height)];
+
+    /* "When" view */
+    whenView = [[EUNewEventWhenView alloc] initWithFrame:sView.frame];
+    ILSelectionViewCategory *whenCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"save.png"]
+                                                                    selectedButtonImage:[UIImage imageNamed:@"saveSelected.png"]
+                                                                            contentView:whenView];
+
+    /* "Where" view */
+    whereView = [[EUNewEventWhereView alloc] initWithFrame:sView.frame];
+    ILSelectionViewCategory *whereCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"add.png"]
+                                                                     selectedButtonImage:[UIImage imageNamed:@"addSelected.png"]
+                                                                             contentView:whereView];
+
+    /* "Who" view */
+    whoView = [[EUNewEventWhoView alloc] initWithFrame:sView.frame];
+    ILSelectionViewCategory *whoCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"menu.png"]
+                                                                   selectedButtonImage:[UIImage imageNamed:@"menuSelected.png"]
+                                                                           contentView:whoView];
+
+    [sView populateWithCategories:[NSArray arrayWithObjects:whenCat, whereCat, whoCat, nil]];
+    sView.contentView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+    sView.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    sView.contentView.layer.borderWidth = 1.0;
     
-    UIView *view2 = [[UIView alloc] initWithFrame:self.view.frame];
-    view2.backgroundColor = [UIColor yellowColor];
-    ILSelectionViewCategory *cat2 = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"add.png"]
-                                                                 selectedButtonImage:[UIImage imageNamed:@"addSelected.png"]
-                                                                         contentView:view2
-                                                                               title:nil];
-    
-    UIView *view3 = [[UIView alloc] initWithFrame:self.view.frame];
-    view3.backgroundColor = [UIColor greenColor];
-    ILSelectionViewCategory *cat3 = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"menu.png"]
-                                                                 selectedButtonImage:[UIImage imageNamed:@"menuSelected.png"]
-                                                                         contentView:view3
-                                                                               title:nil];
-    
-    NSArray *categories = [NSArray arrayWithObjects:cat1, cat2, cat3, nil];
-    sView = [ILSelectionView selectionViewWithCategories:categories inFrame:self.view.frame];
     [self.view addSubview:sView];
+}
+
+- (BOOL)isCompleteData:(NSDictionary *)data
+{
+    if ([data objectForKey:kEURequestKeyEventTitle]) return NO;
+    return YES;
 }
 
 - (void)performSave
 {
-    [ILAlertView showWithTitle:@"Done!"
-                       message:@"Your new meal has been created."
-              closeButtonTitle:@"OK"
-             secondButtonTitle:nil];
-    
-    [self performDismiss];
+    NSMutableDictionary *payload = [NSMutableDictionary dictionary];
+
+    NSDictionary *whenDict = [whenView serialize];
+    [payload addEntriesFromDictionary:whenDict];
+
+    NSLog(@"Payload: %@", payload);
+
+    if ([self isCompleteData:payload]) {
+        [ILAlertView showWithTitle:@"Done!"
+                           message:@"Your new meal has been created."
+                  closeButtonTitle:@"OK"
+                 secondButtonTitle:nil];
+
+        [self performDismiss];
+    }
+    else {
+        [ILAlertView showWithTitle:@"Incomplete!"
+                           message:@"Please fill in all fields in order to create your new meal."
+                  closeButtonTitle:@"OK"
+                 secondButtonTitle:nil];
+    }
 }
 
 - (void)performDismiss

@@ -14,11 +14,14 @@
 
 @implementation LoginViewController
 
-@synthesize spinner;
+@synthesize background, spinner;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    background = [[UIImageView alloc] initWithFrame:CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height+20)];
+    background.image = [UIImage imageNamed:@"Default.png"];
+    [self.view insertSubview:background atIndex:0];
 
     spinner.hidesWhenStopped = YES;
     spinner.hidden = YES;

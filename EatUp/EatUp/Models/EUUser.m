@@ -15,31 +15,65 @@
 + (EUUser *)userFromParams:(NSDictionary *)params
 {
     EUUser *user = [[EUUser alloc] init];
-    user.uid = [[params objectForKey:@"uid"] doubleValue];
-    user.firstName = [params objectForKey:@"first_name"];
-    user.lastName = [params objectForKey:@"last_name"];
-    user.profPic = [NSURL URLWithString:[params objectForKey:@"prof_pic"]];
+    user.uid = [[params objectForKey:kEURequestKeyUserUID] doubleValue];
+    user.firstName = [params objectForKey:kEURequestKeyUserFirstName];
+    user.lastName = [params objectForKey:kEURequestKeyUserLastName];
+    user.profPic = [NSURL URLWithString:[params objectForKey:kEURequestKeyUserProfPic]];
 
     NSMutableArray *partEvents = [NSMutableArray array];
-    for (NSDictionary *partEventsDict in [params objectForKey:@"participating"]) {
+    for (NSDictionary *partEventsDict in [params objectForKey:kEURequestKeyUserParticipating]) {
         EUEvent *partEvent = [EUEvent eventFromParams:partEventsDict];
         [partEvents addObject:partEvent];
     }
     user.participating = partEvents;
 
     NSMutableArray *friends = [NSMutableArray array];
-    for (NSDictionary *friendsDict in [params objectForKey:@"friends"]) {
+    for (NSDictionary *friendsDict in [params objectForKey:kEURequestKeyUserFriends]) {
         EUUser *friend = [EUUser userFromParams:friendsDict];
         [friends addObject:friend];
     }
     user.friends = friends;
-    
+
     return user;
 }
 
 - (NSString *)fullName
 {
     return [self.firstName stringByAppendingFormat:@" %@", self.lastName];
+}
+
+- (NSDictionary *)semiSerialize
+{
+    NSDictionary *dict = @{
+                           kEURequestKeyUserUID : [NSNumber numberWithDouble:self.uid],
+                           kEURequestKeyUserFirstName : self.firstName,
+                           kEURequestKeyUserLastName : self.lastName,
+                           kEURequestKeyUserProfPic : self.profPic
+                           };
+
+    return dict;
+}
+
+- (NSDictionary *)serialize
+{
+    NSMutableDictionary *dict = [[self semiSerialize] mutableCopy];
+
+    /* Partially serialize the user's events */
+    NSMutableArray *serialEvents = [NSMutableArray array];
+    for (EUEvent *event in self.participating) {
+        [serialEvents addObject:[event semiSerialize]];
+    }
+
+    /* Partially serialize the user's friends */
+    NSMutableArray *serialFriends = [NSMutableArray array];
+    for (EUUser *friend in self.friends) {
+        [serialFriends addObject:[friend semiSerialize]];
+    }
+
+    [dict setObject:serialEvents forKey:kEURequestKeyUserParticipating];
+    [dict setObject:serialFriends forKey:kEURequestKeyUserFriends];
+
+    return dict;
 }
 
 @end

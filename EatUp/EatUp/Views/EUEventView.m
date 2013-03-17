@@ -90,7 +90,7 @@
     NSMutableArray *items = [NSMutableArray array];
     for (EUUser *participant in self.event.participants) {
         ILSideScrollViewItem *item = [ILSideScrollViewItem item];
-        item.defaultBackgroundImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:participant.profPic]];
+        item.defaultBackgroundImage = participant.profPic;
 //        item.titleFont = kEUFontTitle;
 //        item.defaultTitleColor = kEUMainColor;
 //        item.title = [NSString stringWithFormat:@"%c %c", [participant.firstName characterAtIndex:0],
@@ -143,7 +143,7 @@
     view.frame = rect;
 }
 
-CGFloat CGFloatGetAfterY(CGRect rect) {
+static CGFloat CGFloatGetAfterY(CGRect rect) {
     return rect.origin.y + rect.size.height + kEUEventVertBuffer;
 }
 

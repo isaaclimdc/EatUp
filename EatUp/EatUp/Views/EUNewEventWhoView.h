@@ -1,5 +1,5 @@
 //
-//  EUNewEventWhenView.h
+//  EUNewEventWhoView.h
 //  EatUp
 //
 //  Created by Isaac Lim on 3/16/13.
@@ -12,7 +12,7 @@
 /* Forward declare because inheriting from custom UIScrollView */
 @class TPKeyboardAvoidingScrollView;
 
-@interface EUNewEventWhenView : TPKeyboardAvoidingScrollView <UIActionSheetDelegate>
+@interface EUNewEventWhoView : TPKeyboardAvoidingScrollView
 
 - (NSDictionary *)serialize;
 

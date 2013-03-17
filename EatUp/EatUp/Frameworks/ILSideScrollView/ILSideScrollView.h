@@ -29,6 +29,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "ILSideScrollViewItem.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ILSideScrollView : UIScrollView {
     NSMutableArray *_items;

@@ -15,13 +15,26 @@
 + (EULocation *)locationFromParams:(NSDictionary *)params
 {
     EULocation *location = [[EULocation alloc] init];
-    location.lat = [[params objectForKey:@"lat"] doubleValue];
-    location.lng = [[params objectForKey:@"lng"] doubleValue];
-    location.friendlyName = [params objectForKey:@"friendly_name"];
-    location.link = [NSURL URLWithString:[params objectForKey:@"link"]];
-    location.numVotes = [[params objectForKey:@"num_votes"] integerValue];
+    location.lat = [[params objectForKey:kEURequestKeyLocationLat] doubleValue];
+    location.lng = [[params objectForKey:kEURequestKeyLocationLng] doubleValue];
+    location.friendlyName = [params objectForKey:kEURequestKeyLocationFriendlyName];
+    location.link = [NSURL URLWithString:[params objectForKey:kEURequestKeyLocationLink]];
+    location.numVotes = [[params objectForKey:kEURequestKeyLocationNumVotes] integerValue];
     
     return location;
+}
+
+- (NSDictionary *)serialize
+{
+    NSDictionary *dict = @{
+                           kEURequestKeyLocationLat : [NSNumber numberWithDouble:self.lat],
+                           kEURequestKeyLocationLng : [NSNumber numberWithDouble:self.lng],
+                           kEURequestKeyLocationFriendlyName : self.friendlyName,
+                           kEURequestKeyLocationLink : self.link,
+                           kEURequestKeyLocationNumVotes : [NSNumber numberWithInt:self.numVotes]
+                           };
+
+    return dict;
 }
 
 @end

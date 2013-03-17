@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface LoginViewController : UIViewController {
+    UIImageView *background;
     UIActivityIndicatorView *spinner;
 }
 
+@property (strong, nonatomic) IBOutlet UIImageView *background;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 - (void)loginFailed;

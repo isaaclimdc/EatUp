@@ -15,6 +15,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch
+    [UIImage patchImageNamedToSupport568Resources];
+    sleep(1);
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     UINavigationController *eventsNC = [storyboard instantiateInitialViewController];
     SideViewController *sideVC = [storyboard instantiateViewControllerWithIdentifier:@"SideViewController"];
@@ -158,9 +161,9 @@
              NSDictionary *myInfo = (NSDictionary *)result;
              double myUID = [[myInfo objectForKey:@"id"] doubleValue];
              NSString *myName = [myInfo objectForKey:@"name"];
-             [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:@"EUMyUID"];
-             [[NSUserDefaults standardUserDefaults] setObject:myName forKey:@"EUMyName"];
-             NSLog(@"Logged in as %@ (%f).", myName, myUID);
+             [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:kEUUserDefaultsKeyMyUID];
+             [[NSUserDefaults standardUserDefaults] setObject:myName forKey:kEUUserDefaultsKeyMyName];
+//             NSLog(@"Logged in as %@ (%0.0f).", myName, myUID);
          }];
      }];
 }
