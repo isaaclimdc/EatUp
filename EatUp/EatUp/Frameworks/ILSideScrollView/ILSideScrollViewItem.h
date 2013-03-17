@@ -12,8 +12,8 @@
 
 @property (strong, nonatomic) NSString *title;
 
-@property (strong, nonatomic) UIImage *defaultBackgroundImage;
-@property (strong, nonatomic) UIImage *selectedBackgroundImage;
+@property (strong, nonatomic) NSURL *defaultBackgroundImage;
+@property (strong, nonatomic) NSURL *selectedBackgroundImage;
 @property (strong, nonatomic) UIColor *backgroundColor;
 
 @property (strong, nonatomic) UIColor *defaultTitleColor;
