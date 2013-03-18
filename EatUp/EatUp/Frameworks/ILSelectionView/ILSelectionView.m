@@ -76,7 +76,6 @@
         [btn setBackgroundImage:category.buttonImage forState:UIControlStateNormal];
         [btn setBackgroundImage:category.selectedButtonImage forState:UIControlStateHighlighted];
         [btn addTarget:self action:@selector(categoryTapped:) forControlEvents:UIControlEventTouchUpInside];
-        btn.backgroundColor = [UIColor redColor];
         [self addSubview:btn];
 
         /* Content View */

@@ -47,20 +47,20 @@
 
     /* "When" view */
     whenView = [[EUNewEventWhenView alloc] initWithFrame:sView.frame];
-    ILSelectionViewCategory *whenCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"save.png"]
-                                                                    selectedButtonImage:[UIImage imageNamed:@"saveSelected.png"]
+    ILSelectionViewCategory *whenCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"whenButton.png"]
+                                                                    selectedButtonImage:[UIImage imageNamed:@"whenButtonSelected.png"]
                                                                             contentView:whenView];
 
     /* "Where" view */
     whereView = [[EUNewEventWhereView alloc] initWithFrame:sView.frame];
-    ILSelectionViewCategory *whereCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"add.png"]
-                                                                     selectedButtonImage:[UIImage imageNamed:@"addSelected.png"]
+    ILSelectionViewCategory *whereCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"whereButton.png"]
+                                                                     selectedButtonImage:[UIImage imageNamed:@"whereButtonSelected.png"]
                                                                              contentView:whereView];
 
     /* "Who" view */
     whoView = [[EUNewEventWhoView alloc] initWithFrame:sView.frame];
-    ILSelectionViewCategory *whoCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"menu.png"]
-                                                                   selectedButtonImage:[UIImage imageNamed:@"menuSelected.png"]
+    ILSelectionViewCategory *whoCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"whoButton.png"]
+                                                                   selectedButtonImage:[UIImage imageNamed:@"whoButtonSelected.png"]
                                                                            contentView:whoView];
 
     [sView populateWithCategories:[NSArray arrayWithObjects:whenCat, whereCat, whoCat, nil]];
