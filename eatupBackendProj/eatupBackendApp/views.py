@@ -1,15 +1,14 @@
-import os, re, time, datetime, urllib
+import os, re, time, datetime, urllib, math, requests
 from django.conf import settings
 from django.http import (HttpResponse, HttpResponseBadRequest, 
                          HttpResponseServerError, HttpResponseForbidden, 
                          HttpResponseRedirect, HttpResponseNotFound)
 from eatupBackendApp.models import Event, AppUser, Location
 from eatupBackendApp.json_response import json_response
+import eatupBackendApp.imageUtil as imageUtil
 from annoying.functions import get_object_or_None 
 from django.shortcuts import render
 from django.utils.timezone import utc
-from django.http import QueryDict
-import math
 
 try:
     import json
@@ -339,6 +338,17 @@ def createUser(request):
     elif get_object_or_None(AppUser, uid=uid) is not None:
         return createErrorDict("cannot create user %d, already exists" % uid)
         
+    # check for valid profile picture url, if given    
+    profPicUrl = dataDict.get("prof_pic_url")
+    profPicContent = None
+    profPicFiletype = None
+    if profPicUrl:
+        try:
+            profPicContent, profPicFiletype = \
+                imageUtil.getImageUrlContentAndType(profPicUrl)
+        except ValueError as e:
+            return createErrorDict(str(e))
+        
     firstName = dataDict.get("first_name", "")
     lastName = dataDict.get("last_name", "")
     
@@ -373,5 +383,16 @@ def createUser(request):
     newUser.participating.add(*userEvents)
     newUser.friends.add(*userFriends)
     
-    return {'status': 'image upload not handled yet',
-            'uid':newUser.pk}
+    # save profile picture
+    if profPicContent and profPicFiletype:
+        filename = "profpic_%d.%s" % (newUser.uid, profPicFiletype)
+        try:
+            imageUtil.saveImageFieldContents(newUser, 'prof_pic', 
+                                             profPicContent, filename)
+        except Exception as e:
+            errorDict = createErrorDict(str(e))
+            errorDict['uid'] = newUser.pk
+            return errorDict
+    
+    return {'status': 'ok',
+            'uid': newUser.pk}
