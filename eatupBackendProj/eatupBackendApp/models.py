@@ -15,10 +15,11 @@ class JsonableModel(models.Model):
         abstract = True
         
     def getDictForJson(self, inline=False):
-        inlineExcludeFields = getattr(self, 'inlineExcludeFields', set())
+        allToManyFields = getattr(self, 'allToManyFields', set())
         imageFields = getattr(self, 'imageFields', set())
         rawTimeFields = getattr(self, 'rawTimeFields', set())
         idName = getattr(self, 'idName', None)
+        extraFieldNames = getattr(self, 'extraFieldNames', [])
     
         # get default serialized json dictionary for object instance
         # note that because the serializer requires an iterable and we only have
@@ -31,11 +32,14 @@ class JsonableModel(models.Model):
         jsonDict = jsonDict['fields']
         
         # make sure to use .keys, since we'll be editing the dictionary as we go
-        for fieldName in jsonDict.keys():
+        for fieldName in (jsonDict.keys() + extraFieldNames):
             fieldVal = getattr(self, fieldName)
-            if fieldName in inlineExcludeFields:
+            # only show one level of recursion for any manyToMany or oneToMany
+            # relations
+            if fieldName in allToManyFields:
                 if inline:
-                    del(jsonDict[fieldName])
+                    if fieldName in jsonDict:
+                        del(jsonDict[fieldName])
                 else:
                     # map each instance of a related model to a parsed version 
                     # for inline-embedding
@@ -59,7 +63,7 @@ class JsonableModel(models.Model):
                 # python datetime only tracks seconds, so multiply 
                 # timestamp for the json dict
                 jsonDict[rawFieldName] = seconds * 1000
-                
+            
         if idName is not None:
             assert idName not in jsonDict
             jsonDict[idName] = self.pk
@@ -71,14 +75,15 @@ class Event(JsonableModel):
     date_time = models.DateTimeField(verbose_name="Date & Time")
     description = models.TextField(blank=True)
     participants = models.ManyToManyField('AppUser')
-    locations = models.ManyToManyField('Location', blank=True)
     
-    inlineExcludeFields = {'participants', 'locations'}
+    extraFieldNames = ["locations"]
+    allToManyFields = {'participants', 'locations'}
+    
     rawTimeFields = {'date_time'}
     idName = "eid"
     
     def __unicode__(self):
-        return u"%s at %s" % (self.title, self.date_time)
+        return u"%s at %s (eid: %s)" % (self.title, self.date_time, self.eid)
 
         
 # ugh, super insecure, but since we insisted on facebook authentication and
@@ -104,12 +109,12 @@ class AppUser(JsonableModel):
                                           
     friends = models.ManyToManyField('self', related_name="friends", blank=True) 
     
-    inlineExcludeFields = {'participating', 'friends'}
+    allToManyFields = {'participating', 'friends'}
     imageFields = {'prof_pic'}
     idName = "uid"
     
     def __unicode__(self):
-        return u'%s, %s' % (self.last_name, self.first_name)
+        return u'%s, %s (uid: %s)' % (self.last_name, self.first_name, self.uid)
         
 
 class Location(JsonableModel):
@@ -118,13 +123,13 @@ class Location(JsonableModel):
     friendly_name = models.CharField(max_length=128, blank=True)
     link = models.URLField(blank=True)
     num_votes = models.PositiveIntegerField(default=0)
-    eventsHere = models.ManyToManyField(Event, blank=True, 
-                                        through=Event.locations.through)
+    eventHere = models.ForeignKey(Event, related_name="locations", 
+                                  null=True, blank=True)
     
-    inlineExcludeFields = {'eventsHere'}
     idName = 'id'
     
     def __unicode__(self):
-        return u"%.3f, %.3f: %s" % (self.lat, self.lng, self.friendly_name)
+        return u"(id: %s) %.3f, %.3f: %s " % (self.id, self.lat, self.lng, 
+                                              self.friendly_name)
         
         

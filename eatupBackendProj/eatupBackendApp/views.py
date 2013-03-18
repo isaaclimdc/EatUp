@@ -120,6 +120,9 @@ def locationDictToObject(locDict, allowCreation=True, allowEditing=False):
     return two values:
       - a Location object, if validation passes, None otherwise
       - None if validation passes, an error message otherwise
+      
+    NOTE: does not handle saving the eventHere relationship, this is left to 
+    the caller
     '''
     # first, parse out the location's attributes
     latitude = locDict.get('lat')
