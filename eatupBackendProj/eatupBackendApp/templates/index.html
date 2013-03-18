@@ -23,7 +23,8 @@ $(document).ready(function(){
                         link: "http://google.com",
                         friendly_name: "ugh"
                     }
-                  ]    
+                  ],
+                  host: 777
                };
     $.ajax({
         url: 'create/event/',
@@ -47,7 +48,7 @@ $(document).ready(function(){
         // "https://www.google.com/webhp?hl=en&tab=ww",
         // "https://dsf-djangosnippets.s3.amazonaws.com/img/logo.gif",
         //"http://upload.wikimedia.org/wikipedia/commons/a/a9/Example.jpg",
-        participating: [1,2],
+        participating: [1],
         friends: [12345, 67890]
     };
     

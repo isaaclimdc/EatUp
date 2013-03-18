@@ -74,7 +74,9 @@ class Event(JsonableModel):
     title = models.CharField(max_length=128, blank=True)
     date_time = models.DateTimeField(verbose_name="Date & Time")
     description = models.TextField(blank=True)
-    participants = models.ManyToManyField('AppUser')
+    
+    host = models.ForeignKey('AppUser', related_name="hosting")
+    participants = models.ManyToManyField('AppUser', blank=True)
     
     extraFieldNames = ["locations"]
     allToManyFields = {'participants', 'locations'}
@@ -123,8 +125,8 @@ class Location(JsonableModel):
     friendly_name = models.CharField(max_length=128, blank=True)
     link = models.URLField(blank=True)
     num_votes = models.PositiveIntegerField(default=0)
-    host = models.ForeignKey(Event, related_name="locations", 
-                                    null=True, blank=True)
+    eventHere = models.ForeignKey(Event, related_name="locations", 
+                                  null=True, blank=True)
     
     idName = 'id'
     

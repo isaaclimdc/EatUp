@@ -259,6 +259,7 @@ def createEvent(request):
     # cross domain policy
     dataDict = request.REQUEST
     
+    newHostId = dataDict.get("host")
     newTitle = dataDict.get("title", "")
     newDesc = dataDict.get("description", "")
     newTimestamp = parseIntOrNone(dataDict.get("timestamp"))
@@ -277,6 +278,16 @@ def createEvent(request):
         newDateTime = datetime.datetime.fromtimestamp(newTimestamp, utc)
     except ValueError:
         return createErrorDict('invalid timestamp')
+    
+    # parse out host ID to the AppUser object
+    if newHostId is None:
+        return createErrorDict("host user's ID is required")
+    parsedHostId = parseIntOrNone(newHostId)
+    if parsedHostId is None:
+        return createErrorDict("invalid format for host user ID given")
+    hostUser = get_object_or_None(AppUser, uid=parsedHostId)
+    if hostUser is None:
+        return createErrorDict("invalid host user ID given")
     
     # parse out list of participant users
     if len(newParticipantIds) == 0:
@@ -311,7 +322,7 @@ def createEvent(request):
             
     # finally create the event object itself        
     newEvent = Event(title=newTitle, description=newDesc,
-                     date_time=newDateTime)
+                     date_time=newDateTime, host=hostUser)
     try:
         newEvent.full_clean()
     except Exception as e:
