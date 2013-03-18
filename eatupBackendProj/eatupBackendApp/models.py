@@ -123,8 +123,8 @@ class Location(JsonableModel):
     friendly_name = models.CharField(max_length=128, blank=True)
     link = models.URLField(blank=True)
     num_votes = models.PositiveIntegerField(default=0)
-    eventHere = models.ForeignKey(Event, related_name="locations", 
-                                  null=True, blank=True)
+    host = models.ForeignKey(Event, related_name="locations", 
+                                    null=True, blank=True)
     
     idName = 'id'
     

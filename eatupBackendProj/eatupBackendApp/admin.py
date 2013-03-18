@@ -13,7 +13,7 @@ class AppUserAdmin(admin.ModelAdmin):
     list_display = ('uid', 'last_name', 'first_name')
   
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'lat', 'lng', 'friendly_name', 'eventHere')
+    list_display = ('id', 'lat', 'lng', 'friendly_name', 'host')
   
 # makes these models available on the admin console
 admin.site.register(Event, EventAdmin)
