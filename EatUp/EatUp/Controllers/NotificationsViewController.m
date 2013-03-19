@@ -1,114 +1,49 @@
 //
-//  EventsViewController.m
+//  NotificationsViewController.m
 //  EatUp
 //
-//  Created by Isaac Lim on 3/2/13.
+//  Created by Isaac Lim on 3/18/13.
 //  Copyright (c) 2013 isaacl.net. All rights reserved.
 //
 
-#import "EventsViewController.h"
+#import "NotificationsViewController.h"
 
-@interface EventsViewController () {
+@interface NotificationsViewController ()
+{
     NSMutableArray *events;
-    NSMutableArray *users;
     ILHTTPClient *client;
 }
-
 @end
 
-@implementation EventsViewController
+@implementation NotificationsViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    /* Fade out splash screen */
-    UIImageView *splash = [[UIImageView alloc] initWithFrame:
-                           CGRectMake(0, -20,
-                                      self.navigationController.view.frame.size.width,
-                                      self.navigationController.view.frame.size.height+20)];
-
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        if ([[UIScreen mainScreen] bounds].size.height > 480.0f) {
-            /* iPhone 5 */
-            splash.image = [UIImage imageNamed:@"Default-568h@2x.png"];
-        } else {
-            /* iPhone */
-            splash.image = [UIImage imageNamed:@"Default.png"];
-        }
-    } else {
-        /* iPad */
-    }
-
-    [self.navigationController.view addSubview:splash];
-    [UIView animateWithDuration:0.2 animations:^{
-        splash.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        [splash removeFromSuperview];
-    }];
-
     /* Initialize data arrays and HTTP client */
     events = [NSMutableArray array];
-    users = [NSMutableArray array];
     client = [ILHTTPClient clientWithBaseURL:kEUBaseURL showingHUDInView:self.view];
 
-    [self fetchUsersWithSuccessHandler:^{
-        [self fetchData];
-    }];
-    
-    UIImageView *titleIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
-    titleIcon.center = self.navigationController.navigationBar.center;
-    [self.navigationController.navigationBar addSubview:titleIcon];
-    
+    [self fetchData];
 
     self.navigationItem.leftBarButtonItem =
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"menu.png"]
                         selectedImage:[UIImage imageNamed:@"menuSelected.png"]
                                target:self
                                action:@selector(showSideMenu)];
-
-    self.navigationItem.rightBarButtonItem =
-    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"add.png"]
-                        selectedImage:[UIImage imageNamed:@"addSelected.png"]
-                               target:self
-                               action:@selector(showNewEvent)];
-}
-
-- (void)fetchUsersWithSuccessHandler:(void (^)(void))success
-{
-    /* GET the database of users (FOR PROTOTYPE ONLY) */
-    [client getPath:@"sampleusers.json"
-         parameters:nil
-        loadingText:@"Getting ready"
-        successText:nil
-            success:^(AFHTTPRequestOperation *operation, NSString *response) {
-                NSArray *allUsers = [[response JSONValue] objectForKey:@"users"];
-
-                for (NSDictionary *dict in allUsers) {
-                    EUUser *user = [EUUser userFromParams:dict];
-                    [users addObject:user];
-                }
-                
-                [client forceHideHUD];
-                success();
-            }
-            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error when fetching users: %@", error);
-            }
-     ];
 }
 
 - (void)fetchData
 {
     /* GET the user's events data */
-    [client getPath:@"sampledata.json"
+    [client getPath:@"samplenotifications.json"
          parameters:nil
-        loadingText:@"Fetching data"
+        loadingText:@"Updating notifications"
         successText:nil
             success:^(AFHTTPRequestOperation *operation, NSString *response) {
                 NSDictionary *resDict = [response JSONValue];
-//                NSLog(@"%@", resDict);
-//                NSDictionary *myInfo = [resDict objectForKey:@"me"];
+                //                NSLog(@"%@", resDict);
 
                 NSDictionary *eventsTmp = [resDict objectForKey:@"events"];
                 for (NSDictionary *dict in eventsTmp) {
@@ -123,13 +58,6 @@
                 NSLog(@"Error when fetching data: %@", error);
             }
      ];
-}
-
-- (void)showNewEvent
-{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    UINavigationController *newEventNC = [storyboard instantiateViewControllerWithIdentifier:@"NewEventNavController"];
-    [self presentViewController:newEventNC animated:YES completion:nil];
 }
 
 - (void)showSideMenu
@@ -178,14 +106,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"EventCell";
-    EUEventCell *cell = (EUEventCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-
+    static NSString *CellIdentifier = @"NotificationsCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
     // Configure the cell...
-    NSUInteger row = indexPath.row;
-    EUEvent *event = [events objectAtIndex:row];
-    [cell populateWithEvent:event];
-
+    EUEvent *event = [events objectAtIndex:indexPath.row];
+    cell.textLabel.text = event.title;
+    cell.detailTextLabel.text = [event dateString];
+    
     return cell;
 }
 
@@ -198,6 +126,7 @@
                                                          bundle:nil];
     EventViewController *eventVC =
     [storyboard instantiateViewControllerWithIdentifier:@"EventViewController"];
+    eventVC.title = @"Notifications";
     EUEvent *event = [events objectAtIndex:indexPath.row];
     eventVC.event = event;
 

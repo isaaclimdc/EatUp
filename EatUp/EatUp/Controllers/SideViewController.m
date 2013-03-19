@@ -38,6 +38,28 @@
     alert.delegate = self;
 }
 
+- (void)scheduleAlarmForDate:(NSDate *)date withMessage:(NSString *)msg
+{
+    UIApplication *app = [UIApplication sharedApplication];
+    NSArray *old = [app scheduledLocalNotifications];
+
+    // Clear out the old notification before scheduling a new one.
+    if (old.count > 0)
+        [app cancelAllLocalNotifications];
+
+    // Create a new notification.
+    UILocalNotification *alarm = [[UILocalNotification alloc] init];
+    if (alarm) {
+        alarm.fireDate = date;
+        alarm.timeZone = [NSTimeZone defaultTimeZone];
+        alarm.repeatInterval = 0;
+        alarm.soundName = @"Glass.aiff";
+        alarm.alertBody = msg;
+
+        [app scheduleLocalNotification:alarm];
+    }
+}
+
 #pragma mark - ILAlertViewDelegate Methods
 
 - (void)alertView:(ILAlertView *)alertView tappedButtonAtIndex:(NSInteger)buttonIndex
@@ -92,8 +114,14 @@
         case 0:
             [self showViewController:@"EventsNavController"];
             break;
+        case 2:
+            [self showViewController:@"NotificationsNavController"];
+            break;
         case 3:
             [self showViewController:@"SettingsNavController"];
+            break;
+        case 4:
+            [self scheduleAlarmForDate:[NSDate dateWithTimeIntervalSinceNow:5] withMessage:@"Invitation to \"Breakfast at Grandma's\""];
             break;
         case 5:
             [self showLogoutConfirmation];

@@ -36,6 +36,7 @@
 #define kEURequestKeyEventTitle @"title"
 #define kEURequestKeyEventDateTime @"date_time"
 #define kEURequestKeyEventDescription @"description"
+#define kEURequestKeyEventHost @"host"
 #define kEURequestKeyEventParticipants @"participants"
 #define kEURequestKeyEventLocations @"locations"
 

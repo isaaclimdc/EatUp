@@ -16,14 +16,15 @@
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSDate *dateTime;
 @property (strong, nonatomic) NSString *description;
-@property (strong, nonatomic) NSMutableArray *participants;  /* Array of uid */
+@property (nonatomic) double host;
+@property (strong, nonatomic) NSMutableArray *participants;  /* Array of partial EUUser */
 @property (strong, nonatomic) NSMutableArray *locations;  /* Array of EULocation */
 
 + (EUEvent *)eventFromParams:(NSDictionary *)params;
 
 - (NSString *)dateString;
 - (NSString *)participantsString;
-- (NSString *)locationsString;
+- (NSAttributedString *)locationsString;
 
 - (NSDictionary *)semiSerialize;
 - (NSDictionary *)serialize;

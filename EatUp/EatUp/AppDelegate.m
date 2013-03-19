@@ -52,6 +52,18 @@
     return YES;
 }
 
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(NSDictionary *)userInfo
+{
+    if (userInfo != nil) {
+        NSLog(@"Launched from push notification: %@", userInfo);
+        
+        // Do something with the notification dictionary
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        UIViewController *VC = [storyboard instantiateViewControllerWithIdentifier:@"NotificationsNavController"];
+        [revealController setFrontViewController:VC focusAfterChange:YES completion:nil];
+    }
+}
+
 - (void)setupAppearances
 {
     self.window.backgroundColor = [UIColor whiteColor];

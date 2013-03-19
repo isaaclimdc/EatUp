@@ -24,6 +24,7 @@
     event.dateTime = [df dateFromString:[params objectForKey:kEURequestKeyEventDateTime]];
 
     event.description = [params objectForKey:kEURequestKeyEventDescription];
+    event.host = [[params objectForKey:kEURequestKeyEventHost] doubleValue];
 
     NSMutableArray *parts = [NSMutableArray array];
     for (NSDictionary *partsDict in [params objectForKey:kEURequestKeyEventParticipants]) {
@@ -80,12 +81,12 @@
 }
 
 /* Transform the locations array into a Facebook-like friendly string */
-- (NSString *)locationsString
+- (NSAttributedString *)locationsString
 {
     NSInteger count = self.locations.count;
 
     if (count == 0) {
-        return @"No location yet";
+        return [[NSMutableAttributedString alloc] initWithString:@"No location yet"];
     }
 
     EULocation *location0 = self.locations[0];
@@ -96,7 +97,14 @@
         result = [result stringByAppendingFormat:@" or %d other%@", numLeft, numLeft > 1 ? @"s" : @""];
     }
 
-    return result;
+    NSMutableAttributedString *attrResult = [[NSMutableAttributedString alloc] initWithString:result];
+    [attrResult addAttributes:@{
+                                NSForegroundColorAttributeName : [UIColor blueColor],
+                                NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleSingle]
+                                }
+                        range:NSMakeRange(1, attrResult.length-1)];
+
+    return attrResult;
 }
 
 - (NSDictionary *)semiSerialize
@@ -105,7 +113,8 @@
                            kEURequestKeyEventEID : [NSNumber numberWithDouble:self.eid],
                            kEURequestKeyEventTitle : self.title,
                            kEURequestKeyEventDateTime : self.dateTime,
-                           kEURequestKeyEventDescription : self.description
+                           kEURequestKeyEventDescription : self.description,
+                           kEURequestKeyEventHost : [NSNumber numberWithDouble:self.host]
                            };
 
     return dict;
@@ -114,7 +123,7 @@
 - (NSDictionary *)serialize
 {
     NSMutableDictionary *dict = [[self semiSerialize] mutableCopy];
-    
+
     /* Partially serialize the participating users */
     NSMutableArray *serialParts = [NSMutableArray array];
     for (EUUser *user in self.participants) {

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
 #import "SettingsViewController.h"
+#import "NotificationsViewController.h"
+#import "EventViewController.h"
 
 @interface SideViewController : UITableViewController <ILAlertViewDelegate>
 

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EUEventView.h"
 
-@interface EventViewController : UIViewController {
+@interface EventViewController : UIViewController <ILAlertViewDelegate> {
     EUEventView *eventView;
 }
 

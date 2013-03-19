@@ -84,17 +84,13 @@
     self.titleLabel.text = self.event.title;
     self.descriptionTextView.text = self.event.description;
     [self autoResize:descriptionTextView];
-    self.locationLabel.text = [self.event locationsString];
+    self.locationLabel.attributedText = [self.event locationsString];
 
     /* Populate side scroll view */
     NSMutableArray *items = [NSMutableArray array];
     for (EUUser *participant in self.event.participants) {
         ILSideScrollViewItem *item = [ILSideScrollViewItem item];
         item.defaultBackgroundImage = participant.profPic;
-//        item.titleFont = kEUFontTitle;
-//        item.defaultTitleColor = kEUMainColor;
-//        item.title = [NSString stringWithFormat:@"%c %c", [participant.firstName characterAtIndex:0],
-//                                                          [participant.lastName characterAtIndex:0]];
         [item setTarget:self action:@selector(pictureTapped:) withObject:participant];
         [items addObject:item];
     }
