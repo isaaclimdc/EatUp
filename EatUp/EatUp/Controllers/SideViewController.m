@@ -20,7 +20,12 @@
 {
     [super viewDidLoad];
 
-    entries = [NSArray arrayWithObjects:@"Home", @"Account", @"Notifications", @"Settings", @"About", @"Logout", nil];
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *version = [NSString stringWithFormat:@"Version %@.%@",
+                         [infoDict objectForKey:@"CFBundleShortVersionString"],
+                         [infoDict objectForKey:@"CFBundleVersion"]];
+
+    entries = [NSArray arrayWithObjects:@"Home", @"Account", @"Notifications", @"Settings", @"About", @"Logout", version, nil];
 }
 
 - (IBAction)showViewController:(NSString *)VCId
@@ -96,7 +101,15 @@
     // Configure the cell...
     NSUInteger row = indexPath.row;
     cell.textLabel.text = [entries objectAtIndex:row];
-    cell.textLabel.font = kEUFontTextBold;
+
+    if (row == entries.count-1) {
+        cell.textLabel.font = kEUFontTextItalic;
+        cell.textLabel.textColor = [UIColor lightGrayColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    else {
+        cell.textLabel.font = kEUFontTextBold;
+    }
 
     UIView *bgColorView = [[UIView alloc] init];
     [bgColorView setBackgroundColor:kEUMainColor];
@@ -121,7 +134,7 @@
             [self showViewController:@"SettingsNavController"];
             break;
         case 4:
-            [self scheduleAlarmForDate:[NSDate dateWithTimeIntervalSinceNow:5] withMessage:@"Invitation to \"Breakfast at Grandma's\""];
+            [self scheduleAlarmForDate:[NSDate dateWithTimeIntervalSinceNow:5] withMessage:@"Invitation to \"Breakfast at Grandma's\" @ 32 Withrow Street"];
             break;
         case 5:
             [self showLogoutConfirmation];

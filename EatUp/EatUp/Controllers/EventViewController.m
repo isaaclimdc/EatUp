@@ -57,10 +57,10 @@
 
 - (IBAction)showStatusAlert:(id)sender
 {
-    NSString *title = [NSString stringWithFormat:@"Invitation to %@", self.event.title];
+    NSString *msg = [NSString stringWithFormat:@"The host of \"%@\" will be notified of your RSVP. You may change your response at any time.", self.event.title];
 
-    ILAlertView *alert = [ILAlertView showWithTitle:title
-                                            message:@"The event host will be notified of your RSVP. You may change your response at any time."
+    ILAlertView *alert = [ILAlertView showWithTitle:@"RSVP to this event"
+                                            message:msg
                                    closeButtonTitle:@"Decline"
                                   secondButtonTitle:@"Accept"];
     alert.tag = 100;

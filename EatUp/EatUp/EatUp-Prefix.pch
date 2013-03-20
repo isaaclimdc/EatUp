@@ -20,6 +20,7 @@
     #import "ILAlertView.h"
     #import "ILBarButtonItem.h"
     #import "ILSideScrollView.h"
+    #import "UIColor+ILHexStringColor.h"
     #import "PKRevealController.h"
     #import "UIImage+Additions_568.h"
 

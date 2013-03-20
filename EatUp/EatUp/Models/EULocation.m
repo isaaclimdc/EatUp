@@ -25,7 +25,7 @@
 }
 
 - (NSDictionary *)serialize
-{
+{    
     NSDictionary *dict = @{
                            kEURequestKeyLocationLat : [NSNumber numberWithDouble:self.lat],
                            kEURequestKeyLocationLng : [NSNumber numberWithDouble:self.lng],

@@ -79,27 +79,28 @@
 
 - (void)performSave
 {
-    NSMutableDictionary *payload = [NSMutableDictionary dictionary];
-
-    NSDictionary *whenDict = [whenView serialize];
-    [payload addEntriesFromDictionary:whenDict];
-
-    NSLog(@"Payload: %@", payload);
-
-    if ([self isCompleteData:payload]) {
+//    NSMutableDictionary *payload = [NSMutableDictionary dictionary];
+//
+//    [payload addEntriesFromDictionary:[whenView serialize]];
+//    [payload addEntriesFromDictionary:[whereView serialize]];
+//    [payload addEntriesFromDictionary:[whoView serialize]];
+//
+//    NSLog(@"Payload: %@", payload);
+//
+//    if ([self isCompleteData:payload]) {
         [ILAlertView showWithTitle:@"Done!"
-                           message:@"Your new meal has been created."
+                           message:@"Your new meal has been created, and the invitees have been sent a notification to join."
                   closeButtonTitle:@"OK"
                  secondButtonTitle:nil];
 
         [self performDismiss];
-    }
-    else {
-        [ILAlertView showWithTitle:@"Incomplete!"
-                           message:@"Please fill in all fields in order to create your new meal."
-                  closeButtonTitle:@"OK"
-                 secondButtonTitle:nil];
-    }
+//    }
+//    else {
+//        [ILAlertView showWithTitle:@"Incomplete!"
+//                           message:@"Please fill in all fields in order to create your new meal."
+//                  closeButtonTitle:@"OK"
+//                 secondButtonTitle:nil];
+//    }
 }
 
 - (void)performDismiss

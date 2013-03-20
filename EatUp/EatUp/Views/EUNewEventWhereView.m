@@ -21,6 +21,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        location = [[EULocation alloc] init];
+        
         CGFloat width = frame.size.width - kEUNewEventBuffer*2;
 
         /* Location */
