@@ -10,16 +10,16 @@
 
 @implementation ILSelectionViewCategory
 
-@synthesize buttonImage, selectedButtonImage, contentView;
+@synthesize activeButtonImage, inactiveButtonImage, contentView;
 
-+ (ILSelectionViewCategory *)categoryWithButtonImage:(UIImage *)buttonImage
-                                 selectedButtonImage:(UIImage *)selectedButtonImage
-                                        contentView:(UIView *)contentView
++ (ILSelectionViewCategory *)categoryWithActiveButtonImage:(UIImage *)activeButtonImage
+                                       inactiveButtonImage:(UIImage *)inactiveButtonImage
+                                               contentView:(UIView *)contentView
 {
     ILSelectionViewCategory *category = [[ILSelectionViewCategory alloc] init];
     
-    category.buttonImage = buttonImage;
-    category.selectedButtonImage = selectedButtonImage;
+    category.activeButtonImage = activeButtonImage;
+    category.inactiveButtonImage = inactiveButtonImage;
     category.contentView = contentView;
     
     return category;

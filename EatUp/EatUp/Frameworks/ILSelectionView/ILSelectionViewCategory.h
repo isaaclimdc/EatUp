@@ -10,12 +10,12 @@
 
 @interface ILSelectionViewCategory : NSObject
 
-@property (strong, nonatomic) UIImage *buttonImage;
-@property (strong, nonatomic) UIImage *selectedButtonImage;
+@property (strong, nonatomic) UIImage *activeButtonImage;
+@property (strong, nonatomic) UIImage *inactiveButtonImage;
 @property (strong, nonatomic) UIView *contentView;
 
-+ (ILSelectionViewCategory *)categoryWithButtonImage:(UIImage *)buttonImage
-                                 selectedButtonImage:(UIImage *)selectedButtonImage
-                                         contentView:(UIView *)contentView;
++ (ILSelectionViewCategory *)categoryWithActiveButtonImage:(UIImage *)activeButtonImage
+                                       inactiveButtonImage:(UIImage *)inactiveButtonImage
+                                               contentView:(UIView *)contentView;
 
 @end

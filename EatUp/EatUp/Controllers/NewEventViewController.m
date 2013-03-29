@@ -47,27 +47,30 @@
 
     /* "When" view */
     whenView = [[EUNewEventWhenView alloc] initWithFrame:sView.frame];
-    ILSelectionViewCategory *whenCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"whenButton.png"]
-                                                                    selectedButtonImage:[UIImage imageNamed:@"whenButtonSelected.png"]
-                                                                            contentView:whenView];
+    ILSelectionViewCategory *whenCat =
+    [ILSelectionViewCategory categoryWithActiveButtonImage:[UIImage imageNamed:@"whenButtonActive.png"]
+                                       inactiveButtonImage:[UIImage imageNamed:@"whenButtonInactive.png"]
+                                               contentView:whenView];
 
     /* "Where" view */
     whereView = [[EUNewEventWhereView alloc] initWithFrame:sView.frame];
-    ILSelectionViewCategory *whereCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"whereButton.png"]
-                                                                     selectedButtonImage:[UIImage imageNamed:@"whereButtonSelected.png"]
-                                                                             contentView:whereView];
+    ILSelectionViewCategory *whereCat =
+    [ILSelectionViewCategory categoryWithActiveButtonImage:[UIImage imageNamed:@"whereButtonActive.png"]
+                                       inactiveButtonImage:[UIImage imageNamed:@"whereButtonInactive.png"]
+                                               contentView:whereView];
 
     /* "Who" view */
     whoView = [[EUNewEventWhoView alloc] initWithFrame:sView.frame];
-    ILSelectionViewCategory *whoCat = [ILSelectionViewCategory categoryWithButtonImage:[UIImage imageNamed:@"whoButton.png"]
-                                                                   selectedButtonImage:[UIImage imageNamed:@"whoButtonSelected.png"]
-                                                                           contentView:whoView];
+    ILSelectionViewCategory *whoCat =
+    [ILSelectionViewCategory categoryWithActiveButtonImage:[UIImage imageNamed:@"whoButtonActive.png"]
+                                       inactiveButtonImage:[UIImage imageNamed:@"whoButtonInactive.png"]
+                                               contentView:whoView];
 
     [sView populateWithCategories:[NSArray arrayWithObjects:whenCat, whereCat, whoCat, nil]];
     sView.contentView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
     sView.contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     sView.contentView.layer.borderWidth = 1.0;
-    
+
     [self.view addSubview:sView];
 }
 
@@ -79,28 +82,28 @@
 
 - (void)performSave
 {
-//    NSMutableDictionary *payload = [NSMutableDictionary dictionary];
-//
-//    [payload addEntriesFromDictionary:[whenView serialize]];
-//    [payload addEntriesFromDictionary:[whereView serialize]];
-//    [payload addEntriesFromDictionary:[whoView serialize]];
-//
-//    NSLog(@"Payload: %@", payload);
-//
-//    if ([self isCompleteData:payload]) {
-        [ILAlertView showWithTitle:@"Done!"
-                           message:@"Your new meal has been created, and the invitees have been sent a notification to join."
-                  closeButtonTitle:@"OK"
-                 secondButtonTitle:nil];
+    //    NSMutableDictionary *payload = [NSMutableDictionary dictionary];
+    //
+    //    [payload addEntriesFromDictionary:[whenView serialize]];
+    //    [payload addEntriesFromDictionary:[whereView serialize]];
+    //    [payload addEntriesFromDictionary:[whoView serialize]];
+    //
+    //    NSLog(@"Payload: %@", payload);
+    //
+    //    if ([self isCompleteData:payload]) {
+    [ILAlertView showWithTitle:@"Done!"
+                       message:@"Your new meal has been created, and the invitees have been sent a notification to join."
+              closeButtonTitle:@"OK"
+             secondButtonTitle:nil];
 
-        [self performDismiss];
-//    }
-//    else {
-//        [ILAlertView showWithTitle:@"Incomplete!"
-//                           message:@"Please fill in all fields in order to create your new meal."
-//                  closeButtonTitle:@"OK"
-//                 secondButtonTitle:nil];
-//    }
+    [self performDismiss];
+    //    }
+    //    else {
+    //        [ILAlertView showWithTitle:@"Incomplete!"
+    //                           message:@"Please fill in all fields in order to create your new meal."
+    //                  closeButtonTitle:@"OK"
+    //                 secondButtonTitle:nil];
+    //    }
 }
 
 - (void)performDismiss

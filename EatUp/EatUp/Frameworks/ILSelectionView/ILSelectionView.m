@@ -19,7 +19,9 @@
 @property (strong, nonatomic) UIView *contentView1;
 @property (strong, nonatomic) UIView *contentView2;
 @property (strong, nonatomic) UIView *contentView3;
-
+@property (strong, nonatomic) UIButton *button1;
+@property (strong, nonatomic) UIButton *button2;
+@property (strong, nonatomic) UIButton *button3;
 @end
 
 @implementation ILSelectionView
@@ -73,8 +75,8 @@
                                btnWidth,
                                kILSelectionViewBtnHeight);
 
-        [btn setBackgroundImage:category.buttonImage forState:UIControlStateNormal];
-        [btn setBackgroundImage:category.selectedButtonImage forState:UIControlStateHighlighted];
+        [btn setBackgroundImage:category.inactiveButtonImage forState:UIControlStateNormal];
+        [btn setBackgroundImage:category.activeButtonImage forState:UIControlStateHighlighted];
         [btn addTarget:self action:@selector(categoryTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
 
@@ -88,12 +90,18 @@
                                         self.contentView.frame.size.height);
         [self.contentView addSubview:contentViewi];
 
-        if (i == 0)
+        if (i == 0) {
             self.contentView1 = contentViewi;
-        else if (i == 1)
+            self.button1 = btn;
+        }
+        else if (i == 1) {
             self.contentView2 = contentViewi;
-        else if (i == 2)
+            self.button2 = btn;
+        }
+        else if (i == 2) {
             self.contentView3 = contentViewi;
+            self.button3 = btn;
+        }
     }
 
     /* Indicator */
@@ -107,6 +115,34 @@
 - (void)changeToCategoryAtIndex:(NSUInteger)index
 {
     assert(self.categories.count > index);
+
+    /* Change category buttons */
+    ILSelectionViewCategory *cat1 = [self.categories objectAtIndex:0];
+    ILSelectionViewCategory *cat2 = [self.categories objectAtIndex:1];
+    ILSelectionViewCategory *cat3 = [self.categories objectAtIndex:2];
+    UIImage *cat1Img;
+    UIImage *cat2Img;
+    UIImage *cat3Img;
+    
+    if (index == 0) {
+        cat1Img = cat1.activeButtonImage;
+        cat2Img = cat2.inactiveButtonImage;
+        cat3Img = cat3.inactiveButtonImage;
+    }
+    else if (index == 1) {
+        cat1Img = cat1.inactiveButtonImage;
+        cat2Img = cat2.activeButtonImage;
+        cat3Img = cat3.inactiveButtonImage;
+    }
+    else if (index == 2) {
+        cat1Img = cat1.inactiveButtonImage;
+        cat2Img = cat2.inactiveButtonImage;
+        cat3Img = cat3.activeButtonImage;
+    }
+
+    [self.button1 setBackgroundImage:cat1Img forState:UIControlStateNormal];
+    [self.button2 setBackgroundImage:cat2Img forState:UIControlStateNormal];
+    [self.button3 setBackgroundImage:cat3Img forState:UIControlStateNormal];
 
     /* First hide the current one */
     UIView *oldContentView = [self contentViewForIndex:self.currentIndex];

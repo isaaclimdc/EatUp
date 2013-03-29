@@ -35,8 +35,19 @@
         locationLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:locationLabel];
 
+        UIButton *addLocButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        addLocButton.frame = CGRectMake(kEUNewEventBuffer,
+                                          CGFloatGetAfterY(locationLabel.frame),
+                                          width,
+                                          kEUNewEventRowHeight);
+        [addLocButton setTitle:@"Add a potential location" forState:UIControlStateNormal];
+        [addLocButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        addLocButton.titleLabel.font = kEUNewEventLabelFont;
+        [addLocButton addTarget:self action:@selector(showDateActionSheet:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:addLocButton];
+
         locationBox = [[UITextView alloc] initWithFrame:CGRectMake(kEUNewEventBuffer,
-                                                                   CGFloatGetAfterY(locationLabel.frame),
+                                                                   CGFloatGetAfterY(addLocButton.frame)+kEUNewEventBuffer,
                                                                    width,
                                                                    100.0f)];
         locationBox.backgroundColor = [UIColor whiteColor];

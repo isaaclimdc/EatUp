@@ -12,6 +12,7 @@
 {
     UIDatePicker *datePicker;
     UILabel *dateLabel;
+    UILabel *timeLabel;
     UITextView *titleBox;
     UITextView *descriptionBox;
 
@@ -39,9 +40,19 @@
         dateLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:dateLabel];
 
+        timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kEUNewEventBuffer,
+                                                              CGFloatGetAfterY(dateLabel.frame)-15,
+                                                              width,
+                                                              kEUNewEventRowHeight)];
+        timeLabel.text = [self timeString];
+        timeLabel.font = kEUNewEventBoxFont;
+        timeLabel.textAlignment = NSTextAlignmentCenter;
+        timeLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:timeLabel];
+
         UIButton *dateTimeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         dateTimeButton.frame = CGRectMake(kEUNewEventBuffer,
-                                          CGFloatGetAfterY(dateLabel.frame),
+                                          CGFloatGetAfterY(timeLabel.frame),
                                           width,
                                           kEUNewEventRowHeight);
         [dateTimeButton setTitle:@"Set event start time" forState:UIControlStateNormal];
@@ -136,6 +147,7 @@
     if (buttonIndex == 0) {
         eventDateTime = datePicker.date;
         dateLabel.text = [self dateString];
+        timeLabel.text = [self timeString];
     }
 }
 
@@ -147,6 +159,16 @@
     df.dateFormat = kEUDateFormat;
     df.dateStyle = NSDateFormatterFullStyle;
     return [df stringFromDate:eventDateTime];
+}
+
+- (NSString *)timeString
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:eventDateTime];
+    NSInteger hour = [components hour];
+    NSInteger minute = [components minute];
+    
+    return [NSString stringWithFormat:@"%d:%d %@", hour%12, minute, hour>=12 ? @"am": @"pm"];
 }
 
 static CGFloat CGFloatGetAfterY(CGRect rect) {
