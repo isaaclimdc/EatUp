@@ -26,12 +26,6 @@
                                target:self
                                action:@selector(goBack:)];
 
-//    self.navigationItem.rightBarButtonItem =
-//    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"reply.png"]
-//                        selectedImage:[UIImage imageNamed:@"replySelected.png"]
-//                               target:self
-//                               action:@selector(showStatusAlert:)];
-
     /* Initialize EUEventView */
     eventView = [EUEventView newEventViewWithFrame:CGRectMake(0,
                                                               0,

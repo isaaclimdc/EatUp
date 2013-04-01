@@ -22,7 +22,9 @@
 
 + (EUEvent *)eventFromParams:(NSDictionary *)params;
 
-- (NSString *)dateString;
+- (NSString *)relativeDateString;
+- (NSString *)absoluteDateString;
+
 - (NSString *)participantsString;
 - (NSAttributedString *)locationsString;
 - (NSComparisonResult)compare:(EUEvent *)otherEvent;

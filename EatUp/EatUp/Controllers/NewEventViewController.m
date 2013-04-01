@@ -62,6 +62,7 @@
 
     /* "Who" view */
     whoView = [[EUNewEventWhoView alloc] initWithFrame:sView.frame];
+    whoView.viewController = self;
     ILSelectionViewCategory *whoCat =
     [ILSelectionViewCategory categoryWithActiveButtonImage:[UIImage imageNamed:@"whoButtonActive.png"]
                                        inactiveButtonImage:[UIImage imageNamed:@"whoButtonInactive.png"]
@@ -79,39 +80,52 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     UINavigationController *newLocNC = [storyboard instantiateViewControllerWithIdentifier:@"NewLocationNavController"];
+    NewLocationViewController *newLocVC = (NewLocationViewController *)newLocNC.topViewController;
+    newLocVC.delegate = whereView;
     [self presentViewController:newLocNC animated:YES completion:nil];
+}
+
+- (void)showNewInvitees
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    UINavigationController *newInvNC = [storyboard instantiateViewControllerWithIdentifier:@"NewInviteeNavController"];
+    NewInviteeViewController *newInvVC = (NewInviteeViewController *)newInvNC.topViewController;
+    newInvVC.delegate = whoView;
+    [self presentViewController:newInvNC animated:YES completion:nil];
 }
 
 - (BOOL)isCompleteData:(NSDictionary *)data
 {
-    if ([data objectForKey:kEURequestKeyEventTitle]) return NO;
+    if (![data objectForKey:kEURequestKeyEventTitle]) return NO;
+    if (![data objectForKey:kEURequestKeyEventDateTime]) return NO;
+    if (![data objectForKey:kEURequestKeyEventLocations]) return NO;
     return YES;
 }
 
 - (void)performSave
 {
-    //    NSMutableDictionary *payload = [NSMutableDictionary dictionary];
-    //
-    //    [payload addEntriesFromDictionary:[whenView serialize]];
-    //    [payload addEntriesFromDictionary:[whereView serialize]];
-    //    [payload addEntriesFromDictionary:[whoView serialize]];
-    //
-    //    NSLog(@"Payload: %@", payload);
-    //
-    //    if ([self isCompleteData:payload]) {
-    [ILAlertView showWithTitle:@"Done!"
-                       message:@"Your new meal has been created, and the invitees have been sent a notification to join."
-              closeButtonTitle:@"OK"
-             secondButtonTitle:nil];
+    NSMutableDictionary *payload = [NSMutableDictionary dictionary];
 
-    [self performDismiss];
-    //    }
-    //    else {
-    //        [ILAlertView showWithTitle:@"Incomplete!"
-    //                           message:@"Please fill in all fields in order to create your new meal."
-    //                  closeButtonTitle:@"OK"
-    //                 secondButtonTitle:nil];
-    //    }
+    [payload addEntriesFromDictionary:[whenView serialize]];
+    [payload addEntriesFromDictionary:[whereView serialize]];
+    [payload addEntriesFromDictionary:[whoView serialize]];
+
+    NSLog(@"Payload: %@", payload);
+
+    if ([self isCompleteData:payload]) {
+        [ILAlertView showWithTitle:@"Done!"
+                           message:@"Your new meal has been created, and the invitees have been sent a notification to join."
+                  closeButtonTitle:@"OK"
+                 secondButtonTitle:nil];
+
+        [self performDismiss];
+    }
+    else {
+        [ILAlertView showWithTitle:@"Incomplete!"
+                           message:@"Please fill in all fields in order to create your new meal."
+                  closeButtonTitle:@"OK"
+                 secondButtonTitle:nil];
+    }
 }
 
 - (void)performDismiss

@@ -37,6 +37,18 @@
     return user;
 }
 
++ (EUUser *)userFromFBGraphUser:(FBGraphObject<FBGraphUser> *)graphUser
+{
+    EUUser *user = [[EUUser alloc] init];
+    user.uid = [graphUser.id doubleValue];
+    user.firstName = graphUser.first_name;
+    user.lastName = graphUser.last_name;
+    user.profPic = [NSURL URLWithString:kEUFBUserProfPic(graphUser.id)];
+    user.participating = nil;
+    user.friends = nil;
+    return user;
+}
+
 - (NSString *)fullName
 {
     return [self.firstName stringByAppendingFormat:@" %@", self.lastName];

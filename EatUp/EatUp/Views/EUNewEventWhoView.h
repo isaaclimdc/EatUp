@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "TPKeyboardAvoidingScrollView.h"
+#import "NewInviteeViewController.h"
 
 /* Forward declare because inheriting from custom UIScrollView */
 @class TPKeyboardAvoidingScrollView;
 
 @interface EUNewEventWhoView : TPKeyboardAvoidingScrollView
+<NewInviteeViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+
+@property (strong, nonatomic) UIViewController *viewController;
 
 - (NSDictionary *)serialize;
 

@@ -93,6 +93,8 @@
 
     request.URL = [NSURL URLWithString:escapedString];
     [request prepare];
+
+    [MBProgressHUD fadeInHUDInView:resultsTable withText:@"Searching Yelp"];
     
     [fetcher fetchDataWithRequest:request
                          delegate:self
@@ -115,8 +117,8 @@
         }
 
         /* Done. Update UI */
-        NSLog(@"%d found", results.count);
         [resultsTable reloadData];
+        [MBProgressHUD fadeOutHUDInView:resultsTable withSuccessText:nil];
     }
 }
 
@@ -139,6 +141,12 @@
 //
 //    return YES;
 //}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self searchYelp:nil];
+    return NO;
+}
 
 #pragma mark - Table view data source
 
@@ -172,7 +180,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Need a NewLocationViewControllerDelegate
+    EULocation *location = [results objectAtIndex:indexPath.row];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.delegate didDismissWithNewLocation:location];
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -197,7 +207,7 @@
 {
     CLLocation *clloc = [[CLLocation alloc] initWithLatitude:loc.lat longitude:loc.lng];
     CLLocationDistance dist = [currentLocation distanceFromLocation:clloc];
-    float miles = dist / 1609.344;
+    float miles = dist * 0.000621371;
     return [NSString stringWithFormat:@"%.1f mi", miles];
 }
 

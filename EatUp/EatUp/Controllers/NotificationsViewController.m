@@ -112,7 +112,7 @@
     // Configure the cell...
     EUEvent *event = [events objectAtIndex:indexPath.row];
     cell.textLabel.text = event.title;
-    cell.detailTextLabel.text = [event dateString];
+    cell.detailTextLabel.text = [event relativeDateString];
     
     return cell;
 }

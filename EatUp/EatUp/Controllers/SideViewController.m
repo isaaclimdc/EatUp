@@ -25,7 +25,7 @@
                          [infoDict objectForKey:@"CFBundleShortVersionString"],
                          [infoDict objectForKey:@"CFBundleVersion"]];
 
-    entries = [NSArray arrayWithObjects:@"Home", @"Account", @"Notifications", @"Settings", @"About", @"Logout", version, nil];
+    entries = [NSArray arrayWithObjects:@"Home", @"Notifications", @"Settings", @"About", @"Logout", version, nil];
 }
 
 - (IBAction)showViewController:(NSString *)VCId
@@ -127,16 +127,16 @@
         case 0:
             [self showViewController:@"EventsNavController"];
             break;
-        case 2:
+        case 1:
             [self showViewController:@"NotificationsNavController"];
             break;
-        case 3:
+        case 2:
             [self showViewController:@"SettingsNavController"];
             break;
-        case 4:
+        case 3:
             [self scheduleAlarmForDate:[NSDate dateWithTimeIntervalSinceNow:5] withMessage:@"Invitation to \"Breakfast at Grandma's\" @ 32 Withrow Street"];
             break;
-        case 5:
+            case 4:
             [self showLogoutConfirmation];
             break;
         default:

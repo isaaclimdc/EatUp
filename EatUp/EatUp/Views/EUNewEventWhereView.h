@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "TPKeyboardAvoidingScrollView.h"
 #import "EULocation.h"
+#import "NewLocationViewController.h"
 
 /* Forward declare because inheriting from custom UIScrollView */
 @class TPKeyboardAvoidingScrollView;
 
 @interface EUNewEventWhereView : TPKeyboardAvoidingScrollView
+<NewLocationViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) UIViewController *viewController;
 

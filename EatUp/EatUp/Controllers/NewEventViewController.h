@@ -12,6 +12,7 @@
 #import "EUNewEventWhereView.h"
 #import "EUNewEventWhoView.h"
 #import "NewLocationViewController.h"
+#import "NewInviteeViewController.h"
 
 @interface NewEventViewController : UIViewController {
     ILSelectionView *sView;

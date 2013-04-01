@@ -43,11 +43,31 @@
     return event;
 }
 
-- (NSString *)dateString
+- (NSString *)relativeDateString
 {
     SORelativeDateTransformer *relativeDateTransformer = [[SORelativeDateTransformer alloc] init];
     NSString *relativeDate = [relativeDateTransformer transformedValue:self.dateTime];
     return relativeDate;
+}
+
+- (NSString *)absoluteDateString
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat = kEUDateFormat;
+    df.dateStyle = NSDateFormatterFullStyle;
+
+    NSString *res = [NSString stringWithFormat:@"%@ at %@", [df stringFromDate:self.dateTime], [self timeString]];
+    return res;
+}
+
+- (NSString *)timeString
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:self.dateTime];
+    NSInteger hour = [components hour];
+    NSInteger minute = [components minute];
+
+    return [NSString stringWithFormat:@"%2d:%02d %@", hour%12, minute, hour<12 ? @"am": @"pm"];
 }
 
 /* Transform the participants array into a Facebook-like friendly string */

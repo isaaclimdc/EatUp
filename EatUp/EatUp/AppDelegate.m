@@ -177,6 +177,7 @@
         }
         case FBSessionStateClosedLoginFailed: {
 //            NSLog(@"Login failed");
+            
             [ILAlertView showWithTitle:@"Login failed!"
                                message:@"It looks like the Facebook login was cancelled. Please try logging in again."
                       closeButtonTitle:@"OK"

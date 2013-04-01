@@ -212,7 +212,6 @@
     [storyboard instantiateViewControllerWithIdentifier:@"EventViewController"];
     EUEvent *event = [events objectAtIndex:indexPath.row];
     eventVC.event = event;
-
     [self customAnimationToViewController:eventVC];
 }
 

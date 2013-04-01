@@ -18,6 +18,7 @@
 @property (strong, nonatomic) NSMutableArray *friends;  /* Array of uid */
 
 + (EUUser *)userFromParams:(NSDictionary *)params;
++ (EUUser *)userFromFBGraphUser:(FBGraphObject<FBGraphUser> *)graphUser;
 
 - (NSString *)fullName;
 

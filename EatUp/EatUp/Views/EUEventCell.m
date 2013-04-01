@@ -35,7 +35,7 @@
 
     /* Put in text */
     self.titleLabel.text = event.title;
-    self.dateTimeLabel.text = [event dateString];
+    self.dateTimeLabel.text = [event relativeDateString];
     self.participantsLabel.text = [event participantsString];
 }
 

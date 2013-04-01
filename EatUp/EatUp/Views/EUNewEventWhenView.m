@@ -34,7 +34,7 @@
                                                               width,
                                                               kEUNewEventRowHeight)];
         eventDateTime = [NSDate date];
-        dateLabel.text = [self dateString];
+        dateLabel.text = [self absoluteDateString];
         dateLabel.font = kEUNewEventBoxFont;
         dateLabel.textAlignment = NSTextAlignmentCenter;
         dateLabel.backgroundColor = [UIColor clearColor];
@@ -148,14 +148,14 @@
 {
     if (buttonIndex == 0) {
         eventDateTime = datePicker.date;
-        dateLabel.text = [self dateString];
+        dateLabel.text = [self absoluteDateString];
         timeLabel.text = [self timeString];
     }
 }
 
 #pragma mark - Helper Methods
 
-- (NSString *)dateString
+- (NSString *)absoluteDateString
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat = kEUDateFormat;
@@ -170,7 +170,7 @@
     NSInteger hour = [components hour];
     NSInteger minute = [components minute];
     
-    return [NSString stringWithFormat:@"%d:%d %@", hour%12, minute, hour>=12 ? @"am": @"pm"];
+    return [NSString stringWithFormat:@"%2d:%02d %@", hour%12, minute, hour<12 ? @"am": @"pm"];
 }
 
 static CGFloat CGFloatGetAfterY(CGRect rect) {

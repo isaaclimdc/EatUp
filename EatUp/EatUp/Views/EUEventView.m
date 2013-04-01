@@ -87,7 +87,7 @@
 - (void)customizeForEvent:(EUEvent *)anEvent
 {
     self.event = anEvent;
-    self.dateTimeLabel.text = [self.event dateString];
+    self.dateTimeLabel.text = [self.event absoluteDateString];
     self.titleLabel.text = self.event.title;
     self.descriptionTextView.text = self.event.description;
     [self autoResize:descriptionTextView];

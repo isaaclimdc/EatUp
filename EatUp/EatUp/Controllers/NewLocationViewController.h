@@ -11,13 +11,24 @@
 #import "EULocation.h"
 #import <CoreLocation/CoreLocation.h>
 
+@class NewLocationViewController;
+
+@protocol NewLocationViewControllerDelegate <NSObject>
+
+- (void)didDismissWithNewLocation:(EULocation *)aLoc;
+
+@end
+
 @interface NewLocationViewController : UIViewController <UITextFieldDelegate, CLLocationManagerDelegate>
 {
     UITextField *searchBox;
     UITableView *resultsTable;
 }
 
+@property (nonatomic, weak) id <NewLocationViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UITextField *searchBox;
 @property (strong, nonatomic) IBOutlet UITableView *resultsTable;
+
+- (IBAction)searchYelp:(id)sender;
 
 @end
