@@ -15,6 +15,8 @@
 
 @interface EUNewEventWhereView : TPKeyboardAvoidingScrollView
 
+@property (strong, nonatomic) UIViewController *viewController;
+
 - (NSDictionary *)serialize;
 
 @end

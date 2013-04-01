@@ -171,7 +171,7 @@
     CGFloat width = self.frame.size.width;
 
     CGFloat x = (4*self.currentIndex+2)*width/12 - self.indicator.frame.size.width/2;
-    CGFloat y = self.contentView.frame.origin.y - self.indicator.frame.size.height;
+    CGFloat y = self.contentView.frame.origin.y - self.indicator.frame.size.height+1;
 
     CGRect rect = self.indicator.frame;
     rect.origin.x = x;

@@ -48,12 +48,11 @@
     }];
 
     /* Initialize data arrays and HTTP client */
-    events = [NSMutableArray array];
     users = [NSMutableArray array];
     client = [ILHTTPClient clientWithBaseURL:kEUBaseURL showingHUDInView:self.view];
 
     [self fetchUsersWithSuccessHandler:^{
-        [self fetchData];
+        [self fetchData:nil];
     }];
     
     UIImageView *titleIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
@@ -72,6 +71,11 @@
                         selectedImage:[UIImage imageNamed:@"addSelected.png"]
                                target:self
                                action:@selector(showNewEvent)];
+
+    /* Initialize Refresh Control */
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(fetchData:) forControlEvents:UIControlEventValueChanged];
+    [self setRefreshControl:refreshControl];
 }
 
 - (void)fetchUsersWithSuccessHandler:(void (^)(void))success
@@ -98,8 +102,10 @@
      ];
 }
 
-- (void)fetchData
+- (IBAction)fetchData:(id)sender
 {
+    events = [NSMutableArray array];
+    
     /* GET the user's events data */
     [client getPath:@"sampledata.json"
          parameters:nil
@@ -116,8 +122,14 @@
                     [events addObject:event];
                 }
 
+                /* Sort events reverse chronologically */
+                [events sortUsingComparator:^NSComparisonResult(EUEvent *event1, EUEvent *event2) {
+                    return [event1 compare:event2];
+                }];
+
                 /* Done fetching all data. Reload the UI */
                 [self.tableView reloadData];
+                [(UIRefreshControl *)sender endRefreshing];
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"Error when fetching data: %@", error);

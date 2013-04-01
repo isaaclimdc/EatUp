@@ -107,6 +107,11 @@
     return attrResult;
 }
 
+- (NSComparisonResult)compare:(EUEvent *)otherEvent
+{
+    return [self.dateTime compare:otherEvent.dateTime];
+}
+
 - (NSDictionary *)semiSerialize
 {
     NSDictionary *dict = @{

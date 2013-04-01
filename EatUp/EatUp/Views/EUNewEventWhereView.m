@@ -17,6 +17,8 @@
 
 @implementation EUNewEventWhereView
 
+@synthesize viewController;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -43,7 +45,7 @@
         [addLocButton setTitle:@"Add a potential location" forState:UIControlStateNormal];
         [addLocButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         addLocButton.titleLabel.font = kEUNewEventLabelFont;
-        [addLocButton addTarget:self action:@selector(showDateActionSheet:) forControlEvents:UIControlEventTouchUpInside];
+        [addLocButton addTarget:viewController action:@selector(showNewLocation) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:addLocButton];
 
         locationBox = [[UITextView alloc] initWithFrame:CGRectMake(kEUNewEventBuffer,

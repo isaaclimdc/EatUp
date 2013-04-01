@@ -31,6 +31,10 @@
 {
     [spinner startAnimating];
 
+    [self performBlock:^{
+        [spinner stopAnimating];
+    } afterDelay:1];
+
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     [appDelegate openSession];
 }

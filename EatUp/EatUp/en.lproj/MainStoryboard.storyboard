@@ -85,6 +85,17 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="36"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="5qE-pC-2cA">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content="Refresh Events">
+                                <attributes>
+                                    <font key="NSFont" metaFont="toolTip"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="17" sceneMemberID="firstResponder"/>
             </objects>
@@ -104,6 +115,107 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q2F-np-DYZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="902" y="817"/>
+        </scene>
+        <!--New Location View Controller - Add a location-->
+        <scene sceneID="oef-5X-8zD">
+            <objects>
+                <viewController storyboardIdentifier="" id="xxf-th-nRR" customClass="NewLocationViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PkD-ui-uuv">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mLB-yc-lRn">
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search restaurant" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BRj-iY-J2y">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="265" id="r85-gH-3S6"/>
+                                        </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="21"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIE-O2-Ktf">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="Oag-n9-Y5W"/>
+                                            <constraint firstAttribute="width" constant="40" id="d8g-ef-G2Q"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" image="search.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected" image="searchSelected.png"/>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="searchYelp:" destination="xxf-th-nRR" eventType="touchUpInside" id="YWg-7o-ohu"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.92941176469999998" green="0.40784313729999999" blue="0.035294117649999998" alpha="0.70999999999999996" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="BRj-iY-J2y" firstAttribute="top" secondItem="mLB-yc-lRn" secondAttribute="top" type="default" id="707-bd-dLM"/>
+                                    <constraint firstAttribute="trailing" secondItem="bIE-O2-Ktf" secondAttribute="trailing" constant="5" id="JXQ-BU-AC0"/>
+                                    <constraint firstItem="BRj-iY-J2y" firstAttribute="leading" secondItem="mLB-yc-lRn" secondAttribute="leading" constant="9" id="N7e-YN-SDT"/>
+                                    <constraint firstItem="bIE-O2-Ktf" firstAttribute="top" secondItem="mLB-yc-lRn" secondAttribute="top" constant="5" id="rca-An-Ggb"/>
+                                    <constraint firstItem="BRj-iY-J2y" firstAttribute="bottom" secondItem="mLB-yc-lRn" secondAttribute="bottom" type="default" id="zoG-Nv-4fI"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qyM-oc-v2E">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="239" id="Xg8-4l-ctj"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="LocationCell" textLabel="C07-cH-veV" detailTextLabel="8Cl-DY-K45" style="IBUITableViewCellStyleValue1" id="YGT-bd-C3P">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C07-cH-veV">
+                                                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Cl-DY-K45">
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Italic" family="Avenir Next" pointSize="15"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="xxf-th-nRR" id="CNs-9Q-wox"/>
+                                    <outlet property="delegate" destination="xxf-th-nRR" id="U2G-6f-jWK"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qyM-oc-v2E" firstAttribute="trailing" secondItem="PkD-ui-uuv" secondAttribute="trailing" type="default" id="5LB-Zd-oVm"/>
+                            <constraint firstItem="qyM-oc-v2E" firstAttribute="leading" secondItem="PkD-ui-uuv" secondAttribute="leading" type="default" id="Ay5-oY-CA9"/>
+                            <constraint firstItem="mLB-yc-lRn" firstAttribute="trailing" secondItem="PkD-ui-uuv" secondAttribute="trailing" type="default" id="Hbo-dw-RJ5"/>
+                            <constraint firstItem="mLB-yc-lRn" firstAttribute="leading" secondItem="PkD-ui-uuv" secondAttribute="leading" type="default" id="Z0y-Kv-aZC"/>
+                            <constraint firstAttribute="bottom" secondItem="mLB-yc-lRn" secondAttribute="bottom" constant="455" id="dDC-40-Y7F"/>
+                            <constraint firstItem="qyM-oc-v2E" firstAttribute="top" secondItem="PkD-ui-uuv" secondAttribute="top" constant="49" id="eC8-87-UWC"/>
+                            <constraint firstItem="mLB-yc-lRn" firstAttribute="top" secondItem="PkD-ui-uuv" secondAttribute="top" type="default" id="vPj-tC-Beu"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add a location" id="sXm-HY-z3T"/>
+                    <connections>
+                        <outlet property="resultsTable" destination="qyM-oc-v2E" id="U6M-RM-m3A"/>
+                        <outlet property="searchBox" destination="BRj-iY-J2y" id="XSV-aa-RWK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jOe-pb-eBL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1780" y="817"/>
         </scene>
         <!--Notifications View Controller - Notifications-->
         <scene sceneID="XKe-to-lOT">
@@ -328,7 +440,29 @@
             </objects>
             <point key="canvasLocation" x="459" y="1536"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="HMd-qk-hsU">
+            <objects>
+                <navigationController storyboardIdentifier="NewLocationNavController" id="rdl-Ka-Xy3" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1Lk-S9-n5F">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="xxf-th-nRR" kind="relationship" relationship="rootViewController" id="gtd-Rp-raD"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J3s-Yk-6F6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1352" y="817"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="search.png" width="21" height="21"/>
+        <image name="searchSelected.png" width="21" height="21"/>
+    </resources>
     <classes>
         <class className="EUEventCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EUEventCell.h"/>
@@ -343,6 +477,7 @@
             <relationships>
                 <relationship kind="outlet" name="dateTimeLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="descriptionTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="goingSegCtrl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="participantsScrollView" candidateClass="ILSideScrollView"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
@@ -375,6 +510,13 @@
         <class className="NewEventViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NewEventViewController.h"/>
         </class>
+        <class className="NewLocationViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewLocationViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="resultsTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="searchBox" candidateClass="UITextField"/>
+            </relationships>
+        </class>
         <class className="NotificationsViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NotificationsViewController.h"/>
         </class>
@@ -383,6 +525,9 @@
         </class>
         <class className="SideViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SideViewController.h"/>
+        </class>
+        <class className="UIRefreshControl" superclassName="UIControl">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIRefreshControl.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

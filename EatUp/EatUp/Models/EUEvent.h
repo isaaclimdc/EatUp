@@ -25,6 +25,7 @@
 - (NSString *)dateString;
 - (NSString *)participantsString;
 - (NSAttributedString *)locationsString;
+- (NSComparisonResult)compare:(EUEvent *)otherEvent;
 
 - (NSDictionary *)semiSerialize;
 - (NSDictionary *)serialize;

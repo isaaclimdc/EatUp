@@ -11,7 +11,7 @@
 @implementation EUEventView
 
 @synthesize event;
-@synthesize titleLabel, dateTimeLabel, locationLabel, participantsScrollView, descriptionTextView;
+@synthesize titleLabel, dateTimeLabel, locationLabel, goingSegCtrl, participantsScrollView, descriptionTextView;
 
 + (EUEventView *)newEventViewWithFrame:(CGRect)aFrame andEvent:(EUEvent *)anEvent
 {
@@ -51,9 +51,16 @@
         locationLabel.font = kEUFontTextItalic;
         [self addSubview:locationLabel];
 
+        /* Going/Notgoing Segmented Control */
+        goingSegCtrl = [[UISegmentedControl alloc] initWithItems:@[@"Going", @"Not going"]];
+        goingSegCtrl.frame = CGRectMake(kEUEventHorzBuffer, CGFloatGetAfterY(locationLabel.frame), width, 44);
+        goingSegCtrl.selectedSegmentIndex = 1;
+        [goingSegCtrl addTarget:self action:@selector(segCtrlChanged:) forControlEvents:UIControlEventValueChanged];
+        [self addSubview:goingSegCtrl];
+
         /* Participants Scroller */
         participantsScrollView = [[ILSideScrollView alloc] initWithFrame:CGRectMake(0,
-                                                                                    CGFloatGetAfterY(locationLabel.frame),
+                                                                                    CGFloatGetAfterY(goingSegCtrl.frame),
                                                                                     self.frame.size.width,
                                                                                     150)];
         [participantsScrollView setBackgroundColor:[UIColor colorWithWhite:0.9 alpha:1.0]
@@ -115,6 +122,25 @@
                        message:msg
               closeButtonTitle:@"OK"
              secondButtonTitle:nil];
+}
+
+- (IBAction)segCtrlChanged:(id)sender
+{
+    UISegmentedControl *segCtrl = (UISegmentedControl *)sender;
+    NSUInteger idx = segCtrl.selectedSegmentIndex;
+
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = segCtrl.center;
+    spinner.hidesWhenStopped = YES;
+    [self addSubview:spinner];
+    [spinner startAnimating];
+
+    NSLog(idx==0 ? @"You are going!" : @"You are not going!");
+
+    [self performBlock:^{
+        [spinner stopAnimating];
+        [spinner removeFromSuperview];
+    } afterDelay:1];
 }
 
 /* Vertically autoresize a UITextView or a UILabel to fit its content */

@@ -24,6 +24,41 @@
     return location;
 }
 
++ (EULocation *)locationFromYelpParams:(NSDictionary *)params
+{
+    EULocation *location = [[EULocation alloc] init];
+    NSDictionary *coords = [[params objectForKey:@"location"] objectForKey:@"coordinate"];
+    location.lat = [[coords objectForKey:@"latitude"] doubleValue];
+    location.lng = [[coords objectForKey:@"longitude"] doubleValue];
+    location.friendlyName = [params objectForKey:@"name"];
+    location.link = [NSURL URLWithString:[params objectForKey:@"url"]];
+    location.numVotes = 0;
+
+    return location;
+}
+
+- (NSComparisonResult)compareDist:(EULocation *)otherLoc
+                  currentLocation:(CLLocation *)currentLoc
+{
+    CLLocation *loc1 = [[CLLocation alloc] initWithLatitude:self.lat longitude:self.lng];
+    CLLocation *loc2 = [[CLLocation alloc] initWithLatitude:otherLoc.lat longitude:otherLoc.lng];
+
+    CLLocationDistance dist1 = [currentLoc distanceFromLocation:loc1];
+    CLLocationDistance dist2 = [currentLoc distanceFromLocation:loc2];
+
+//    float sqDist1 = powf((self.lat - cLat), 2) + powf((self.lng - cLng), 2);
+//    float dist1 = sqrtf(sqDist1);
+//    float sqDist2 = powf((otherLoc.lat - cLat), 2) + powf((otherLoc.lng - cLng), 2);
+//    float dist2 = sqrtf(sqDist2);
+
+    if (dist1 < dist2)
+        return NSOrderedAscending;
+    else if (dist1 > dist2)
+        return NSOrderedDescending;
+    else
+        return NSOrderedSame;
+}
+
 - (NSDictionary *)serialize
 {    
     NSDictionary *dict = @{

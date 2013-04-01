@@ -46,12 +46,18 @@
 #define kEURequestKeyUserProfPic @"prof_pic"
 #define kEURequestKeyUserParticipating @"participating"
 #define kEURequestKeyUserFriends @"friends"
-
+ 
 #define kEURequestKeyLocationLat @"lat"
 #define kEURequestKeyLocationLng @"lng"
 #define kEURequestKeyLocationFriendlyName @"friendly_name"
 #define kEURequestKeyLocationLink @"link"
 #define kEURequestKeyLocationNumVotes @"num_votes"
+
+#define kEUYelpBaseURL @"http://api.yelp.com/v2"
+#define kEUYelpConsumerKey @"WrhO5jwo5-cU_XksdvwF9w"
+#define kEUYelpConsumerSecret @"LIX5ilgW8Rb4T1aDGpkbV76Tcno"
+#define kEUYelpToken @"_lgr6HuRLW3g87TKWAO0E7g-R8A3klD5"
+#define kEUYelpTokenSecret @"22DvMsd9iCPHgwQT-0AlH3bmkM0"
 
 /* NSUserDefaults Keys */
 #define kEUUserDefaultsKeyMyUID @"EUMyUID"

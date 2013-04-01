@@ -17,7 +17,7 @@
     // Override point for customization after application launch
     [UIImage patchImageNamedToSupport568Resources];
     sleep(1);
-    
+
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     UINavigationController *eventsNC = [storyboard instantiateInitialViewController];
     SideViewController *sideVC = [storyboard instantiateViewControllerWithIdentifier:@"SideViewController"];
@@ -56,7 +56,7 @@
 {
     if (userInfo != nil) {
         NSLog(@"Launched from push notification: %@", userInfo);
-        
+
         // Do something with the notification dictionary
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         UIViewController *VC = [storyboard instantiateViewControllerWithIdentifier:@"NotificationsNavController"];
@@ -80,6 +80,34 @@
                                     kEUFontBarTitle, UITextAttributeFont
                                     , nil]];
     [navBar setTitleVerticalPositionAdjustment:-1.0f forBarMetrics:UIBarMetricsDefault];
+
+    UIImage *segmentSelected = [[UIImage imageNamed:@"segcontrol_sel.png"]
+                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 15, 0, 15)];
+    UIImage *segmentUnselected = [[UIImage imageNamed:@"segcontrol_uns.png"]
+                                  resizableImageWithCapInsets:UIEdgeInsetsMake(0, 15, 0, 15)];
+    UIImage *segmentSelectedUnselected = [UIImage imageNamed:@"segcontrol_sel-uns.png"];
+    UIImage *segUnselectedSelected = [UIImage imageNamed:@"segcontrol_uns-sel.png"];
+    UIImage *segmentUnselectedUnselected = [UIImage imageNamed:@"segcontrol_uns-uns.png"];
+
+    UISegmentedControl *segCtrl = [UISegmentedControl appearance];
+    [segCtrl setBackgroundImage:segmentUnselected
+                       forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [segCtrl setBackgroundImage:segmentSelected
+                       forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+
+    [segCtrl setDividerImage:segmentUnselectedUnselected
+         forLeftSegmentState:UIControlStateNormal
+           rightSegmentState:UIControlStateNormal
+                  barMetrics:UIBarMetricsDefault];
+    [segCtrl setDividerImage:segmentSelectedUnselected
+         forLeftSegmentState:UIControlStateSelected
+           rightSegmentState:UIControlStateNormal
+                  barMetrics:UIBarMetricsDefault];
+    [segCtrl setDividerImage:segUnselectedSelected
+         forLeftSegmentState:UIControlStateNormal
+           rightSegmentState:UIControlStateSelected
+                  barMetrics:UIBarMetricsDefault];
+    [segCtrl setTitleTextAttributes:@{UITextAttributeFont : kEUFontText} forState:UIControlStateNormal];
 }
 
 - (void)showLoginView
@@ -118,7 +146,7 @@
                   closeButtonTitle:@"OK"
                  secondButtonTitle:nil];
     } afterDelay:0.5];
-    
+
     return [FBSession.activeSession handleOpenURL:url];
 }
 
@@ -130,15 +158,15 @@
 {
     switch (state) {
         case FBSessionStateOpen: {
+//            NSLog(@"Login success");
             UIViewController *topViewController = self.navController.topViewController;
             if ([topViewController.presentedViewController isKindOfClass:[LoginViewController class]]) {
                 [topViewController dismissViewControllerAnimated:YES completion:nil];
             }
         }
             break;
-        case FBSessionStateClosed:
-        case FBSessionStateClosedLoginFailed:
-            // Once the user has logged in, redirect them to the root view.
+        case FBSessionStateClosed: {
+//            NSLog(@"Logged out");
             [self.navController popToRootViewControllerAnimated:NO];
             [revealController showViewController:revealController.frontViewController];
 
@@ -146,6 +174,15 @@
 
             [self showLoginView];
             break;
+        }
+        case FBSessionStateClosedLoginFailed: {
+//            NSLog(@"Login failed");
+            [ILAlertView showWithTitle:@"Login failed!"
+                               message:@"It looks like the Facebook login was cancelled. Please try logging in again."
+                      closeButtonTitle:@"OK"
+                     secondButtonTitle:nil];
+            break;
+        }
         default:
             break;
     }
@@ -175,7 +212,7 @@
              NSString *myName = [myInfo objectForKey:@"name"];
              [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:kEUUserDefaultsKeyMyUID];
              [[NSUserDefaults standardUserDefaults] setObject:myName forKey:kEUUserDefaultsKeyMyName];
-//             NSLog(@"Logged in as %@ (%0.0f).", myName, myUID);
+             //             NSLog(@"Logged in as %@ (%0.0f).", myName, myUID);
          }];
      }];
 }

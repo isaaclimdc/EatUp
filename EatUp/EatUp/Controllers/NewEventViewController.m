@@ -54,6 +54,7 @@
 
     /* "Where" view */
     whereView = [[EUNewEventWhereView alloc] initWithFrame:sView.frame];
+    whereView.viewController = self;
     ILSelectionViewCategory *whereCat =
     [ILSelectionViewCategory categoryWithActiveButtonImage:[UIImage imageNamed:@"whereButtonActive.png"]
                                        inactiveButtonImage:[UIImage imageNamed:@"whereButtonInactive.png"]
@@ -72,6 +73,13 @@
     sView.contentView.layer.borderWidth = 1.0;
 
     [self.view addSubview:sView];
+}
+
+- (void)showNewLocation
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    UINavigationController *newLocNC = [storyboard instantiateViewControllerWithIdentifier:@"NewLocationNavController"];
+    [self presentViewController:newLocNC animated:YES completion:nil];
 }
 
 - (BOOL)isCompleteData:(NSDictionary *)data

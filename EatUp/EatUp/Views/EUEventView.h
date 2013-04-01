@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *dateTimeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *locationLabel;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *goingSegCtrl;
 @property (strong, nonatomic) IBOutlet ILSideScrollView *participantsScrollView;
 @property (strong, nonatomic) IBOutlet UITextView *descriptionTextView;
 

@@ -11,6 +11,7 @@
 #import "EUNewEventWhenView.h"
 #import "EUNewEventWhereView.h"
 #import "EUNewEventWhoView.h"
+#import "NewLocationViewController.h"
 
 @interface NewEventViewController : UIViewController {
     ILSelectionView *sView;

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface EULocation : NSObject
 
@@ -17,6 +18,9 @@
 @property (nonatomic) NSInteger numVotes;
 
 + (EULocation *)locationFromParams:(NSDictionary *)params;
++ (EULocation *)locationFromYelpParams:(NSDictionary *)params;
+- (NSComparisonResult)compareDist:(EULocation *)otherLoc
+                  currentLocation:(CLLocation *)currentLoc;
 
 - (NSDictionary *)serialize;
 

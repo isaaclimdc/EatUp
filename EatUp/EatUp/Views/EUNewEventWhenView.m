@@ -78,6 +78,8 @@
         titleBox.backgroundColor = [UIColor whiteColor];
         titleBox.font = kEUNewEventBoxFont;
         titleBox.autocapitalizationType = UITextAutocapitalizationTypeWords;
+        titleBox.returnKeyType = UIReturnKeyDone;
+        titleBox.delegate = self;
         [self addSubview:titleBox];
 
         /* Description */

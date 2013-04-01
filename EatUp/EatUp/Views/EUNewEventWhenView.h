@@ -12,7 +12,7 @@
 /* Forward declare because inheriting from custom UIScrollView */
 @class TPKeyboardAvoidingScrollView;
 
-@interface EUNewEventWhenView : TPKeyboardAvoidingScrollView <UIActionSheetDelegate>
+@interface EUNewEventWhenView : TPKeyboardAvoidingScrollView <UIActionSheetDelegate, UITextViewDelegate>
 
 - (NSDictionary *)serialize;
 
