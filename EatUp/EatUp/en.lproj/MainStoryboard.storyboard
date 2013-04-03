@@ -101,7 +101,7 @@
             </objects>
             <point key="canvasLocation" x="459" y="64"/>
         </scene>
-        <!--New Event View Controller - Create a new meal-->
+        <!--New Event View Controller - Create a new event-->
         <scene sceneID="4Uo-pD-olg">
             <objects>
                 <viewController id="1or-Xr-p1n" customClass="NewEventViewController" sceneMemberID="viewController">
@@ -110,7 +110,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Create a new meal" id="2IK-yl-l5f"/>
+                    <navigationItem key="navigationItem" title="Create a new event" id="2IK-yl-l5f"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q2F-np-DYZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

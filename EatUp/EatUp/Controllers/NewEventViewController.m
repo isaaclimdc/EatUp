@@ -96,9 +96,8 @@
 
 - (BOOL)isCompleteData:(NSDictionary *)data
 {
-    if (![data objectForKey:kEURequestKeyEventTitle]) return NO;
-    if (![data objectForKey:kEURequestKeyEventDateTime]) return NO;
-    if (![data objectForKey:kEURequestKeyEventLocations]) return NO;
+    if (((NSString *)[data objectForKey:kEURequestKeyEventTitle]).length == 0) return NO;
+    if (((NSArray *)[data objectForKey:kEURequestKeyEventLocations]).count == 0) return NO;
     return YES;
 }
 
