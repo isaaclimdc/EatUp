@@ -13,6 +13,7 @@
     NSMutableArray *locations;
     UITextView *locationBox;
     UITableView *locationsTableView;
+    NSUInteger selectedCell;
 }
 @end
 
@@ -25,7 +26,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         locations = [NSMutableArray array];
-        
+
         CGFloat width = frame.size.width - kEUNewEventBuffer*2;
 
         /* Location */
@@ -40,9 +41,9 @@
 
         UIButton *addLocButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         addLocButton.frame = CGRectMake(kEUNewEventBuffer,
-                                          CGFloatGetAfterY(locationLabel.frame),
-                                          width,
-                                          kEUNewEventRowHeight);
+                                        CGFloatGetAfterY(locationLabel.frame),
+                                        width,
+                                        kEUNewEventRowHeight);
         [addLocButton setTitle:@"Add a location" forState:UIControlStateNormal];
         [addLocButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         addLocButton.titleLabel.font = kEUNewEventLabelFont;
@@ -90,13 +91,20 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
     // Configure the cell...
     EULocation *loc = [locations objectAtIndex:indexPath.row];
     cell.textLabel.text = loc.friendlyName;
     cell.textLabel.font = kEUFontText;
+
+    if (indexPath.row == selectedCell) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
 
     return cell;
 }
@@ -123,7 +131,16 @@
 {
     EULocation *loc = [locations objectAtIndex:indexPath.row];
     NSLog(@"Tapped on %@", loc.friendlyName);
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    NSUInteger oldSel = selectedCell;
+    selectedCell = indexPath.row;
+    if (selectedCell != oldSel) {
+        [tableView reloadRowsAtIndexPaths:@[indexPath, [NSIndexPath indexPathForRow:oldSel inSection:0]]
+                         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 /* Package up data on this view and prepare for sending */
@@ -133,7 +150,7 @@
     for (EULocation *location in locations) {
         [arr addObject:[location serialize]];  /* This will eventually be events.locations */
     }
-    
+
     NSDictionary *dict = @{kEURequestKeyEventLocations: arr};
     NSLog(@"%@", dict);
     return dict;

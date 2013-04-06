@@ -25,7 +25,14 @@
                          [infoDict objectForKey:@"CFBundleShortVersionString"],
                          [infoDict objectForKey:@"CFBundleVersion"]];
 
-    entries = [NSArray arrayWithObjects:@"Home", @"Notifications", @"Settings", @"About", @"Logout", version, nil];
+    entries = @[@"Me",
+                @"                     ~",
+                @"Home",
+                @"Notifications",
+                @"Settings",
+                @"About",
+                @"Logout",
+                version];
 }
 
 - (IBAction)showViewController:(NSString *)VCId
@@ -93,6 +100,13 @@
     return entries.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 1) {
+        return 10;
+    }
+    return 44;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"SideCell";
@@ -102,10 +116,27 @@
     NSUInteger row = indexPath.row;
     cell.textLabel.text = [entries objectAtIndex:row];
 
-    if (row == entries.count-1) {
+    if (row == 0 || row == 1 || row == entries.count-1) {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    
+    if (row == 0) {
+        NSString *myName = [[NSUserDefaults standardUserDefaults] objectForKey:kEUUserDefaultsKeyMyName];
+        NSURL *myImgURL = kEUFBUserProfPic([[NSUserDefaults standardUserDefaults] objectForKey:kEUUserDefaultsKeyMyUID]);
+        cell.textLabel.text = myName;
+        cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:myImgURL]];
+
+        CALayer *imageLayer = cell.imageView.layer;
+        imageLayer.cornerRadius = 22;
+        imageLayer.borderWidth = 1;
+        imageLayer.borderColor = [UIColor lightGrayColor].CGColor;
+        imageLayer.masksToBounds = YES;
+        
+        cell.textLabel.font = kEUFontTextItalic;
+    }
+    else if (row == 1 || row == entries.count-1) {
         cell.textLabel.font = kEUFontTextItalic;
         cell.textLabel.textColor = [UIColor lightGrayColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else {
         cell.textLabel.font = kEUFontTextBold;
@@ -124,19 +155,19 @@
 {
     NSUInteger row = indexPath.row;
     switch (row) {
-        case 0:
+        case 2:
             [self showViewController:@"EventsNavController"];
             break;
-        case 1:
+        case 3:
             [self showViewController:@"NotificationsNavController"];
             break;
-        case 2:
+        case 4:
             [self showViewController:@"SettingsNavController"];
             break;
-        case 3:
+        case 5:
             [self scheduleAlarmForDate:[NSDate dateWithTimeIntervalSinceNow:5] withMessage:@"Invitation to \"Breakfast at Grandma's\" @ 32 Withrow Street"];
             break;
-            case 4:
+        case 6:
             [self showLogoutConfirmation];
             break;
         default:

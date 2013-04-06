@@ -213,7 +213,7 @@
              NSString *myName = [myInfo objectForKey:@"name"];
              [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:kEUUserDefaultsKeyMyUID];
              [[NSUserDefaults standardUserDefaults] setObject:myName forKey:kEUUserDefaultsKeyMyName];
-             //             NSLog(@"Logged in as %@ (%0.0f).", myName, myUID);
+             NSLog(@"Logged in as %@ (%0.0f).", myName, myUID);
          }];
      }];
 }
