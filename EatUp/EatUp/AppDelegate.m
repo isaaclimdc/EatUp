@@ -213,7 +213,64 @@
              NSString *myName = [myInfo objectForKey:@"name"];
              [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:kEUUserDefaultsKeyMyUID];
              [[NSUserDefaults standardUserDefaults] setObject:myName forKey:kEUUserDefaultsKeyMyName];
-             NSLog(@"Logged in as %@ (%0.0f).", myName, myUID);
+             
+             NSString *myFirstName = [myInfo objectForKey:@"first_name"];
+             NSString *myLastName = [myInfo objectForKey:@"last_name"];
+             NSNumber *uidObj = [NSNumber numberWithDouble:myUID];
+
+             NSLog(@"Logged in as %@ (%@).", myName, uidObj);
+
+             /* Query server for user */
+             EUHTTPClient *client = [EUHTTPClient newClientInView:self.window];
+             [client getPath:@"/info/user/"
+                  parameters:@{kEURequestKeyUserUID : uidObj}
+                 loadingText:nil
+                 successText:nil
+                     success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                         NSDictionary *resp = [response JSONValue];
+                         if ([resp objectForKey:@"error"]) {
+                             
+                             /* User does not exist, so create a new user! */
+                             NSLog(@"Error: %@", [resp objectForKey:@"error"]);
+                             NSDictionary *params = @{kEURequestKeyUserUID : uidObj,
+                                                      kEURequestKeyUserFirstName : myFirstName,
+                                                      kEURequestKeyUserLastName : myLastName,
+                                                      kEURequestKeyUserProfPic : kEUFBUserProfPic(uidObj)
+                                                      };
+                             [client getPath:@"/create/user"
+                                   parameters:params
+                                  loadingText:nil
+                                  successText:nil
+                                      success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                                          NSLog(@"SUCCESS: %@", response);
+                                      }
+                                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                          NSLog(@"ERROR: %@", error);
+                                      }];
+                         }
+                         else {
+                             /* Existing user. Login and fetch events */
+                             NSLog(@"FOUND USER!: %@", resp);
+                             NSArray *participating = [resp objectForKey:kEURequestKeyUserParticipating];
+                             NSLog(@"Participating: %@", participating);
+
+                             /* Save only the eids */
+                             NSMutableArray *eids = [NSMutableArray array];
+                             for (NSDictionary *dict in participating) {
+                                 [eids addObject:[dict objectForKey:kEURequestKeyEventEID]];
+                             }
+
+                             /* Assign to EventsViewController */
+                             UINavigationController *eventsNC = (UINavigationController *)revealController.frontViewController;
+                             EventsViewController *eventsVC = (EventsViewController *)eventsNC.topViewController;
+                             eventsVC.eventEIDs = eids;
+                             [eventsVC fetchData:nil];
+                         }
+                         
+                 }
+                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     NSLog(@"ERROR: %@", error);
+                 }];
          }];
      }];
 }

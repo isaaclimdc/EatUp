@@ -112,12 +112,29 @@
     NSLog(@"Payload: %@", payload);
 
     if ([self isCompleteData:payload]) {
-        [ILAlertView showWithTitle:@"Done!"
-                           message:@"Your new meal has been created, and the invitees have been sent a notification to join."
-                  closeButtonTitle:@"OK"
-                 secondButtonTitle:nil];
+        EUHTTPClient *client = [EUHTTPClient newClientInView:self.view];
+        [client getPath:@"/create/event"
+             parameters:payload
+            loadingText:@"Creating event"
+            successText:@"Done!"
+                success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                    NSLog(@"SUCCESS!: %@", response);
 
-        [self performDismiss];
+                    [ILAlertView showWithTitle:@"Done!"
+                                       message:@"Your new meal has been created, and the invitees have been sent a notification to join."
+                              closeButtonTitle:@"OK"
+                             secondButtonTitle:nil];
+                    
+                    [self performDismiss];
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"ERROR: %@", error);
+
+                    [ILAlertView showWithTitle:@"Error!"
+                                       message:@"Something went wrong :( Please try creating the event again in a few minutes."
+                              closeButtonTitle:@"OK"
+                             secondButtonTitle:nil];
+                }];
     }
     else {
         [ILAlertView showWithTitle:@"Incomplete!"

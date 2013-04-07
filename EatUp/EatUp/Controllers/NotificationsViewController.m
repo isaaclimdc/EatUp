@@ -11,7 +11,7 @@
 @interface NotificationsViewController ()
 {
     NSMutableArray *events;
-    ILHTTPClient *client;
+    EUHTTPClient *client;
 }
 @end
 
@@ -23,7 +23,7 @@
 
     /* Initialize data arrays and HTTP client */
     events = [NSMutableArray array];
-    client = [ILHTTPClient clientWithBaseURL:kEUBaseURL showingHUDInView:self.view];
+    client = [EUHTTPClient newClientInView:self.view];
 
     [self fetchData];
 

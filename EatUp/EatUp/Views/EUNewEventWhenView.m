@@ -133,8 +133,9 @@
 /* Package up data on this view and prepare for sending */
 - (NSDictionary *)serialize
 {
+    NSNumber *dateEpoch = [NSNumber numberWithDouble:[eventDateTime timeIntervalSince1970] * 1000];
     NSDictionary *dict = @{
-                           kEURequestKeyEventDateTime : eventDateTime,
+                           kEURequestKeyEventDateTime : dateEpoch,
                            kEURequestKeyEventTitle : titleBox.text,
                            kEURequestKeyEventDescription : descriptionBox.text
                            };

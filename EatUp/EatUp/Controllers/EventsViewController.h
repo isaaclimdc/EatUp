@@ -12,5 +12,12 @@
 #import "EUEventCell.h"
 
 @interface EventsViewController : UITableViewController
+{
+    NSMutableArray *eventEIDs;
+}
+
+@property (strong, nonatomic) NSMutableArray *eventEIDs;
+
+- (IBAction)fetchData:(id)sender;
 
 @end

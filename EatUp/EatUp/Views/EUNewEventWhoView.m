@@ -133,10 +133,15 @@
     NSMutableArray *arr = [NSMutableArray array];
 
     for (EUUser *invitee in invitees) {
-        [arr addObject:[invitee semiSerialize]];   /* This will eventually be events.participants */
+        [arr addObject:[NSNumber numberWithDouble:invitee.uid]];   /* This will eventually be events.participants */
+//        [arr addObject:[invitee semiSerialize]];
     }
-    
-    NSDictionary *dict = @{kEURequestKeyEventParticipants: arr};
+
+    NSNumber *myUID = [NSNumber numberWithDouble:[[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID]];
+    NSDictionary *dict = @{
+                           kEURequestKeyEventParticipants : arr,
+                           kEURequestKeyEventHost : myUID
+                           };
 
     return dict;
 }

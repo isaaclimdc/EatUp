@@ -21,6 +21,7 @@
 @property (strong, nonatomic) NSMutableArray *locations;  /* Array of EULocation */
 
 + (EUEvent *)eventFromParams:(NSDictionary *)params;
++ (NSArray *)eventsFromArrParams:(NSArray *)arrParams;
 
 - (NSString *)relativeDateString;
 - (NSString *)absoluteDateString;

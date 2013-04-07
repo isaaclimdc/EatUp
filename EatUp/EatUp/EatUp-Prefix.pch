@@ -17,7 +17,7 @@
     #import <MobileCoreServices/MobileCoreServices.h>
     #import <FacebookSDK/FacebookSDK.h>
 
-    #import "ILHTTPClient.h"
+    #import "EUHTTPClient.h"
     #import "ILAlertView.h"
     #import "ILBarButtonItem.h"
     #import "ILSideScrollView.h"

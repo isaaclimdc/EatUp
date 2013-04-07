@@ -21,7 +21,8 @@
 
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat = kEUDateFormat;
-    event.dateTime = [df dateFromString:[params objectForKey:kEURequestKeyEventDateTime]];
+    NSTimeInterval intv = [[params objectForKey:kEURequestKeyEventDateTime] doubleValue] / 1000;
+    event.dateTime = [NSDate dateWithTimeIntervalSince1970:intv];
 
     event.description = [params objectForKey:kEURequestKeyEventDescription];
     event.host = [[params objectForKey:kEURequestKeyEventHost] doubleValue];
@@ -41,6 +42,18 @@
     event.locations = locs;
 
     return event;
+}
+
++ (NSArray *)eventsFromArrParams:(NSArray *)arrParams
+{
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (NSDictionary *params in arrParams) {
+        EUEvent *event = [EUEvent eventFromParams:params];
+        [array addObject:event];
+    }
+    
+    return array;
 }
 
 - (NSString *)relativeDateString

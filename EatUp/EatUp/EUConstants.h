@@ -30,15 +30,17 @@
 #define kEUNewEventRowHeight 40.0f
 
 /* HTTP Requests */
-#define kEUBaseURL @"http://isaacl.net/install/apps/EatUp/"
+//#define kEUBaseURL @"http://isaacl.net/install/apps/EatUp/"
+#define kEUBaseURL @"http://eatup.herokuapp.com"
 
 #define kEURequestKeyEventEID @"eid"
 #define kEURequestKeyEventTitle @"title"
-#define kEURequestKeyEventDateTime @"date_time"
+#define kEURequestKeyEventDateTime @"date_time_raw"
 #define kEURequestKeyEventDescription @"description"
 #define kEURequestKeyEventHost @"host"
 #define kEURequestKeyEventParticipants @"participants"
 #define kEURequestKeyEventLocations @"locations"
+#define kEURequestKeyEventHost @"host"
 
 #define kEURequestKeyUserUID @"uid"
 #define kEURequestKeyUserFirstName @"first_name"
@@ -46,7 +48,7 @@
 #define kEURequestKeyUserProfPic @"prof_pic"
 #define kEURequestKeyUserParticipating @"participating"
 #define kEURequestKeyUserFriends @"friends"
-#define kEUFBUserProfPic(x) [NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal", (x)]]
+#define kEUFBUserProfPic(fbid) [NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal", (fbid)]]
 
 #define kEURequestKeyLocationLat @"lat"
 #define kEURequestKeyLocationLng @"lng"

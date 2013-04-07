@@ -9,14 +9,16 @@
 #import "EventsViewController.h"
 
 @interface EventsViewController () {
-    NSMutableArray *events;
     NSMutableArray *users;
-    ILHTTPClient *client;
+    EUHTTPClient *client;
+    NSMutableArray *events;
 }
 
 @end
 
 @implementation EventsViewController
+
+@synthesize eventEIDs;
 
 - (void)viewDidLoad
 {
@@ -48,13 +50,10 @@
     }];
 
     /* Initialize data arrays and HTTP client */
-    users = [NSMutableArray array];
-    client = [ILHTTPClient clientWithBaseURL:kEUBaseURL showingHUDInView:self.view];
+    client = [EUHTTPClient newClientInView:self.view];
 
-    [self fetchUsersWithSuccessHandler:^{
-        [self fetchData:nil];
-    }];
-    
+//    [self fetchData:nil];
+
     UIImageView *titleIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
     titleIcon.center = self.navigationController.navigationBar.center;
     [self.navigationController.navigationBar addSubview:titleIcon];
@@ -105,36 +104,53 @@
 - (IBAction)fetchData:(id)sender
 {
     events = [NSMutableArray array];
-    
-    /* GET the user's events data */
-    [client getPath:@"sampledata.json"
-         parameters:nil
-        loadingText:@"Fetching data"
-        successText:nil
-            success:^(AFHTTPRequestOperation *operation, NSString *response) {
-                NSDictionary *resDict = [response JSONValue];
-//                NSLog(@"%@", resDict);
-//                NSDictionary *myInfo = [resDict objectForKey:@"me"];
-
-                NSDictionary *eventsTmp = [resDict objectForKey:@"events"];
-                for (NSDictionary *dict in eventsTmp) {
-                    EUEvent *event = [EUEvent eventFromParams:dict];
+    NSLog(@"%@", eventEIDs);
+    for (NSNumber *eid in eventEIDs) {
+        [client getPath:@"/info/event/"
+             parameters:@{@"eid" : eid}
+            loadingText:nil
+            successText:nil
+                success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                    NSDictionary *params = [response JSONValue];
+                    NSLog(@"Fetched event: %@", params);
+                    EUEvent *event = [EUEvent eventFromParams:params];
                     [events addObject:event];
+                    [self.tableView reloadData];
                 }
-
-                /* Sort events reverse chronologically */
-                [events sortUsingComparator:^NSComparisonResult(EUEvent *event1, EUEvent *event2) {
-                    return [event1 compare:event2];
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"ERROR: %@", error);
                 }];
+    }
 
-                /* Done fetching all data. Reload the UI */
-                [self.tableView reloadData];
-                [(UIRefreshControl *)sender endRefreshing];
-            }
-            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error when fetching data: %@", error);
-            }
-     ];
+//    /* GET the user's events data */
+//    [client getPath:@"sampledata.json"
+//         parameters:nil
+//        loadingText:@"Fetching data"
+//        successText:nil
+//            success:^(AFHTTPRequestOperation *operation, NSString *response) {
+//                NSDictionary *resDict = [response JSONValue];
+////                NSLog(@"%@", resDict);
+////                NSDictionary *myInfo = [resDict objectForKey:@"me"];
+//
+//                NSDictionary *eventsTmp = [resDict objectForKey:@"events"];
+//                for (NSDictionary *dict in eventsTmp) {
+//                    EUEvent *event = [EUEvent eventFromParams:dict];
+//                    [events addObject:event];
+//                }
+//
+//                /* Sort events reverse chronologically */
+//                [events sortUsingComparator:^NSComparisonResult(EUEvent *event1, EUEvent *event2) {
+//                    return [event1 compare:event2];
+//                }];
+//
+//                /* Done fetching all data. Reload the UI */
+//                [self.tableView reloadData];
+//                [(UIRefreshControl *)sender endRefreshing];
+//            }
+//            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                NSLog(@"Error when fetching data: %@", error);
+//            }
+//     ];
 }
 
 - (void)showNewEvent
@@ -194,8 +210,7 @@
     EUEventCell *cell = (EUEventCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
     // Configure the cell...
-    NSUInteger row = indexPath.row;
-    EUEvent *event = [events objectAtIndex:row];
+    EUEvent *event = [events objectAtIndex:indexPath.row];
     [cell populateWithEvent:event];
 
     return cell;
