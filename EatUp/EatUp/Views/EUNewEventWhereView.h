@@ -16,8 +16,12 @@
 
 @interface EUNewEventWhereView : TPKeyboardAvoidingScrollView
 <NewLocationViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+{
+    NSMutableArray *locations;
+}
 
 @property (strong, nonatomic) UIViewController *viewController;
+@property (strong, nonatomic) NSMutableArray *locations;
 
 - (NSDictionary *)serialize;
 

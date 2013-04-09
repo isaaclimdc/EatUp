@@ -52,7 +52,9 @@
     /* Initialize data arrays and HTTP client */
     client = [EUHTTPClient newClientInView:self.view];
 
-//    [self fetchData:nil];
+    [self performBlock:^{
+        [self fetchData:nil];
+    } afterDelay:1];
 
     UIImageView *titleIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
     titleIcon.center = self.navigationController.navigationBar.center;
@@ -77,29 +79,29 @@
     [self setRefreshControl:refreshControl];
 }
 
-- (void)fetchUsersWithSuccessHandler:(void (^)(void))success
-{
-    /* GET the database of users (FOR PROTOTYPE ONLY) */
-    [client getPath:@"sampleusers.json"
-         parameters:nil
-        loadingText:@"Getting ready"
-        successText:nil
-            success:^(AFHTTPRequestOperation *operation, NSString *response) {
-                NSArray *allUsers = [[response JSONValue] objectForKey:@"users"];
-
-                for (NSDictionary *dict in allUsers) {
-                    EUUser *user = [EUUser userFromParams:dict];
-                    [users addObject:user];
-                }
-                
-                [client forceHideHUD];
-                success();
-            }
-            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error when fetching users: %@", error);
-            }
-     ];
-}
+//- (void)fetchUsersWithSuccessHandler:(void (^)(void))success
+//{
+//    /* GET the database of users (FOR PROTOTYPE ONLY) */
+//    [client getPath:@"sampleusers.json"
+//         parameters:nil
+//        loadingText:@"Getting ready"
+//        successText:nil
+//            success:^(AFHTTPRequestOperation *operation, NSString *response) {
+//                NSArray *allUsers = [[response JSONValue] objectForKey:@"users"];
+//
+//                for (NSDictionary *dict in allUsers) {
+//                    EUUser *user = [EUUser userFromParams:dict];
+//                    [users addObject:user];
+//                }
+//                
+//                [client forceHideHUD];
+//                success();
+//            }
+//            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                NSLog(@"Error when fetching users: %@", error);
+//            }
+//     ];
+//}
 
 - (IBAction)fetchData:(id)sender
 {
@@ -116,6 +118,7 @@
                     EUEvent *event = [EUEvent eventFromParams:params];
                     [events addObject:event];
                     [self.tableView reloadData];
+                    [client forceHideHUD];
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                     NSLog(@"ERROR: %@", error);

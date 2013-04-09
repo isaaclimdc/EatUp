@@ -13,14 +13,12 @@
     UIDatePicker *datePicker;
     UILabel *dateLabel;
     UILabel *timeLabel;
-    UITextView *titleBox;
-    UITextView *descriptionBox;
-
-    NSDate *eventDateTime;
 }
 @end
 
 @implementation EUNewEventWhenView
+
+@synthesize titleBox, descriptionBox, eventDateTime;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -33,8 +31,6 @@
                                                               kEUNewEventBuffer,
                                                               width,
                                                               kEUNewEventRowHeight)];
-        eventDateTime = [NSDate date];
-        dateLabel.text = [self absoluteDateString];
         dateLabel.font = kEUNewEventBoxFont;
         dateLabel.textAlignment = NSTextAlignmentCenter;
         dateLabel.backgroundColor = [UIColor clearColor];
@@ -44,11 +40,12 @@
                                                               CGFloatGetAfterY(dateLabel.frame)-15,
                                                               width,
                                                               kEUNewEventRowHeight)];
-        timeLabel.text = [self timeString];
         timeLabel.font = kEUNewEventBoxFont;
         timeLabel.textAlignment = NSTextAlignmentCenter;
         timeLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:timeLabel];
+
+        [self updateDateTimeLabel];
 
         UIButton *dateTimeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         dateTimeButton.frame = CGRectMake(kEUNewEventBuffer,
@@ -106,6 +103,15 @@
     return self;
 }
 
+- (void)updateDateTimeLabel
+{
+    if (eventDateTime == nil)
+        eventDateTime = [NSDate date];
+
+    dateLabel.text = [self absoluteDateString];
+    timeLabel.text = [self timeString];
+}
+
 - (IBAction)showDateActionSheet:(id)sender
 {
     UIActionSheet *aSheet = [[UIActionSheet alloc] initWithTitle:nil
@@ -135,7 +141,7 @@
 {
     NSNumber *dateEpoch = [NSNumber numberWithDouble:[eventDateTime timeIntervalSince1970] * 1000];
     NSDictionary *dict = @{
-                           kEURequestKeyEventDateTime : dateEpoch,
+                           @"timestamp" : dateEpoch,
                            kEURequestKeyEventTitle : titleBox.text,
                            kEURequestKeyEventDescription : descriptionBox.text
                            };

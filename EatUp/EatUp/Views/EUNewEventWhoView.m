@@ -10,8 +10,6 @@
 
 @interface EUNewEventWhoView ()
 {
-    NSMutableArray *invitees;
-    
     UITextView *inviteBox;
     UITableView *inviteesTableView;
 }
@@ -19,7 +17,7 @@
 
 @implementation EUNewEventWhoView
 
-@synthesize viewController;
+@synthesize viewController, invitees;
 
 - (id)initWithFrame:(CGRect)frame
 {

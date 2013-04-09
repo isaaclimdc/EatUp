@@ -13,7 +13,17 @@
 @class TPKeyboardAvoidingScrollView;
 
 @interface EUNewEventWhenView : TPKeyboardAvoidingScrollView <UIActionSheetDelegate, UITextViewDelegate>
+{
+    UITextView *titleBox;
+    UITextView *descriptionBox;
+    NSDate *eventDateTime;
+}
+
+@property (strong, nonatomic) UITextView *titleBox;
+@property (strong, nonatomic) UITextView *descriptionBox;
+@property (strong, nonatomic) NSDate *eventDateTime;
 
 - (NSDictionary *)serialize;
+- (void)updateDateTimeLabel;
 
 @end

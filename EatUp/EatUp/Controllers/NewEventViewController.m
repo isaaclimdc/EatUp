@@ -9,6 +9,7 @@
 #import "NewEventViewController.h"
 
 #define kEUNewEventViewSelectionViewBuffer 10.0f
+#define IS_EDIT (existingEvent != nil)
 
 @interface NewEventViewController ()
 {
@@ -20,7 +21,7 @@
 
 @implementation NewEventViewController
 
-@synthesize sView;
+@synthesize sView, existingEvent;
 
 - (void)viewDidLoad
 {
@@ -74,6 +75,32 @@
     sView.contentView.layer.borderWidth = 1.0;
 
     [self.view addSubview:sView];
+
+    if (IS_EDIT) {
+        [self populateWithExistingData];
+        self.title = @"Edit this event";
+    }
+}
+
+- (void)populateWithExistingData
+{
+    /* Populate whenView */
+    whenView.titleBox.text = existingEvent.title;
+    whenView.descriptionBox.text = existingEvent.description;
+    whenView.eventDateTime = existingEvent.dateTime;
+    [whenView updateDateTimeLabel];
+
+    /* Populate whereView */
+    whereView.locations = existingEvent.locations;
+
+    /* Populate whoView */
+    NSMutableArray *parts = [existingEvent.participants mutableCopy];
+    NSUInteger meIdx = [parts indexOfObjectPassingTest:^BOOL(EUUser *user, NSUInteger idx, BOOL *stop) {
+        return user.uid == [[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID];
+    }];
+    if (meIdx != NSNotFound)
+        [parts removeObjectAtIndex:meIdx];
+    whoView.invitees = parts;
 }
 
 - (void)showNewLocation
@@ -113,28 +140,51 @@
 
     if ([self isCompleteData:payload]) {
         EUHTTPClient *client = [EUHTTPClient newClientInView:self.view];
-        [client getPath:@"/create/event"
-             parameters:payload
-            loadingText:@"Creating event"
-            successText:@"Done!"
-                success:^(AFHTTPRequestOperation *operation, NSString *response) {
-                    NSLog(@"SUCCESS!: %@", response);
+        [client postPath:@"/create/event"
+              parameters:payload
+             loadingText:nil
+             successText:nil
+           multiPartForm:nil
+                 success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                     NSLog(@"SUCCESS!: %@", response);
 
-                    [ILAlertView showWithTitle:@"Done!"
-                                       message:@"Your new meal has been created, and the invitees have been sent a notification to join."
-                              closeButtonTitle:@"OK"
-                             secondButtonTitle:nil];
-                    
-                    [self performDismiss];
-                }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    NSLog(@"ERROR: %@", error);
+                     [ILAlertView showWithTitle:@"Done!"
+                                        message:@"Your new meal has been created, and the invitees have been sent a notification to join."
+                               closeButtonTitle:@"OK"
+                              secondButtonTitle:nil];
 
-                    [ILAlertView showWithTitle:@"Error!"
-                                       message:@"Something went wrong :( Please try creating the event again in a few minutes."
-                              closeButtonTitle:@"OK"
-                             secondButtonTitle:nil];
-                }];
+                     [self performDismiss];
+           }
+                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     NSLog(@"ERROR: %@", error);
+
+                     [ILAlertView showWithTitle:@"Error!"
+                                        message:@"Something went wrong :( Please try creating the event again in a few minutes."
+                               closeButtonTitle:@"OK"
+                              secondButtonTitle:nil];
+                 }];
+//        [client getPath:@"/create/event"
+//             parameters:payload
+//            loadingText:@"Creating event"
+//            successText:@"Done!"
+//                success:^(AFHTTPRequestOperation *operation, NSString *response) {
+//                    NSLog(@"SUCCESS!: %@", response);
+//
+//                    [ILAlertView showWithTitle:@"Done!"
+//                                       message:@"Your new meal has been created, and the invitees have been sent a notification to join."
+//                              closeButtonTitle:@"OK"
+//                             secondButtonTitle:nil];
+//                    
+//                    [self performDismiss];
+//                }
+//                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                    NSLog(@"ERROR: %@", error);
+//
+//                    [ILAlertView showWithTitle:@"Error!"
+//                                       message:@"Something went wrong :( Please try creating the event again in a few minutes."
+//                              closeButtonTitle:@"OK"
+//                             secondButtonTitle:nil];
+//                }];
     }
     else {
         [ILAlertView showWithTitle:@"Incomplete!"

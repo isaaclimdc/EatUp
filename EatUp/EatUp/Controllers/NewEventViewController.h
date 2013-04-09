@@ -8,16 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import "ILSelectionView.h"
+#import "EUEvent.h"
 #import "EUNewEventWhenView.h"
 #import "EUNewEventWhereView.h"
 #import "EUNewEventWhoView.h"
 #import "NewLocationViewController.h"
 #import "NewInviteeViewController.h"
 
+//typedef enum {
+//    NewEventViewControllerModeBrandNew,
+//    NewEventViewControllerModeEdit
+//} NewEventViewControllerMode;
+
 @interface NewEventViewController : UIViewController {
     ILSelectionView *sView;
+    EUEvent *existingEvent;
 }
 
 @property (strong, nonatomic) ILSelectionView *sView;
+@property (strong, nonatomic) EUEvent *existingEvent;
 
 @end

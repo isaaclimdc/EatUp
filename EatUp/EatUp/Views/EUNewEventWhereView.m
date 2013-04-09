@@ -10,7 +10,6 @@
 
 @interface EUNewEventWhereView ()
 {
-    NSMutableArray *locations;
     UITextView *locationBox;
     UITableView *locationsTableView;
     NSUInteger selectedCell;
@@ -19,7 +18,7 @@
 
 @implementation EUNewEventWhereView
 
-@synthesize viewController;
+@synthesize viewController, locations;
 
 - (id)initWithFrame:(CGRect)frame
 {

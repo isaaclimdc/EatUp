@@ -26,6 +26,12 @@
                                target:self
                                action:@selector(goBack:)];
 
+    self.navigationItem.rightBarButtonItem =
+    [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"edit.png"]
+                        selectedImage:[UIImage imageNamed:@"editSelected.png"]
+                               target:self
+                               action:@selector(showEditScreen)];
+    
     /* Initialize EUEventView */
     eventView = [EUEventView newEventViewWithFrame:CGRectMake(0,
                                                               0,
@@ -47,6 +53,15 @@
     [self.navigationController.view.layer addAnimation:transition forKey:nil];
 
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)showEditScreen
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    UINavigationController *newEventNC = [storyboard instantiateViewControllerWithIdentifier:@"NewEventNavController"];
+    NewEventViewController *newEventVC = (NewEventViewController *)newEventNC.topViewController;
+    newEventVC.existingEvent = self.event;
+    [self presentViewController:newEventNC animated:YES completion:nil];
 }
 
 - (IBAction)showStatusAlert:(id)sender

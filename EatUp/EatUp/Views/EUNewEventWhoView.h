@@ -15,8 +15,12 @@
 
 @interface EUNewEventWhoView : TPKeyboardAvoidingScrollView
 <NewInviteeViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+{
+    NSMutableArray *invitees;
+}
 
 @property (strong, nonatomic) UIViewController *viewController;
+@property (strong, nonatomic) NSMutableArray *invitees;
 
 - (NSDictionary *)serialize;
 

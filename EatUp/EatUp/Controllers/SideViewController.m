@@ -123,10 +123,13 @@
     if (row == 0) {
         NSString *myName = [[NSUserDefaults standardUserDefaults] objectForKey:kEUUserDefaultsKeyMyName];
         NSURL *myImgURL = kEUFBUserProfPic([[NSUserDefaults standardUserDefaults] objectForKey:kEUUserDefaultsKeyMyUID]);
-        cell.textLabel.text = myName;
-        cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:myImgURL]];
+        cell.textLabel.text = [@"             " stringByAppendingString:myName];
 
-        CALayer *imageLayer = cell.imageView.layer;
+        UIImageView *picView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.height, cell.frame.size.height)];
+        [cell addSubview:picView];
+        [picView setImageWithURL:myImgURL];
+
+        CALayer *imageLayer = picView.layer;
         imageLayer.cornerRadius = 22;
         imageLayer.borderWidth = 1;
         imageLayer.borderColor = [UIColor lightGrayColor].CGColor;

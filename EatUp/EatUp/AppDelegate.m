@@ -264,7 +264,7 @@
                              UINavigationController *eventsNC = (UINavigationController *)revealController.frontViewController;
                              EventsViewController *eventsVC = (EventsViewController *)eventsNC.topViewController;
                              eventsVC.eventEIDs = eids;
-                             [eventsVC fetchData:nil];
+//                             [eventsVC fetchData:nil];
                          }
                          
                  }
