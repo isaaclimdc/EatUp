@@ -47,6 +47,8 @@
 
 + (void)performLogout {
     [FBSession.activeSession closeAndClearTokenInformation];
+
+    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kEUUserDefaultsKeyMyEIDs];
     
     [ILAlertView showWithTitle:@"Logged out!"
                        message:@"You have been successfully logged out of EatUp!"

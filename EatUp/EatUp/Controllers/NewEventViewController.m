@@ -140,7 +140,7 @@
 
     if ([self isCompleteData:payload]) {
         EUHTTPClient *client = [EUHTTPClient newClientInView:self.view];
-        [client postPath:@"/create/event"
+        [client postPath:@"/create/event/"
               parameters:payload
              loadingText:nil
              successText:nil

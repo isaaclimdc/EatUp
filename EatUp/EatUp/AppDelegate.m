@@ -158,7 +158,7 @@
 {
     switch (state) {
         case FBSessionStateOpen: {
-//            NSLog(@"Login success");
+            //            NSLog(@"Login success");
             UIViewController *topViewController = self.navController.topViewController;
             if ([topViewController.presentedViewController isKindOfClass:[LoginViewController class]]) {
                 [topViewController dismissViewControllerAnimated:YES completion:nil];
@@ -166,7 +166,7 @@
         }
             break;
         case FBSessionStateClosed: {
-//            NSLog(@"Logged out");
+            //            NSLog(@"Logged out");
             [self.navController popToRootViewControllerAnimated:NO];
             [revealController showViewController:revealController.frontViewController];
 
@@ -176,8 +176,8 @@
             break;
         }
         case FBSessionStateClosedLoginFailed: {
-//            NSLog(@"Login failed");
-            
+            //            NSLog(@"Login failed");
+
             [ILAlertView showWithTitle:@"Login failed!"
                                message:@"It looks like the Facebook login was cancelled. Please try logging in again."
                       closeButtonTitle:@"OK"
@@ -207,71 +207,63 @@
      ^(FBSession *session,
        FBSessionState state, NSError *error) {
          [self sessionStateChanged:session state:state error:error];
-         [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-             NSDictionary *myInfo = (NSDictionary *)result;
-             double myUID = [[myInfo objectForKey:@"id"] doubleValue];
-             NSString *myName = [myInfo objectForKey:@"name"];
-             [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:kEUUserDefaultsKeyMyUID];
-             [[NSUserDefaults standardUserDefaults] setObject:myName forKey:kEUUserDefaultsKeyMyName];
-             
-             NSString *myFirstName = [myInfo objectForKey:@"first_name"];
-             NSString *myLastName = [myInfo objectForKey:@"last_name"];
-             NSNumber *uidObj = [NSNumber numberWithDouble:myUID];
 
-             NSLog(@"Logged in as %@ (%@).", myName, uidObj);
+         if (state != FBSessionStateClosed) {
+             [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                 NSDictionary *myInfo = (NSDictionary *)result;
+                 double myUID = [[myInfo objectForKey:@"id"] doubleValue];
+                 NSString *myName = [myInfo objectForKey:@"name"];
+                 [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:kEUUserDefaultsKeyMyUID];
+                 [[NSUserDefaults standardUserDefaults] setObject:myName forKey:kEUUserDefaultsKeyMyName];
 
-             /* Query server for user */
-             EUHTTPClient *client = [EUHTTPClient newClientInView:self.window];
-             [client getPath:@"/info/user/"
-                  parameters:@{kEURequestKeyUserUID : uidObj}
-                 loadingText:nil
-                 successText:nil
-                     success:^(AFHTTPRequestOperation *operation, NSString *response) {
-                         NSDictionary *resp = [response JSONValue];
-                         if ([resp objectForKey:@"error"]) {
-                             
-                             /* User does not exist, so create a new user! */
-                             NSLog(@"Error: %@", [resp objectForKey:@"error"]);
-                             NSDictionary *params = @{kEURequestKeyUserUID : uidObj,
-                                                      kEURequestKeyUserFirstName : myFirstName,
-                                                      kEURequestKeyUserLastName : myLastName,
-                                                      kEURequestKeyUserProfPic : kEUFBUserProfPic(uidObj)
-                                                      };
-                             [client getPath:@"/create/user"
-                                   parameters:params
-                                  loadingText:nil
-                                  successText:nil
-                                      success:^(AFHTTPRequestOperation *operation, NSString *response) {
-                                          NSLog(@"SUCCESS: %@", response);
-                                      }
-                                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                          NSLog(@"ERROR: %@", error);
-                                      }];
-                         }
-                         else {
-                             /* Existing user. Login and fetch events */
-                             NSLog(@"FOUND USER!: %@", resp);
-                             NSArray *participating = [resp objectForKey:kEURequestKeyUserParticipating];
-                             NSLog(@"Participating: %@", participating);
+                 NSString *myFirstName = [myInfo objectForKey:@"first_name"];
+                 NSString *myLastName = [myInfo objectForKey:@"last_name"];
+                 NSNumber *uidObj = [NSNumber numberWithDouble:myUID];
 
-                             /* Save only the eids */
-                             NSMutableArray *eids = [NSMutableArray array];
-                             for (NSDictionary *dict in participating) {
-                                 [eids addObject:[dict objectForKey:kEURequestKeyEventEID]];
+                 NSLog(@"Logged in as %@ (%@).", myName, uidObj);
+
+                 /* Query server for user */
+                 UINavigationController *eventsNC = (UINavigationController *)self.window.rootViewController;
+                 EventsViewController *eventsVC = (EventsViewController *)eventsNC.topViewController;
+                 EUHTTPClient *client = [EUHTTPClient newClientInView:eventsVC.view];
+                 [client getPath:@"/info/user/"
+                      parameters:@{kEURequestKeyUserUID : uidObj}
+                     loadingText:nil
+                     successText:nil
+                         success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                             NSDictionary *resp = [response JSONValue];
+                             if ([resp objectForKey:@"error"]) {
+
+                                 /* User does not exist, so create a new user! */
+                                 NSLog(@"Error: %@", [resp objectForKey:@"error"]);
+                                 NSDictionary *params = @{kEURequestKeyUserUID : uidObj,
+                                                          kEURequestKeyUserFirstName : myFirstName,
+                                                          kEURequestKeyUserLastName : myLastName,
+                                                          kEURequestKeyUserProfPic : kEUFBUserProfPic(uidObj)
+                                                          };
+                                 NSLog(@"CREATE USER PARAMS: %@", params);
+                                 [client getPath:@"/create/user"
+                                      parameters:params
+                                     loadingText:nil
+                                     successText:nil
+                                         success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                                             NSLog(@"SUCCESS: %@", response);
+                                         }
+                                         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             NSLog(@"ERROR: %@", error);
+                                         }];
+                             }
+                             else {
+                                 /* Existing user. Login and fetch events */
+                                 NSLog(@"FOUND USER!: %@", resp);
                              }
 
-                             /* Assign to EventsViewController */
-                             UINavigationController *eventsNC = (UINavigationController *)revealController.frontViewController;
-                             EventsViewController *eventsVC = (EventsViewController *)eventsNC.topViewController;
-                             eventsVC.eventEIDs = eids;
-//                             [eventsVC fetchData:nil];
                          }
-                         
-                 }
-                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                     NSLog(@"ERROR: %@", error);
-                 }];
-         }];
+                         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                             NSLog(@"ERROR: %@", error);
+                         }];
+             }];
+         }
      }];
 }
 

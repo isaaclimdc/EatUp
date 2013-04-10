@@ -114,8 +114,8 @@
 
 - (void)changeToCategoryAtIndex:(NSUInteger)index
 {
-    assert(self.categories.count > index);
-
+    [self hideKeyboard];
+    
     /* Change category buttons */
     ILSelectionViewCategory *cat1 = [self.categories objectAtIndex:0];
     ILSelectionViewCategory *cat2 = [self.categories objectAtIndex:1];
@@ -188,6 +188,13 @@
 }
 
 #pragma mark - Helper Methods
+
+- (void)hideKeyboard
+{
+    for (ILSelectionViewCategory *cat in self.categories)
+        for (UIView *view in cat.contentView.subviews)
+            [view resignFirstResponder];
+}
 
 /* Returns YES if array contains only ILSelectionViewCategory objects, NO otherwise. */
 + (BOOL)arrayContainsCategoryObjects:(NSArray *)array {

@@ -54,12 +54,12 @@
 
     [self performBlock:^{
         [self fetchData:nil];
-    } afterDelay:1];
+    } afterDelay:0.1];
 
     UIImageView *titleIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
     titleIcon.center = self.navigationController.navigationBar.center;
     [self.navigationController.navigationBar addSubview:titleIcon];
-    
+
 
     self.navigationItem.leftBarButtonItem =
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"menu.png"]
@@ -79,81 +79,37 @@
     [self setRefreshControl:refreshControl];
 }
 
-//- (void)fetchUsersWithSuccessHandler:(void (^)(void))success
-//{
-//    /* GET the database of users (FOR PROTOTYPE ONLY) */
-//    [client getPath:@"sampleusers.json"
-//         parameters:nil
-//        loadingText:@"Getting ready"
-//        successText:nil
-//            success:^(AFHTTPRequestOperation *operation, NSString *response) {
-//                NSArray *allUsers = [[response JSONValue] objectForKey:@"users"];
-//
-//                for (NSDictionary *dict in allUsers) {
-//                    EUUser *user = [EUUser userFromParams:dict];
-//                    [users addObject:user];
-//                }
-//                
-//                [client forceHideHUD];
-//                success();
-//            }
-//            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                NSLog(@"Error when fetching users: %@", error);
-//            }
-//     ];
-//}
-
 - (IBAction)fetchData:(id)sender
 {
     events = [NSMutableArray array];
-    NSLog(@"%@", eventEIDs);
-    for (NSNumber *eid in eventEIDs) {
-        [client getPath:@"/info/event/"
-             parameters:@{@"eid" : eid}
-            loadingText:nil
-            successText:nil
-                success:^(AFHTTPRequestOperation *operation, NSString *response) {
-                    NSDictionary *params = [response JSONValue];
-                    NSLog(@"Fetched event: %@", params);
+    NSNumber *myUID = [NSNumber numberWithDouble:[[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID]];
+
+    [client getPath:@"/info/userevents/"
+         parameters:@{@"uid" : myUID}
+        loadingText:nil
+        successText:nil
+            success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                NSDictionary *fetchedEvents = [[response JSONValue] objectForKey:@"events"];
+                NSLog(@"FETCHED EVENTS: %@", fetchedEvents);
+
+                for (NSDictionary *params in fetchedEvents) {
                     EUEvent *event = [EUEvent eventFromParams:params];
                     [events addObject:event];
-                    [self.tableView reloadData];
-                    [client forceHideHUD];
                 }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    NSLog(@"ERROR: %@", error);
-                }];
-    }
 
-//    /* GET the user's events data */
-//    [client getPath:@"sampledata.json"
-//         parameters:nil
-//        loadingText:@"Fetching data"
-//        successText:nil
-//            success:^(AFHTTPRequestOperation *operation, NSString *response) {
-//                NSDictionary *resDict = [response JSONValue];
-////                NSLog(@"%@", resDict);
-////                NSDictionary *myInfo = [resDict objectForKey:@"me"];
-//
-//                NSDictionary *eventsTmp = [resDict objectForKey:@"events"];
-//                for (NSDictionary *dict in eventsTmp) {
-//                    EUEvent *event = [EUEvent eventFromParams:dict];
-//                    [events addObject:event];
-//                }
-//
-//                /* Sort events reverse chronologically */
-//                [events sortUsingComparator:^NSComparisonResult(EUEvent *event1, EUEvent *event2) {
-//                    return [event1 compare:event2];
-//                }];
-//
-//                /* Done fetching all data. Reload the UI */
-//                [self.tableView reloadData];
-//                [(UIRefreshControl *)sender endRefreshing];
-//            }
-//            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                NSLog(@"Error when fetching data: %@", error);
-//            }
-//     ];
+                /* Sort events reverse chronologically */
+                [events sortUsingComparator:^NSComparisonResult(EUEvent *event1, EUEvent *event2) {
+                    return [event1 compare:event2];
+                }];
+
+                /* Done fetching all data. Reload the UI */
+                [self.tableView reloadData];
+                [(UIRefreshControl *)sender endRefreshing];
+                [client forceHideHUD];
+            }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"ERROR: %@", error);
+            }];
 }
 
 - (void)showNewEvent
