@@ -59,8 +59,8 @@
     NSDictionary *dict = @{
                            kEURequestKeyLocationLat : [NSNumber numberWithDouble:self.lat],
                            kEURequestKeyLocationLng : [NSNumber numberWithDouble:self.lng],
-                           kEURequestKeyLocationFriendlyName : self.friendlyName,
-                           kEURequestKeyLocationLink : self.link,
+                           kEURequestKeyLocationFriendlyName : [self.friendlyName stringByReplacingOccurrencesOfString:@"\"" withString:@""],
+                           kEURequestKeyLocationLink : [[self.link absoluteString] stringByReplacingOccurrencesOfString:@"\"" withString:@""],
                            kEURequestKeyLocationNumVotes : [NSNumber numberWithInt:self.numVotes]
                            };
 

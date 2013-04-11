@@ -12,9 +12,9 @@
 
 + (EUHTTPClient *)newClientInView:(UIView *)view
 {
-    ILHTTPClient *client = [ILHTTPClient clientWithBaseURL:kEUBaseURL showingHUDInView:view];
-    [client setParameterEncoding:AFJSONParameterEncoding];
-    return (EUHTTPClient *)client;
+    EUHTTPClient *client = (EUHTTPClient *)[ILHTTPClient clientWithBaseURL:kEUBaseURL showingHUDInView:view];
+//    client.parameterEncoding = AFJSONParameterEncoding;
+    return client;
 }
 
 @end

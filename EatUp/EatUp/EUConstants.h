@@ -44,7 +44,7 @@
 #define kEURequestKeyUserUID @"uid"
 #define kEURequestKeyUserFirstName @"first_name"
 #define kEURequestKeyUserLastName @"last_name"
-#define kEURequestKeyUserProfPic @"prof_pic_url"
+#define kEURequestKeyUserProfPic @"prof_pic"
 #define kEURequestKeyUserParticipating @"participating"
 #define kEURequestKeyUserFriends @"friends"
 #define kEUFBUserProfPic(fbid) [NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal", (fbid)]]

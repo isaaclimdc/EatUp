@@ -132,10 +132,10 @@
 
     for (EUUser *invitee in invitees) {
         [arr addObject:[NSNumber numberWithDouble:invitee.uid]];   /* This will eventually be events.participants */
-//        [arr addObject:[invitee semiSerialize]];
     }
 
     NSNumber *myUID = [NSNumber numberWithDouble:[[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID]];
+[arr addObject:myUID];
     NSDictionary *dict = @{
                            kEURequestKeyEventParticipants : arr,
                            kEURequestKeyEventHost : myUID

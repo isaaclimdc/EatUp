@@ -7,6 +7,7 @@
 //
 
 #import "NewEventViewController.h"
+#import "AFJSONRequestOperation.h"
 
 #define kEUNewEventViewSelectionViewBuffer 10.0f
 #define IS_EDIT (existingEvent != nil)
@@ -21,7 +22,7 @@
 
 @implementation NewEventViewController
 
-@synthesize sView, existingEvent;
+@synthesize sView, existingEvent, delegate;
 
 - (void)viewDidLoad
 {
@@ -124,7 +125,7 @@
 - (BOOL)isCompleteData:(NSDictionary *)data
 {
     if (((NSString *)[data objectForKey:kEURequestKeyEventTitle]).length == 0) return NO;
-    if (((NSArray *)[data objectForKey:kEURequestKeyEventLocations]).count == 0) return NO;
+//    if (((NSArray *)[data objectForKey:kEURequestKeyEventLocations]).count == 0) return NO;
     return YES;
 }
 
@@ -133,14 +134,23 @@
     NSMutableDictionary *payload = [NSMutableDictionary dictionary];
 
     [payload addEntriesFromDictionary:[whenView serialize]];
-    [payload addEntriesFromDictionary:[whereView serialize]];
+//    [payload addEntriesFromDictionary:[whereView serialize]];
     [payload addEntriesFromDictionary:[whoView serialize]];
+    NSString *path;
+
+    if (IS_EDIT) {
+        path = @"/edit/event/";
+        [payload setObject:[NSNumber numberWithDouble:existingEvent.eid] forKey:kEURequestKeyEventEID];
+    }
+    else {
+        path = @"/create/event/";
+    }
 
     NSLog(@"Payload: %@", payload);
 
     if ([self isCompleteData:payload]) {
         EUHTTPClient *client = [EUHTTPClient newClientInView:self.view];
-        [client postPath:@"/create/event/"
+        [client postPath:path
               parameters:payload
              loadingText:nil
              successText:nil
@@ -153,38 +163,17 @@
                                closeButtonTitle:@"OK"
                               secondButtonTitle:nil];
 
+                     [self.delegate didDismissWithNewEvent:nil];
                      [self performDismiss];
-           }
+                 }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                     NSLog(@"ERROR: %@", error);
+                     NSLog(@"ERROR: %@, %@", operation.request.HTTPBody, error);
 
                      [ILAlertView showWithTitle:@"Error!"
                                         message:@"Something went wrong :( Please try creating the event again in a few minutes."
                                closeButtonTitle:@"OK"
                               secondButtonTitle:nil];
                  }];
-//        [client getPath:@"/create/event"
-//             parameters:payload
-//            loadingText:@"Creating event"
-//            successText:@"Done!"
-//                success:^(AFHTTPRequestOperation *operation, NSString *response) {
-//                    NSLog(@"SUCCESS!: %@", response);
-//
-//                    [ILAlertView showWithTitle:@"Done!"
-//                                       message:@"Your new meal has been created, and the invitees have been sent a notification to join."
-//                              closeButtonTitle:@"OK"
-//                             secondButtonTitle:nil];
-//                    
-//                    [self performDismiss];
-//                }
-//                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                    NSLog(@"ERROR: %@", error);
-//
-//                    [ILAlertView showWithTitle:@"Error!"
-//                                       message:@"Something went wrong :( Please try creating the event again in a few minutes."
-//                              closeButtonTitle:@"OK"
-//                             secondButtonTitle:nil];
-//                }];
     }
     else {
         [ILAlertView showWithTitle:@"Incomplete!"

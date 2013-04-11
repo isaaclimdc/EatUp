@@ -15,16 +15,18 @@
 #import "NewLocationViewController.h"
 #import "NewInviteeViewController.h"
 
-//typedef enum {
-//    NewEventViewControllerModeBrandNew,
-//    NewEventViewControllerModeEdit
-//} NewEventViewControllerMode;
+@protocol NewEventViewControllerDelegate <NSObject>
+
+- (void)didDismissWithNewEvent:(EUEvent *)anEvent;
+
+@end
 
 @interface NewEventViewController : UIViewController {
     ILSelectionView *sView;
     EUEvent *existingEvent;
 }
 
+@property (nonatomic, weak) id <NewEventViewControllerDelegate> delegate;
 @property (strong, nonatomic) ILSelectionView *sView;
 @property (strong, nonatomic) EUEvent *existingEvent;
 

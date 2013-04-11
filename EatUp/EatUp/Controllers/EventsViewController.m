@@ -54,7 +54,7 @@
 
     [self performBlock:^{
         [self fetchData:nil];
-    } afterDelay:0.1];
+    } afterDelay:0.5];
 
     UIImageView *titleIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
     titleIcon.center = self.navigationController.navigationBar.center;

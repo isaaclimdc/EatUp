@@ -242,10 +242,11 @@
                                                           kEURequestKeyUserProfPic : kEUFBUserProfPic(uidObj)
                                                           };
                                  NSLog(@"CREATE USER PARAMS: %@", params);
-                                 [client getPath:@"/create/user"
+                                 [client postPath:@"/create/user/"
                                       parameters:params
                                      loadingText:nil
                                      successText:nil
+                                    multiPartForm:nil
                                          success:^(AFHTTPRequestOperation *operation, NSString *response) {
                                              NSLog(@"SUCCESS: %@", response);
                                          }
