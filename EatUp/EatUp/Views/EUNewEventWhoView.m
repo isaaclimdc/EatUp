@@ -96,6 +96,7 @@
     EUUser *user = [invitees objectAtIndex:indexPath.row];
     cell.textLabel.text = [user fullName];
     cell.textLabel.font = kEUFontText;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     return cell;
 }
@@ -135,7 +136,7 @@
     }
 
     NSNumber *myUID = [NSNumber numberWithDouble:[[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID]];
-[arr addObject:myUID];
+    [arr addObject:myUID];
     NSDictionary *dict = @{
                            kEURequestKeyEventParticipants : arr,
                            kEURequestKeyEventHost : myUID

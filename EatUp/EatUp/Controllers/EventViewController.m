@@ -14,7 +14,7 @@
 
 @implementation EventViewController
 
-@synthesize eventView, event;
+@synthesize eventView, event, parent;
 
 - (void)viewDidLoad
 {
@@ -31,14 +31,17 @@
                         selectedImage:[UIImage imageNamed:@"editSelected.png"]
                                target:self
                                action:@selector(showEditScreen)];
-    
+
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bkg.png"]];
+
     /* Initialize EUEventView */
     eventView = [EUEventView newEventViewWithFrame:CGRectMake(0,
                                                               0,
                                                               self.view.frame.size.width,
                                                               self.view.frame.size.height
-                                                                - self.navigationController.navigationBar.frame.size.height)
-                                          andEvent:event];
+                                                              - self.navigationController.navigationBar.frame.size.height)
+                                             event:event
+                                            parent:self];
     [self.view addSubview:eventView];
 }
 
@@ -61,7 +64,50 @@
     UINavigationController *newEventNC = [storyboard instantiateViewControllerWithIdentifier:@"NewEventNavController"];
     NewEventViewController *newEventVC = (NewEventViewController *)newEventNC.topViewController;
     newEventVC.existingEvent = self.event;
+    newEventVC.delegate = self;
     [self presentViewController:newEventNC animated:YES completion:nil];
+}
+
+- (void)didDismissWithNewEvent:(BOOL)isNew
+{
+    if (!isNew) {
+        EUHTTPClient *client = [EUHTTPClient newClientInView:self.view];
+        [client getPath:@"/info/event"
+             parameters:@{@"eid" : [NSNumber numberWithDouble:event.eid]}
+            loadingText:nil
+            successText:nil
+                success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                    NSDictionary *dict = [response JSONValue];
+                    EUEvent *updatedEvent = [EUEvent eventFromParams:dict];
+                    [eventView customizeForEvent:updatedEvent];
+
+                    [parent fetchData];
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"ERROR: %@", error);
+                }];
+    }
+}
+
+- (void)customAnimationToViewController:(UIViewController *)viewController {
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.4;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:
+                                 kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromRight;
+    transition.delegate = self;
+    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)locationTapped
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    LocationsViewController *locVC = [storyboard instantiateViewControllerWithIdentifier:@"LocationsViewController"];
+    locVC.locationsArray = event.locations;
+    [self customAnimationToViewController:locVC];
 }
 
 - (IBAction)showStatusAlert:(id)sender

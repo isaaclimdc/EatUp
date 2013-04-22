@@ -87,7 +87,7 @@
     CLLocationDegrees currentLat = currentLocation.coordinate.latitude;
     CLLocationDegrees currentLng = currentLocation.coordinate.longitude;
     
-    NSString *unescaped = [NSString stringWithFormat:@"%@/search?term=%@&ll=%f,%f&sort=1&category_filter=food,restaurants", kEUYelpBaseURL, query, currentLat, currentLng];
+    NSString *unescaped = [NSString stringWithFormat:@"%@/search?term=%@&ll=%f,%f&sort=0&category_filter=food,restaurants", kEUYelpBaseURL, query, currentLat, currentLng];
     NSString *escapedString = [unescaped stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     NSLog(@"Connecting to %@", escapedString);
 
@@ -159,7 +159,19 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return results.count;
+    NSUInteger count = results.count;
+
+    if (count == 0) {
+        if (self.searchBox.text.length == 0) {
+            return 0;
+        }
+        else {
+            return 1;
+        }
+    }
+    else {
+        return count + 1;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -169,10 +181,20 @@
 
     // Configure the cell...
     NSUInteger row = indexPath.row;
-    EULocation *loc = [results objectAtIndex:row];
-    cell.textLabel.text = loc.friendlyName;
-    cell.detailTextLabel.text = [self howFarAwayString:loc];
-
+    if (row == 0) {
+        cell.textLabel.text = [NSString stringWithFormat:@"Add \"%@\"", self.searchBox.text];
+        cell.detailTextLabel.text = @"";
+        cell.textLabel.font = [UIFont fontWithName:kEUFontFamilyName @"Italic" size:18];
+        cell.textLabel.textColor = [UIColor grayColor];
+    }
+    else {
+        EULocation *loc = [results objectAtIndex:row-1];
+        cell.textLabel.text = loc.friendlyName;
+        cell.detailTextLabel.text = [self howFarAwayString:loc];
+        cell.textLabel.font = kEUFontTextBold;
+        cell.textLabel.textColor = [UIColor blackColor];
+    }
+    
     return cell;
 }
 
@@ -180,9 +202,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EULocation *location = [results objectAtIndex:indexPath.row];
+    NSUInteger row = indexPath.row;
+
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self.delegate didDismissWithNewLocation:location];
+
+    if (row == 0) {
+        [self.delegate didDismissWithNewLocation:self.searchBox.text];
+    }
+    else {
+        EULocation *location = [results objectAtIndex:indexPath.row-1];
+        [self.delegate didDismissWithNewLocation:location.friendlyName];
+    }
 }
 
 #pragma mark - CLLocationManagerDelegate

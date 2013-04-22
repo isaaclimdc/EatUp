@@ -13,6 +13,7 @@
 
 @property (nonatomic) double lat;
 @property (nonatomic) double lng;
+@property (strong, nonatomic) NSString *yid;
 @property (strong, nonatomic) NSString *friendlyName;
 @property (strong, nonatomic) NSURL *link;
 @property (nonatomic) NSInteger numVotes;

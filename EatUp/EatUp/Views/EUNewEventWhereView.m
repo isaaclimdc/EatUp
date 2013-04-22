@@ -12,7 +12,6 @@
 {
     UITextView *locationBox;
     UITableView *locationsTableView;
-    NSUInteger selectedCell;
 }
 @end
 
@@ -63,9 +62,9 @@
     return self;
 }
 
-- (void)didDismissWithNewLocation:(EULocation *)aLoc
+- (void)didDismissWithNewLocation:(NSString *)aLoc
 {
-    NSLog(@"Selected %@", aLoc.friendlyName);
+    NSLog(@"Selected %@", aLoc);
     [locations addObject:aLoc];
     [locationsTableView reloadData];
 }
@@ -94,16 +93,10 @@
     }
 
     // Configure the cell...
-    EULocation *loc = [locations objectAtIndex:indexPath.row];
-    cell.textLabel.text = loc.friendlyName;
+    NSString *loc = [locations objectAtIndex:indexPath.row];
+    cell.textLabel.text = loc;
     cell.textLabel.font = kEUFontText;
-
-    if (indexPath.row == selectedCell) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-    else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     return cell;
 }
@@ -128,30 +121,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EULocation *loc = [locations objectAtIndex:indexPath.row];
-    NSLog(@"Tapped on %@", loc.friendlyName);
-
-    NSUInteger oldSel = selectedCell;
-    selectedCell = indexPath.row;
-    if (selectedCell != oldSel) {
-        [tableView reloadRowsAtIndexPaths:@[indexPath, [NSIndexPath indexPathForRow:oldSel inSection:0]]
-                         withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-    else {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /* Package up data on this view and prepare for sending */
 - (NSDictionary *)serialize
 {
     NSMutableArray *arr = [NSMutableArray array];
-    for (EULocation *location in locations) {
-        [arr addObject:[location serialize]];  /* This will eventually be events.locations */
+    for (NSString *location in locations) {
+        [arr addObject:location];
     }
 
     NSDictionary *dict = @{kEURequestKeyEventLocations: arr};
-    NSLog(@"%@", dict);
     return dict;
 }
 

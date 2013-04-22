@@ -12,13 +12,12 @@
     NSMutableArray *users;
     EUHTTPClient *client;
     NSMutableArray *events;
+    UIRefreshControl *refreshControl;
 }
 
 @end
 
 @implementation EventsViewController
-
-@synthesize eventEIDs;
 
 - (void)viewDidLoad
 {
@@ -52,14 +51,11 @@
     /* Initialize data arrays and HTTP client */
     client = [EUHTTPClient newClientInView:self.view];
 
-    [self performBlock:^{
-        [self fetchData:nil];
-    } afterDelay:0.5];
+    [self fetchData];
 
     UIImageView *titleIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
     titleIcon.center = self.navigationController.navigationBar.center;
     [self.navigationController.navigationBar addSubview:titleIcon];
-
 
     self.navigationItem.leftBarButtonItem =
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"menu.png"]
@@ -74,49 +70,59 @@
                                action:@selector(showNewEvent)];
 
     /* Initialize Refresh Control */
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(fetchData:) forControlEvents:UIControlEventValueChanged];
+    refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(fetchData) forControlEvents:UIControlEventValueChanged];
     [self setRefreshControl:refreshControl];
 }
 
-- (IBAction)fetchData:(id)sender
+- (void)fetchData
 {
     events = [NSMutableArray array];
     NSNumber *myUID = [NSNumber numberWithDouble:[[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID]];
+    
+    if (myUID) {
+        [client getPath:@"/info/userevents/"
+             parameters:@{@"uid" : myUID}
+            loadingText:@"Fetching events"
+            successText:nil
+                success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                    NSDictionary *fetchedEvents = [[response JSONValue] objectForKey:@"events"];
+                    NSLog(@"FETCHED EVENTS: %@", fetchedEvents);
 
-    [client getPath:@"/info/userevents/"
-         parameters:@{@"uid" : myUID}
-        loadingText:nil
-        successText:nil
-            success:^(AFHTTPRequestOperation *operation, NSString *response) {
-                NSDictionary *fetchedEvents = [[response JSONValue] objectForKey:@"events"];
-                NSLog(@"FETCHED EVENTS: %@", fetchedEvents);
+                    for (NSDictionary *params in fetchedEvents) {
+                        EUEvent *event = [EUEvent eventFromParams:params];
+                        [events addObject:event];
+                    }
 
-                for (NSDictionary *params in fetchedEvents) {
-                    EUEvent *event = [EUEvent eventFromParams:params];
-                    [events addObject:event];
+                    /* Sort events reverse chronologically */
+                    [events sortUsingComparator:^NSComparisonResult(EUEvent *event1, EUEvent *event2) {
+                        return [event1 compare:event2];
+                    }];
+
+                    /* Done fetching all data. Reload the UI */
+                    [self.tableView reloadData];
+                    [refreshControl endRefreshing];
                 }
-
-                /* Sort events reverse chronologically */
-                [events sortUsingComparator:^NSComparisonResult(EUEvent *event1, EUEvent *event2) {
-                    return [event1 compare:event2];
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"ERROR: %@", error);
                 }];
-
-                /* Done fetching all data. Reload the UI */
-                [self.tableView reloadData];
-                [(UIRefreshControl *)sender endRefreshing];
-                [client forceHideHUD];
-            }
-            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"ERROR: %@", error);
-            }];
+    }
 }
 
 - (void)showNewEvent
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     UINavigationController *newEventNC = [storyboard instantiateViewControllerWithIdentifier:@"NewEventNavController"];
+    NewEventViewController *newEventVC = (NewEventViewController *)newEventNC.topViewController;
+    newEventVC.delegate = self;
     [self presentViewController:newEventNC animated:YES completion:nil];
+}
+
+- (void)didDismissWithNewEvent:(BOOL)isNew
+{
+    if (isNew) {
+        [self fetchData];
+    }
 }
 
 - (void)showSideMenu
@@ -186,6 +192,7 @@
     [storyboard instantiateViewControllerWithIdentifier:@"EventViewController"];
     EUEvent *event = [events objectAtIndex:indexPath.row];
     eventVC.event = event;
+    eventVC.parent = self;
     [self customAnimationToViewController:eventVC];
 }
 

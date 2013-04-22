@@ -64,7 +64,6 @@
 /* NSUserDefaults Keys */
 #define kEUUserDefaultsKeyMyUID @"EUMyUID"
 #define kEUUserDefaultsKeyMyName @"EUMyName"
-#define kEUUserDefaultsKeyMyEIDs @"EUMyEIDs"
 
 /* Misc */
 #define kEUDateFormat @"yyyy-MM-dd HH:mm:ss ZZZ"

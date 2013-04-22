@@ -15,7 +15,7 @@
 
 @protocol NewLocationViewControllerDelegate <NSObject>
 
-- (void)didDismissWithNewLocation:(EULocation *)aLoc;
+- (void)didDismissWithNewLocation:(NSString *)aLoc;
 
 @end
 

@@ -223,9 +223,7 @@
                  NSLog(@"Logged in as %@ (%@).", myName, uidObj);
 
                  /* Query server for user */
-                 UINavigationController *eventsNC = (UINavigationController *)self.window.rootViewController;
-                 EventsViewController *eventsVC = (EventsViewController *)eventsNC.topViewController;
-                 EUHTTPClient *client = [EUHTTPClient newClientInView:eventsVC.view];
+                 EUHTTPClient *client = [EUHTTPClient newClientInView:[[UIView alloc] init]];
                  [client getPath:@"/info/user/"
                       parameters:@{kEURequestKeyUserUID : uidObj}
                      loadingText:nil
@@ -256,7 +254,7 @@
                              }
                              else {
                                  /* Existing user. Login and fetch events */
-                                 NSLog(@"FOUND USER!: %@", resp);
+//                                 NSLog(@"FOUND USER!: %@", resp);
                              }
 
                          }

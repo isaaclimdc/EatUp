@@ -134,7 +134,7 @@
     NSMutableDictionary *payload = [NSMutableDictionary dictionary];
 
     [payload addEntriesFromDictionary:[whenView serialize]];
-//    [payload addEntriesFromDictionary:[whereView serialize]];
+    [payload addEntriesFromDictionary:[whereView serialize]];
     [payload addEntriesFromDictionary:[whoView serialize]];
     NSString *path;
 
@@ -158,13 +158,24 @@
                  success:^(AFHTTPRequestOperation *operation, NSString *response) {
                      NSLog(@"SUCCESS!: %@", response);
 
-                     [ILAlertView showWithTitle:@"Done!"
-                                        message:@"Your new meal has been created, and the invitees have been sent a notification to join."
-                               closeButtonTitle:@"OK"
-                              secondButtonTitle:nil];
+                     if (IS_EDIT) {
+                         [ILAlertView showWithTitle:@"Done!"
+                                            message:@"The details of this meal have been successfully modified!"
+                                   closeButtonTitle:@"OK"
+                                  secondButtonTitle:nil];
 
-                     [self.delegate didDismissWithNewEvent:nil];
-                     [self performDismiss];
+                         [self performDismiss];
+                         [self.delegate didDismissWithNewEvent:NO];
+                     }
+                     else {
+                         [ILAlertView showWithTitle:@"Done!"
+                                            message:@"Your new meal has been created, and the invitees have been sent a notification to join."
+                                   closeButtonTitle:@"OK"
+                                  secondButtonTitle:nil];
+
+                         [self performDismiss];
+                         [self.delegate didDismissWithNewEvent:YES];
+                     }
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      NSLog(@"ERROR: %@, %@", operation.request.HTTPBody, error);

@@ -25,6 +25,7 @@
 
 - (NSString *)relativeDateString;
 - (NSString *)absoluteDateString;
+- (BOOL)amIGoing;
 
 - (NSString *)participantsString;
 - (NSAttributedString *)locationsString;

@@ -17,7 +17,7 @@
 
 @protocol NewEventViewControllerDelegate <NSObject>
 
-- (void)didDismissWithNewEvent:(EUEvent *)anEvent;
+- (void)didDismissWithNewEvent:(BOOL)isNew;
 
 @end
 

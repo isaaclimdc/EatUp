@@ -177,7 +177,7 @@
     NSInteger hour = [components hour];
     NSInteger minute = [components minute];
     
-    return [NSString stringWithFormat:@"%2d:%02d %@", hour%12, minute, hour<12 ? @"am": @"pm"];
+    return [NSString stringWithFormat:@"%2d:%02d %@", (hour%12)==0?12:(hour%12), minute, hour<12 ? @"am": @"pm"];
 }
 
 static CGFloat CGFloatGetAfterY(CGRect rect) {

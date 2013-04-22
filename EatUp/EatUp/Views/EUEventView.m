@@ -10,12 +10,15 @@
 
 @implementation EUEventView
 
-@synthesize event;
+@synthesize event, parentVC;
 @synthesize titleLabel, dateTimeLabel, locationLabel, goingSegCtrl, participantsScrollView, descriptionTextView;
 
-+ (EUEventView *)newEventViewWithFrame:(CGRect)aFrame andEvent:(EUEvent *)anEvent
++ (EUEventView *)newEventViewWithFrame:(CGRect)aFrame
+                                 event:(EUEvent *)anEvent
+                                parent:(EventViewController *)parentVC
 {
     EUEventView *eventView = [[EUEventView alloc] initWithFrame:aFrame];
+    eventView.parentVC = parentVC;
     [eventView customizeForEvent:anEvent];
     return eventView;
 }
@@ -33,6 +36,7 @@
                                                                   20)];
         dateTimeLabel.font = kEUFontTextItalic;
         dateTimeLabel.textColor = [UIColor grayColor];
+        dateTimeLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:dateTimeLabel];
 
         /* Title label */
@@ -41,6 +45,7 @@
                                                                width,
                                                                30)];
         titleLabel.font = kEUFontTitle;
+        titleLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:titleLabel];
 
         /* Location label */
@@ -49,6 +54,8 @@
                                                                   width,
                                                                   20)];
         locationLabel.font = kEUFontTextItalic;
+        locationLabel.backgroundColor = [UIColor clearColor];
+        locationLabel.userInteractionEnabled = YES;
         [self addSubview:locationLabel];
 
         /* Going/Notgoing Segmented Control */
@@ -63,7 +70,7 @@
                                                                                     CGFloatGetAfterY(goingSegCtrl.frame),
                                                                                     self.frame.size.width,
                                                                                     150)];
-        [participantsScrollView setBackgroundColor:[UIColor colorWithWhite:0.9 alpha:1.0]
+        [participantsScrollView setBackgroundColor:[UIColor colorWithWhite:0.6 alpha:1.0]
                                     indicatorStyle:UIScrollViewIndicatorStyleBlack
                                    itemBorderColor:kEUMainColor];
         [self addSubview:participantsScrollView];
@@ -76,6 +83,7 @@
         descriptionTextView.font = kEUFontText;
         descriptionTextView.editable = NO;
         descriptionTextView.scrollEnabled = NO;
+        descriptionTextView.backgroundColor = [UIColor clearColor];
         [self addSubview:descriptionTextView];
 
         /* Self customization */
@@ -91,7 +99,12 @@
     self.titleLabel.text = self.event.title;
     self.descriptionTextView.text = self.event.description;
     [self autoResize:descriptionTextView];
+    self.goingSegCtrl.selectedSegmentIndex = [event amIGoing] ? 0 : 1;
+
     self.locationLabel.attributedText = [self.event locationsString];
+    UITapGestureRecognizer *tapGesture =
+    [[UITapGestureRecognizer alloc] initWithTarget:parentVC action:@selector(locationTapped)];
+    [self.locationLabel addGestureRecognizer:tapGesture];
 
     /* Populate side scroll view */
     NSMutableArray *items = [NSMutableArray array];
@@ -109,16 +122,18 @@
 
 - (void)pictureTapped:(EUUser *)user
 {
-    NSString *msg;
+    NSString *title, *msg;
     double myUID = [[NSUserDefaults standardUserDefaults] doubleForKey:@"EUMyUID"];
     if (user.uid == myUID) {
-        msg = @"That's you! You're going right?";
+        title = @"That's you!";
+        msg = @"You're going to this event.";
     }
     else {
-        msg = [NSString stringWithFormat:@"%@ is also going!", [user fullName]];
+        title = [NSString stringWithFormat:@"That's %@!", [user fullName]];
+        msg = [NSString stringWithFormat:@"%@ is also going to this event.", user.firstName];
     }
     
-    [ILAlertView showWithTitle:[NSString stringWithFormat:@"Tapped on %@", user.firstName]
+    [ILAlertView showWithTitle:title
                        message:msg
               closeButtonTitle:@"OK"
              secondButtonTitle:nil];

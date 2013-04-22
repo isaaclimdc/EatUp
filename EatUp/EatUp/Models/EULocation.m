@@ -10,7 +10,7 @@
 
 @implementation EULocation
 
-@synthesize lat, lng, friendlyName, link, numVotes;
+@synthesize lat, lng, yid, friendlyName, link, numVotes;
 
 + (EULocation *)locationFromParams:(NSDictionary *)params
 {
@@ -31,6 +31,7 @@
     location.lat = [[coords objectForKey:@"latitude"] doubleValue];
     location.lng = [[coords objectForKey:@"longitude"] doubleValue];
     location.friendlyName = [params objectForKey:@"name"];
+    location.yid = [params objectForKey:@"id"];
     location.link = [NSURL URLWithString:[params objectForKey:@"url"]];
     location.numVotes = 0;
 
@@ -59,8 +60,8 @@
     NSDictionary *dict = @{
                            kEURequestKeyLocationLat : [NSNumber numberWithDouble:self.lat],
                            kEURequestKeyLocationLng : [NSNumber numberWithDouble:self.lng],
-                           kEURequestKeyLocationFriendlyName : [self.friendlyName stringByReplacingOccurrencesOfString:@"\"" withString:@""],
-                           kEURequestKeyLocationLink : [[self.link absoluteString] stringByReplacingOccurrencesOfString:@"\"" withString:@""],
+                           kEURequestKeyLocationFriendlyName : self.friendlyName,
+                           kEURequestKeyLocationLink : self.link,
                            kEURequestKeyLocationNumVotes : [NSNumber numberWithInt:self.numVotes]
                            };
 

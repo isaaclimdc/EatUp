@@ -36,8 +36,8 @@
 
     NSMutableArray *locs = [NSMutableArray array];
     for (NSDictionary *locDict in [params objectForKey:kEURequestKeyEventLocations]) {
-        EULocation *loc = [EULocation locationFromParams:locDict];
-        [locs addObject:loc];
+        NSString *friendlyName = [locDict objectForKey:kEURequestKeyLocationFriendlyName];
+        [locs addObject:friendlyName];
     }
     event.locations = locs;
 
@@ -54,6 +54,17 @@
     }
     
     return array;
+}
+
+- (BOOL)amIGoing
+{
+    for (EUUser *part in self.participants) {
+        if (part.uid == [[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID]) {
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 - (NSString *)relativeDateString
@@ -80,7 +91,7 @@
     NSInteger hour = [components hour];
     NSInteger minute = [components minute];
 
-    return [NSString stringWithFormat:@"%2d:%02d %@", hour%12, minute, hour<12 ? @"am": @"pm"];
+    return [NSString stringWithFormat:@"%2d:%02d %@", (hour%12)==0?12:(hour%12), minute, hour<12 ? @"am": @"pm"];
 }
 
 /* Transform the participants array into a Facebook-like friendly string */
@@ -122,8 +133,9 @@
         return [[NSMutableAttributedString alloc] initWithString:@"No location yet"];
     }
 
-    EULocation *location0 = self.locations[0];
-    NSString *result = [@"@ " stringByAppendingString:location0.friendlyName];
+//    EULocation *location0 = self.locations[0];
+    NSString *location0 = self.locations[0];
+    NSString *result = [@"@ " stringByAppendingString:location0];
 
     if (count >= 2) {
         NSInteger numLeft = count-1;
