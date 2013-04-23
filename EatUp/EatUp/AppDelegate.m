@@ -49,19 +49,64 @@
 
     [self setupAppearances];
 
+    /*** Setup Urban Airship ***/
+    
+    //Create Airship options dictionary and add the required UIApplication launchOptions
+    NSMutableDictionary *takeOffOptions = [NSMutableDictionary dictionary];
+    [takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
+
+    // Call takeOff (which creates the UAirship singleton), passing in the launch options so the
+    // library can properly record when the app is launched from a push notification. This call is
+    // required.
+    
+    // Populate AirshipConfig.plist with your app's info from https://go.urbanairship.com
+    [UAirship takeOff:takeOffOptions];
+
+    // Set the icon badge to zero on startup (optional)
+    [[UAPush shared] resetBadge];
+
+    // Register for remote notfications with the UA Library. This call is required.
+    [[UAPush shared] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                         UIRemoteNotificationTypeSound |
+                                                         UIRemoteNotificationTypeAlert)];
+
+    // Handle any incoming incoming push notifications.
+    // This will invoke `handleBackgroundNotification` on your UAPushNotificationDelegate.
+    [[UAPush shared] handleNotification:[launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey]
+                       applicationState:application.applicationState];
+
     return YES;
 }
 
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(NSDictionary *)userInfo
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     if (userInfo != nil) {
         NSLog(@"Launched from push notification: %@", userInfo);
+        NSDictionary *alert = [userInfo objectForKey:@"aps"];
+
+        [ILAlertView showWithTitle:@"Incoming invitation!"
+                           message:[alert objectForKey:@"alert"]
+                  closeButtonTitle:@"OK"
+                 secondButtonTitle:nil];
 
         // Do something with the notification dictionary
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        UIViewController *VC = [storyboard instantiateViewControllerWithIdentifier:@"NotificationsNavController"];
+        UIViewController *VC = [storyboard instantiateViewControllerWithIdentifier:@"EventsNavController"];
         [revealController setFrontViewController:VC focusAfterChange:YES completion:nil];
     }
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+	NSLog(@"My token is: %@", deviceToken);
+
+    // Updates the device token and registers the token with UA.
+    [[UAPush shared] registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
 }
 
 - (void)setupAppearances
@@ -211,7 +256,8 @@
          if (state != FBSessionStateClosed) {
              [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                  NSDictionary *myInfo = (NSDictionary *)result;
-                 double myUID = [[myInfo objectForKey:@"id"] doubleValue];
+                 NSString *myUIDStr = [myInfo objectForKey:@"id"];
+                 double myUID = [myUIDStr doubleValue];
                  NSString *myName = [myInfo objectForKey:@"name"];
                  [[NSUserDefaults standardUserDefaults] setDouble:myUID forKey:kEUUserDefaultsKeyMyUID];
                  [[NSUserDefaults standardUserDefaults] setObject:myName forKey:kEUUserDefaultsKeyMyName];
@@ -221,6 +267,10 @@
                  NSNumber *uidObj = [NSNumber numberWithDouble:myUID];
 
                  NSLog(@"Logged in as %@ (%@).", myName, uidObj);
+
+                 /* Set as alias on UAirship */
+                 [[UAPush shared] setAlias:myUIDStr];
+                 [[UAPush shared] updateRegistration];
 
                  /* Query server for user */
                  EUHTTPClient *client = [EUHTTPClient newClientInView:[[UIView alloc] init]];
@@ -311,6 +361,7 @@
 {
     /* Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
      */
+    [UAirship land];
 }
 
 @end

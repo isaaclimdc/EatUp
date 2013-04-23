@@ -64,7 +64,7 @@
 
 - (void)didDismissWithNewLocation:(NSString *)aLoc
 {
-    NSLog(@"Selected %@", aLoc);
+//    NSLog(@"Selected %@", aLoc);
     [locations addObject:aLoc];
     [locationsTableView reloadData];
 }

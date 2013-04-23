@@ -28,8 +28,8 @@
     entries = @[@"Me",
                 @"                     ~",
                 @"Home",
-                @"Notifications",
-                @"Settings",
+//                @"Notifications",
+//                @"Settings",
                 @"About",
                 @"Logout",
                 version];
@@ -50,27 +50,27 @@
     alert.delegate = self;
 }
 
-- (void)scheduleAlarmForDate:(NSDate *)date withMessage:(NSString *)msg
-{
-    UIApplication *app = [UIApplication sharedApplication];
-    NSArray *old = [app scheduledLocalNotifications];
-
-    // Clear out the old notification before scheduling a new one.
-    if (old.count > 0)
-        [app cancelAllLocalNotifications];
-
-    // Create a new notification.
-    UILocalNotification *alarm = [[UILocalNotification alloc] init];
-    if (alarm) {
-        alarm.fireDate = date;
-        alarm.timeZone = [NSTimeZone defaultTimeZone];
-        alarm.repeatInterval = 0;
-        alarm.soundName = @"Glass.aiff";
-        alarm.alertBody = msg;
-
-        [app scheduleLocalNotification:alarm];
-    }
-}
+//- (void)scheduleAlarmForDate:(NSDate *)date withMessage:(NSString *)msg
+//{
+//    UIApplication *app = [UIApplication sharedApplication];
+//    NSArray *old = [app scheduledLocalNotifications];
+//
+//    // Clear out the old notification before scheduling a new one.
+//    if (old.count > 0)
+//        [app cancelAllLocalNotifications];
+//
+//    // Create a new notification.
+//    UILocalNotification *alarm = [[UILocalNotification alloc] init];
+//    if (alarm) {
+//        alarm.fireDate = date;
+//        alarm.timeZone = [NSTimeZone defaultTimeZone];
+//        alarm.repeatInterval = 0;
+//        alarm.soundName = @"Glass.aiff";
+//        alarm.alertBody = msg;
+//
+//        [app scheduleLocalNotification:alarm];
+//    }
+//}
 
 #pragma mark - ILAlertViewDelegate Methods
 
@@ -162,15 +162,9 @@
             [self showViewController:@"EventsNavController"];
             break;
         case 3:
-            [self showViewController:@"NotificationsNavController"];
+//            [self showViewController:@"AboutNavController"];
             break;
         case 4:
-            [self showViewController:@"SettingsNavController"];
-            break;
-        case 5:
-            [self scheduleAlarmForDate:[NSDate dateWithTimeIntervalSinceNow:5] withMessage:@"Invitation to \"Breakfast at Grandma's\" @ 32 Withrow Street"];
-            break;
-        case 6:
             [self showLogoutConfirmation];
             break;
         default:

@@ -87,7 +87,7 @@
             successText:nil
                 success:^(AFHTTPRequestOperation *operation, NSString *response) {
                     NSDictionary *fetchedEvents = [[response JSONValue] objectForKey:@"events"];
-                    NSLog(@"FETCHED EVENTS: %@", fetchedEvents);
+//                    NSLog(@"FETCHED EVENTS: %@", fetchedEvents);
 
                     for (NSDictionary *params in fetchedEvents) {
                         EUEvent *event = [EUEvent eventFromParams:params];

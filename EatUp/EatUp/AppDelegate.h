@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <UAirship.h>
+#import <UAPush.h>
 #import "SideViewController.h"
 #import "EventsViewController.h"
 #import "LoginViewController.h"

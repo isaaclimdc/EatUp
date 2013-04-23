@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NSData+Base64.h"
 #import "ILSelectionView.h"
 #import "EUEvent.h"
 #import "EUNewEventWhenView.h"

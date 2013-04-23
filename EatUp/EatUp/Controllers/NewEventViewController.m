@@ -125,7 +125,7 @@
 - (BOOL)isCompleteData:(NSDictionary *)data
 {
     if (((NSString *)[data objectForKey:kEURequestKeyEventTitle]).length == 0) return NO;
-//    if (((NSArray *)[data objectForKey:kEURequestKeyEventLocations]).count == 0) return NO;
+    if (((NSArray *)[data objectForKey:kEURequestKeyEventLocations]).count == 0) return NO;
     return YES;
 }
 
@@ -133,9 +133,14 @@
 {
     NSMutableDictionary *payload = [NSMutableDictionary dictionary];
 
-    [payload addEntriesFromDictionary:[whenView serialize]];
-    [payload addEntriesFromDictionary:[whereView serialize]];
-    [payload addEntriesFromDictionary:[whoView serialize]];
+    NSDictionary *whenDict = [whenView serialize];
+    NSDictionary *whereDict = [whereView serialize];
+    NSDictionary *whoDict = [whoView serialize];
+
+    [payload addEntriesFromDictionary:whenDict];
+    [payload addEntriesFromDictionary:whereDict];
+    [payload addEntriesFromDictionary:whoDict];
+    
     NSString *path;
 
     if (IS_EDIT) {
@@ -168,13 +173,10 @@
                          [self.delegate didDismissWithNewEvent:NO];
                      }
                      else {
-                         [ILAlertView showWithTitle:@"Done!"
-                                            message:@"Your new meal has been created, and the invitees have been sent a notification to join."
-                                   closeButtonTitle:@"OK"
-                                  secondButtonTitle:nil];
-
-                         [self performDismiss];
-                         [self.delegate didDismissWithNewEvent:YES];
+                         NSArray *participants = [whoDict objectForKey:kEURequestKeyEventParticipants];
+                         NSString *title = [whenDict objectForKey:kEURequestKeyEventTitle];
+                         NSString *msg = [NSString stringWithFormat:@"You have been invited to %@!", title];
+                         [self sendPushNotificationsTo:participants withMessage:msg];
                      }
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -194,9 +196,65 @@
     }
 }
 
+- (void)sendPushNotificationsTo:(NSArray *)participants withMessage:(NSString *)msg
+{
+    /* Convert uid NSNumbers to NSStrings */
+    NSMutableArray *participantsStr = [NSMutableArray array];
+    for (NSNumber *num in participants) {
+        [participantsStr addObject:[NSString stringWithFormat:@"%@", num]];
+    }
+    
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:kEUUAirshipURL]];
+
+    /* Basic Auth */
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", kEUAppKey, kEUAppMasterSecret];
+    NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedString]];
+
+    /* Set header fields */
+    [req setValue:authValue forHTTPHeaderField:@"Authorization"];
+    [req setHTTPMethod:@"POST"];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+    /* Set POST Body */
+    NSDictionary *dataDict = @{@"aliases": participantsStr,
+                               @"aps" : @{@"alert" : msg,
+                                          @"sound" : @"default"}};
+    [req setHTTPBody:[NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:nil]];
+
+    /* Off you go! */
+    NSURLConnection *connection= [[NSURLConnection alloc] initWithRequest:req delegate:self];
+    [connection start];
+}
+
 - (void)performDismiss
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - NSURLConnectionDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSLog(@"SUCCESS: %@", response);
+
+    [ILAlertView showWithTitle:@"Done!"
+                       message:@"Your new meal has been created, and the invitees have been sent a notification to join."
+              closeButtonTitle:@"OK"
+             secondButtonTitle:nil];
+
+    [self performDismiss];
+    [self.delegate didDismissWithNewEvent:YES];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"ERROR: %@", error);
+
+    [ILAlertView showWithTitle:@"Error!"
+                       message:@"Something went wrong :( Please try creating the event again in a few minutes."
+              closeButtonTitle:@"OK"
+             secondButtonTitle:nil];
 }
 
 @end

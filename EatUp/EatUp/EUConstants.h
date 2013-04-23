@@ -31,6 +31,9 @@
 
 /* HTTP Requests */
 #define kEUBaseURL @"http://eatup.herokuapp.com"
+#define kEUUAirshipURL @"https://go.urbanairship.com/api/push/"
+#define kEUAppKey @"IOYG9nn1Suat_Jq0g26kAA"
+#define kEUAppMasterSecret @"bYBZrXt7Qp-dsGg_Vu4Vng"
 
 #define kEURequestKeyEventEID @"eid"
 #define kEURequestKeyEventTitle @"title"
