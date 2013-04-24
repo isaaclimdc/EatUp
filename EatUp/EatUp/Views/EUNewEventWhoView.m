@@ -54,6 +54,7 @@
                                                                            250.0f)];
         inviteesTableView.delegate = self;
         inviteesTableView.dataSource = self;
+        inviteesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self addSubview:inviteesTableView];
 
         /* Finally, set content size */
@@ -66,7 +67,7 @@
 {
     NSLog(@"Selected %@", [aUser fullName]);
     [invitees addObject:aUser];
-    [inviteesTableView reloadData];
+    [inviteesTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:invitees.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
 }
 
 #pragma mark - Table view data source
@@ -98,6 +99,14 @@
     cell.textLabel.font = kEUFontText;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
+    /* Custom separator */
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(kEUEventHorzBuffer,
+                                                                cell.contentView.frame.size.height - 1.0,
+                                                                cell.frame.size.width - 5*kEUEventHorzBuffer,
+                                                                1)];
+    lineView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+    [cell.contentView addSubview:lineView];
+
     return cell;
 }
 
@@ -121,9 +130,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EUUser *user = [invitees objectAtIndex:indexPath.row];
-    NSLog(@"Tapped on %@", [user fullName]);
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    EUUser *user = [invitees objectAtIndex:indexPath.row];
+//    NSLog(@"Tapped on %@", [user fullName]);
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /* Package up data on this view and prepare for sending */

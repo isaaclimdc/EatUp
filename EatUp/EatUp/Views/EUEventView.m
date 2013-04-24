@@ -59,7 +59,7 @@
         [self addSubview:locationLabel];
 
         /* Going/Notgoing Segmented Control */
-        goingSegCtrl = [[UISegmentedControl alloc] initWithItems:@[@"Going", @"Not going"]];
+        goingSegCtrl = [[UISegmentedControl alloc] initWithItems:@[@"Going", @"Maybe", @"Not"]];
         goingSegCtrl.frame = CGRectMake(kEUEventHorzBuffer, CGFloatGetAfterY(locationLabel.frame), width, 44);
         goingSegCtrl.selectedSegmentIndex = 1;
         [goingSegCtrl addTarget:self action:@selector(segCtrlChanged:) forControlEvents:UIControlEventValueChanged];
@@ -70,7 +70,7 @@
                                                                                     CGFloatGetAfterY(goingSegCtrl.frame),
                                                                                     self.frame.size.width,
                                                                                     150)];
-        [participantsScrollView setBackgroundColor:[UIColor colorWithWhite:0.6 alpha:1.0]
+        [participantsScrollView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"debut.png"]]
                                     indicatorStyle:UIScrollViewIndicatorStyleBlack
                                    itemBorderColor:kEUMainColor];
         [self addSubview:participantsScrollView];
@@ -87,6 +87,7 @@
         [self addSubview:descriptionTextView];
 
         /* Self customization */
+        self.backgroundColor = kEUBkgColor;
         
     }
     return self;
@@ -99,7 +100,7 @@
     self.titleLabel.text = self.event.title;
     self.descriptionTextView.text = self.event.description;
     [self autoResize:descriptionTextView];
-    self.goingSegCtrl.selectedSegmentIndex = [event amIGoing] ? 0 : 1;
+    self.goingSegCtrl.selectedSegmentIndex = 1;  // By default "Maybe"
 
     self.locationLabel.attributedText = [self.event locationsString];
     UITapGestureRecognizer *tapGesture =
@@ -144,18 +145,24 @@
     UISegmentedControl *segCtrl = (UISegmentedControl *)sender;
     NSUInteger idx = segCtrl.selectedSegmentIndex;
 
+    CGFloat x;
+    if (idx == 0)
+        x = 60;
+    else if (idx == 1)
+        x = 160;
+    else
+        x = 260;
+
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = segCtrl.center;
+    spinner.center = CGPointMake(x, segCtrl.center.y);
     spinner.hidesWhenStopped = YES;
     [self addSubview:spinner];
     [spinner startAnimating];
 
-    NSLog(idx==0 ? @"You are going!" : @"You are not going!");
-
     [self performBlock:^{
         [spinner stopAnimating];
         [spinner removeFromSuperview];
-    } afterDelay:1];
+    } afterDelay:0.75];
 }
 
 /* Vertically autoresize a UITextView or a UILabel to fit its content */
@@ -176,7 +183,7 @@
 
     CGRect rect = view.frame;
     CGSize newSize = [text sizeWithFont:font constrainedToSize:CGSizeMake(view.frame.size.width, MAXFLOAT)];
-    rect.size.height = newSize.height + 4*kEUEventVertBuffer;
+    rect.size.height = newSize.height + 4*kEUEventVertBuffer + 100;
     view.frame = rect;
 }
 

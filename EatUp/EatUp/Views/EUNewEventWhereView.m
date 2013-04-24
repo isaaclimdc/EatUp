@@ -54,6 +54,7 @@
                                                                            250.0f)];
         locationsTableView.delegate = self;
         locationsTableView.dataSource = self;
+        locationsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self addSubview:locationsTableView];
 
         /* Finally, set content size */
@@ -64,9 +65,8 @@
 
 - (void)didDismissWithNewLocation:(NSString *)aLoc
 {
-//    NSLog(@"Selected %@", aLoc);
     [locations addObject:aLoc];
-    [locationsTableView reloadData];
+    [locationsTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:locations.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
 }
 
 #pragma mark - Table view data source
@@ -98,6 +98,14 @@
     cell.textLabel.font = kEUFontText;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
+    /* Custom separator */
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(kEUEventHorzBuffer,
+                                                                cell.contentView.frame.size.height - 1.0,
+                                                                cell.frame.size.width - 5*kEUEventHorzBuffer,
+                                                                1)];
+    lineView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+    [cell.contentView addSubview:lineView];
+
     return cell;
 }
 
@@ -121,7 +129,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /* Package up data on this view and prepare for sending */

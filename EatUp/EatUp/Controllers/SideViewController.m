@@ -20,26 +20,13 @@
 {
     [super viewDidLoad];
 
-    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-    NSString *version = [NSString stringWithFormat:@"Version %@.%@",
-                         [infoDict objectForKey:@"CFBundleShortVersionString"],
-                         [infoDict objectForKey:@"CFBundleVersion"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"debut.png"]];
 
     entries = @[@"Me",
                 @"                     ~",
                 @"Home",
-//                @"Notifications",
-//                @"Settings",
                 @"About",
-                @"Logout",
-                version];
-}
-
-- (IBAction)showViewController:(NSString *)VCId
-{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    UIViewController *VC = [storyboard instantiateViewControllerWithIdentifier:VCId];
-    [self.revealController setFrontViewController:VC focusAfterChange:YES completion:nil];
+                @"Logout"];
 }
 
 - (IBAction)showLogoutConfirmation {
@@ -126,6 +113,8 @@
         cell.textLabel.text = [@"             " stringByAppendingString:myName];
 
         UIImageView *picView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.height, cell.frame.size.height)];
+        picView.contentMode = UIViewContentModeScaleAspectFill;
+        picView.clipsToBounds = YES;
         [cell addSubview:picView];
         [picView setImageWithURL:myImgURL];
 
@@ -137,7 +126,7 @@
         
         cell.textLabel.font = kEUFontTextItalic;
     }
-    else if (row == 1 || row == entries.count-1) {
+    else if (row == 1) {
         cell.textLabel.font = kEUFontTextItalic;
         cell.textLabel.textColor = [UIColor lightGrayColor];
     }
@@ -158,12 +147,20 @@
 {
     NSUInteger row = indexPath.row;
     switch (row) {
-        case 2:
-            [self showViewController:@"EventsNavController"];
+        case 2: {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            UINavigationController *NC = [storyboard instantiateViewControllerWithIdentifier:@"EventsNavController"];
+            EventsViewController *VC = (EventsViewController *)NC.topViewController;
+            VC.launchedFromSideMenu = YES;
+            [self.revealController setFrontViewController:NC focusAfterChange:YES completion:nil];
             break;
-        case 3:
-//            [self showViewController:@"AboutNavController"];
+        }
+        case 3: {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            UIViewController *VC = [storyboard instantiateViewControllerWithIdentifier:@"AboutNavController"];
+            [self.revealController setFrontViewController:VC focusAfterChange:YES completion:nil];
             break;
+        }
         case 4:
             [self showLogoutConfirmation];
             break;

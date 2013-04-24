@@ -51,6 +51,18 @@
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kEUUserDefaultsKeyMyUID];
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kEUUserDefaultsKeyMyName];
     [[NSUserDefaults standardUserDefaults] synchronize];
+
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [storage cookies])
+    {
+        NSString* domainName = [cookie domain];
+        NSRange domainRange = [domainName rangeOfString:@"facebook"];
+        if(domainRange.length > 0)
+        {
+            [storage deleteCookie:cookie];
+        }
+    }
     
     [ILAlertView showWithTitle:@"Logged out!"
                        message:@"You have been successfully logged out of EatUp!"

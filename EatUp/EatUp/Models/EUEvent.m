@@ -133,7 +133,6 @@
         return [[NSMutableAttributedString alloc] initWithString:@"No location yet"];
     }
 
-//    EULocation *location0 = self.locations[0];
     NSString *location0 = self.locations[0];
     NSString *result = [@"@ " stringByAppendingString:location0];
 

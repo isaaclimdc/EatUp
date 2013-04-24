@@ -10,6 +10,7 @@
 
 /* Colors */
 #define kEUMainColor [UIColor colorWithRed:0.9294 green:0.4078 blue:0.0353 alpha:1.0]
+#define kEUBkgColor [UIColor colorWithPatternImage:[UIImage imageNamed:@"wall.png"]]
 
 /* Fonts */
 #define kEUFontFamilyName @"AvenirNext-"

@@ -76,20 +76,16 @@
 
 - (void)searchWithQuery:(NSString *)query
 {
-    if (query.length == 0) {
-        [results removeAllObjects];
-        [resultsTable reloadData];
-        return;
-    }
-    
     [results removeAllObjects];
+    [resultsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+
+    if (query.length == 0) return;
     
     CLLocationDegrees currentLat = currentLocation.coordinate.latitude;
     CLLocationDegrees currentLng = currentLocation.coordinate.longitude;
     
     NSString *unescaped = [NSString stringWithFormat:@"%@/search?term=%@&ll=%f,%f&sort=0&category_filter=food,restaurants", kEUYelpBaseURL, query, currentLat, currentLng];
     NSString *escapedString = [unescaped stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-    NSLog(@"Connecting to %@", escapedString);
 
     request.URL = [NSURL URLWithString:escapedString];
     [request prepare];
@@ -105,19 +101,22 @@
 - (void)requestTokenTicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data
 {
     if (ticket.didSucceed) {
-        /* Parse data into an EULocation[] */
+        /* Parse data */
         NSString *responseBody = [[NSString alloc] initWithData:data
                                                        encoding:NSUTF8StringEncoding];
         NSArray *buss = [[responseBody JSONValue] objectForKey:@"businesses"];
-//        NSLog(@"Success!: %@", buss);
 
         for (NSDictionary *params in buss) {
             EULocation *bus = [EULocation locationFromYelpParams:params];
             [results addObject:bus];
         }
 
-        /* Done. Update UI */
-        [resultsTable reloadData];
+        /* Done fetching all data. Reload the UI */
+        NSMutableArray *ipArr = [NSMutableArray array];
+        for (int i = 0; i < results.count; i++)
+            [ipArr addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+        [resultsTable insertRowsAtIndexPaths:ipArr withRowAnimation:UITableViewRowAnimationFade];
+        
         [MBProgressHUD fadeOutHUDInView:resultsTable withSuccessText:nil];
     }
 }
@@ -133,7 +132,8 @@
 }
 
 /* Seems buggy */
-//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+//{
 //    NSMutableString *newText = [NSMutableString stringWithString:textField.text];
 //    [newText insertString:string atIndex:range.location];
 //

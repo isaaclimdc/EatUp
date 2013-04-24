@@ -10,22 +10,6 @@
 
 @implementation EUEventCell
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        
-    }
-    return self;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (void)populateWithEvent:(EUEvent *)event
 {
     /* Set fonts */
@@ -37,6 +21,21 @@
     self.titleLabel.text = event.title;
     self.dateTimeLabel.text = [event relativeDateString];
     self.participantsLabel.text = [event participantsString];
+
+    if ([event.dateTime compare:[NSDate date]] == NSOrderedAscending) {
+        self.titleLabel.textColor = [UIColor grayColor];
+    }
+    else {
+        self.titleLabel.textColor = [UIColor blackColor];
+    }
+
+    /* Custom separator */
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(kEUEventHorzBuffer,
+                                                                self.contentView.frame.size.height - 1.0,
+                                                                self.frame.size.width - 2*kEUEventHorzBuffer,
+                                                                1)];
+    lineView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+    [self.contentView addSubview:lineView];
 }
 
 @end

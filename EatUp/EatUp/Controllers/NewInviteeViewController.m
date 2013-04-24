@@ -48,12 +48,13 @@
 - (IBAction)searchFriends:(id)sender
 {
     [MBProgressHUD fadeInHUDInView:resultsTable withText:@"Getting friends"];
+    
     [results removeAllObjects];
+    [resultsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     
     FBRequest *friendRequest = [FBRequest requestForMyFriends];
     [friendRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         NSArray *myFriends = [result objectForKey:@"data"];
-//        NSLog(@"%@", myFriends);
 
         for (FBGraphObject<FBGraphUser> *friend in myFriends) {
             if ([self friend:friend matchesQuery:searchBox.text]) {
@@ -62,8 +63,12 @@
             }
         }
 
-        /* Done. Update UI */
-        [resultsTable reloadData];
+        /* Done fetching all data. Reload the UI */
+        NSMutableArray *ipArr = [NSMutableArray array];
+        for (int i = 0; i < results.count; i++)
+            [ipArr addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+        [resultsTable insertRowsAtIndexPaths:ipArr withRowAnimation:UITableViewRowAnimationFade];
+        
         [MBProgressHUD fadeOutHUDInView:resultsTable withSuccessText:nil];
     }];
 }

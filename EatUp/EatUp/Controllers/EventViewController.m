@@ -32,8 +32,6 @@
                                target:self
                                action:@selector(showEditScreen)];
 
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bkg.png"]];
-
     /* Initialize EUEventView */
     eventView = [EUEventView newEventViewWithFrame:CGRectMake(0,
                                                               0,
@@ -80,6 +78,7 @@
                     NSDictionary *dict = [response JSONValue];
                     EUEvent *updatedEvent = [EUEvent eventFromParams:dict];
                     [eventView customizeForEvent:updatedEvent];
+                    self.event = updatedEvent;
 
                     [parent fetchData];
                 }

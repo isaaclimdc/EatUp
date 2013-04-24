@@ -19,38 +19,44 @@
 
 @implementation EventsViewController
 
+@synthesize launchedFromSideMenu;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    /* Fade out splash screen */
-    UIImageView *splash = [[UIImageView alloc] initWithFrame:
-                           CGRectMake(0, -20,
-                                      self.navigationController.view.frame.size.width,
-                                      self.navigationController.view.frame.size.height+20)];
+    self.view.backgroundColor = kEUBkgColor;
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        if ([[UIScreen mainScreen] bounds].size.height > 480.0f) {
-            /* iPhone 5 */
-            splash.image = [UIImage imageNamed:@"Default-568h@2x.png"];
+    if (!launchedFromSideMenu) {
+        /* Fade out splash screen */
+        UIImageView *splash = [[UIImageView alloc] initWithFrame:
+                               CGRectMake(0, -20,
+                                          self.navigationController.view.frame.size.width,
+                                          self.navigationController.view.frame.size.height+20)];
+
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if ([[UIScreen mainScreen] bounds].size.height > 480.0f) {
+                /* iPhone 5 */
+                splash.image = [UIImage imageNamed:@"Default-568h@2x.png"];
+            } else {
+                /* iPhone */
+                splash.image = [UIImage imageNamed:@"Default.png"];
+            }
         } else {
-            /* iPhone */
-            splash.image = [UIImage imageNamed:@"Default.png"];
+            /* iPad */
         }
-    } else {
-        /* iPad */
-    }
 
-    [self.navigationController.view addSubview:splash];
-    [UIView animateWithDuration:0.2 animations:^{
-        splash.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        [splash removeFromSuperview];
-    }];
+        [self.navigationController.view addSubview:splash];
+        [UIView animateWithDuration:0.2 animations:^{
+            splash.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [splash removeFromSuperview];
+        }];
+    }
 
     /* Initialize data arrays and HTTP client */
     client = [EUHTTPClient newClientInView:self.view];
-
+    events = [NSMutableArray array];
     [self fetchData];
 
     UIImageView *titleIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
@@ -77,7 +83,10 @@
 
 - (void)fetchData
 {
-    events = [NSMutableArray array];
+    [refreshControl endRefreshing];
+    [events removeAllObjects];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    
     NSNumber *myUID = [NSNumber numberWithDouble:[[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID]];
     
     if (myUID) {
@@ -100,8 +109,10 @@
                     }];
 
                     /* Done fetching all data. Reload the UI */
-                    [self.tableView reloadData];
-                    [refreshControl endRefreshing];
+                    NSMutableArray *ipArr = [NSMutableArray array];
+                    for (int i = 0; i < events.count; i++)
+                        [ipArr addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+                    [self.tableView insertRowsAtIndexPaths:ipArr withRowAnimation:UITableViewRowAnimationFade];
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                     NSLog(@"ERROR: %@", error);

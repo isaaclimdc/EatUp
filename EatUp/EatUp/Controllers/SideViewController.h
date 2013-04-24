@@ -11,6 +11,7 @@
 #import "SettingsViewController.h"
 #import "NotificationsViewController.h"
 #import "EventViewController.h"
+#import "AboutViewController.h"
 
 @interface SideViewController : UITableViewController <ILAlertViewDelegate>
 

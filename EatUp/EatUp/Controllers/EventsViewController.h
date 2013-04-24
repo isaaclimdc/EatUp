@@ -13,6 +13,8 @@
 
 @interface EventsViewController : UITableViewController <NewEventViewControllerDelegate>
 
+@property (nonatomic) BOOL launchedFromSideMenu;
+
 - (void)fetchData;
 
 @end

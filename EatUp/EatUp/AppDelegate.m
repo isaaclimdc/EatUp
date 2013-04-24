@@ -206,7 +206,11 @@
             //            NSLog(@"Login success");
             UIViewController *topViewController = self.navController.topViewController;
             if ([topViewController.presentedViewController isKindOfClass:[LoginViewController class]]) {
-                [topViewController dismissViewControllerAnimated:YES completion:nil];
+                [topViewController dismissViewControllerAnimated:YES completion:^{
+                    UINavigationController *NC = (UINavigationController *)revealController.frontViewController;
+                    EventsViewController *VC = (EventsViewController *)NC.topViewController;
+                    [VC fetchData];
+                }];
             }
         }
             break;

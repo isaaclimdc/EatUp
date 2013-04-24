@@ -28,6 +28,8 @@
 {
     [super viewDidLoad];
 
+    self.view.backgroundColor = kEUBkgColor;
+
     self.navigationItem.leftBarButtonItem =
     [ILBarButtonItem barItemWithImage:[UIImage imageNamed:@"close.png"]
                         selectedImage:[UIImage imageNamed:@"closeSelected.png"]
@@ -163,7 +165,9 @@
                  success:^(AFHTTPRequestOperation *operation, NSString *response) {
                      NSLog(@"SUCCESS!: %@", response);
 
-                     if (IS_EDIT) {
+                     NSArray *participants = [whoDict objectForKey:kEURequestKeyEventParticipants];
+
+                     if (IS_EDIT && (participants.count <= existingEvent.participants.count)) {
                          [ILAlertView showWithTitle:@"Done!"
                                             message:@"The details of this meal have been successfully modified!"
                                    closeButtonTitle:@"OK"
@@ -173,9 +177,9 @@
                          [self.delegate didDismissWithNewEvent:NO];
                      }
                      else {
-                         NSArray *participants = [whoDict objectForKey:kEURequestKeyEventParticipants];
+                         
                          NSString *title = [whenDict objectForKey:kEURequestKeyEventTitle];
-                         NSString *msg = [NSString stringWithFormat:@"You have been invited to %@!", title];
+                         NSString *msg = [NSString stringWithFormat:@"You have been invited to \"%@\"! Your main events screen has been updated with this event.", title];
                          [self sendPushNotificationsTo:participants withMessage:msg];
                      }
                  }
@@ -236,8 +240,6 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    NSLog(@"SUCCESS: %@", response);
-
     [ILAlertView showWithTitle:@"Done!"
                        message:@"Your new meal has been created, and the invitees have been sent a notification to join."
               closeButtonTitle:@"OK"
