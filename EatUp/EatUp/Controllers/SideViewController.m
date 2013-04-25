@@ -116,7 +116,7 @@
         picView.contentMode = UIViewContentModeScaleAspectFill;
         picView.clipsToBounds = YES;
         [cell addSubview:picView];
-        [picView setImageWithURL:myImgURL];
+        [picView setImageWithURL:myImgURL placeholderImage:[UIImage imageNamed:@"manPlaceholder.png"]];
 
         CALayer *imageLayer = picView.layer;
         imageLayer.cornerRadius = 22;

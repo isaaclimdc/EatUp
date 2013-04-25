@@ -179,7 +179,8 @@
                      else {
                          
                          NSString *title = [whenDict objectForKey:kEURequestKeyEventTitle];
-                         NSString *msg = [NSString stringWithFormat:@"You have been invited to \"%@\"! Your main events screen has been updated with this event.", title];
+                         NSString *myName = [[NSUserDefaults standardUserDefaults] objectForKey:kEUUserDefaultsKeyMyName];
+                         NSString *msg = [NSString stringWithFormat:@"%@ invited you to \"%@\"!", myName, title];
                          [self sendPushNotificationsTo:participants withMessage:msg];
                      }
                  }
@@ -204,8 +205,12 @@
 {
     /* Convert uid NSNumbers to NSStrings */
     NSMutableArray *participantsStr = [NSMutableArray array];
+    
+    NSNumber *myUID = [NSNumber numberWithDouble:[[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID]];
     for (NSNumber *num in participants) {
-        [participantsStr addObject:[NSString stringWithFormat:@"%@", num]];
+        if (![num isEqualToNumber:myUID]) {
+            [participantsStr addObject:[NSString stringWithFormat:@"%@", num]];
+        }
     }
     
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:kEUUAirshipURL]];

@@ -13,7 +13,7 @@
 @synthesize navController = _navController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+{    
     // Override point for customization after application launch
     [UIImage patchImageNamedToSupport568Resources];
     sleep(1);
@@ -81,11 +81,13 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     if (userInfo != nil) {
-        NSLog(@"Launched from push notification: %@", userInfo);
-        NSDictionary *alert = [userInfo objectForKey:@"aps"];
+        NSDictionary *alertDict = [userInfo objectForKey:@"aps"];
+
+        NSString *alert = [NSString stringWithFormat:@"%@\n\nThe events screen has been updated with this event. Please send the host your RSVP!", [alertDict objectForKey:@"alert"]];
+        NSLog(@"%@", alert);
 
         [ILAlertView showWithTitle:@"Incoming invitation!"
-                           message:[alert objectForKey:@"alert"]
+                           message:alert
                   closeButtonTitle:@"OK"
                  secondButtonTitle:nil];
 

@@ -56,8 +56,9 @@
 
     /* Initialize data arrays and HTTP client */
     client = [EUHTTPClient newClientInView:self.view];
-    events = [NSMutableArray array];
-    [self fetchData];
+    [self performBlock:^{
+        [self fetchData];
+    } afterDelay:0.1];
 
     UIImageView *titleIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
     titleIcon.center = self.navigationController.navigationBar.center;
@@ -84,7 +85,8 @@
 - (void)fetchData
 {
     [refreshControl endRefreshing];
-    [events removeAllObjects];
+
+    events = [NSMutableArray array];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     
     NSNumber *myUID = [NSNumber numberWithDouble:[[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID]];
