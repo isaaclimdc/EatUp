@@ -159,8 +159,8 @@
         EUHTTPClient *client = [EUHTTPClient newClientInView:self.view];
         [client postPath:path
               parameters:payload
-             loadingText:nil
-             successText:nil
+             loadingText:(IS_EDIT ? @"Editing details" : @"Creating meal")
+             successText:@""
            multiPartForm:nil
                  success:^(AFHTTPRequestOperation *operation, NSString *response) {
                      NSLog(@"SUCCESS!: %@", response);
@@ -168,7 +168,7 @@
                      NSArray *participants = [whoDict objectForKey:kEURequestKeyEventParticipants];
 
                      if (IS_EDIT && (participants.count <= existingEvent.participants.count)) {
-                         [ILAlertView showWithTitle:@"Done!"
+                         [ILAlertView showWithTitle:@"Details edited!"
                                             message:@"The details of this meal have been successfully modified!"
                                    closeButtonTitle:@"OK"
                                   secondButtonTitle:nil];
@@ -245,8 +245,8 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    [ILAlertView showWithTitle:@"Done!"
-                       message:@"Your new meal has been created, and the invitees have been sent a notification to join."
+    [ILAlertView showWithTitle:@"Meal created!"
+                       message:@"The invitees to your meal, if any, have been sent a notification to RSVP."
               closeButtonTitle:@"OK"
              secondButtonTitle:nil];
 

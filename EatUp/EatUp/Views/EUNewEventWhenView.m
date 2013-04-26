@@ -106,10 +106,22 @@
 - (void)updateDateTimeLabel
 {
     if (eventDateTime == nil)
-        eventDateTime = [NSDate date];
+        eventDateTime = [self nearFuture];
 
     dateLabel.text = [self absoluteDateString];
     timeLabel.text = [self timeString];
+}
+
+- (NSDate *)nearFuture
+{
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:now];
+    
+    components.day++;
+    components.hour = 11;
+
+    return [calendar dateFromComponents:components];
 }
 
 - (IBAction)showDateActionSheet:(id)sender
