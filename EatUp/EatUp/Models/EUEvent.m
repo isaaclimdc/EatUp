@@ -146,7 +146,7 @@
                                 NSForegroundColorAttributeName : [UIColor blueColor],
                                 NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleSingle]
                                 }
-                        range:NSMakeRange(1, attrResult.length-1)];
+                        range:NSMakeRange(2, attrResult.length-2)];
 
     return attrResult;
 }

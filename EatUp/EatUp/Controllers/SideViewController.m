@@ -89,7 +89,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 1) {
-        return 10;
+        return 30;
     }
     return 44;
 }
@@ -119,7 +119,7 @@
         [picView setImageWithURL:myImgURL placeholderImage:[UIImage imageNamed:@"manPlaceholder.png"]];
 
         CALayer *imageLayer = picView.layer;
-        imageLayer.cornerRadius = 22;
+        imageLayer.cornerRadius = 5;
         imageLayer.borderWidth = 1;
         imageLayer.borderColor = [UIColor lightGrayColor].CGColor;
         imageLayer.masksToBounds = YES;

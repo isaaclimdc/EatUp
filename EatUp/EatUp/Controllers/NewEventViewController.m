@@ -121,6 +121,7 @@
     UINavigationController *newInvNC = [storyboard instantiateViewControllerWithIdentifier:@"NewInviteeNavController"];
     NewInviteeViewController *newInvVC = (NewInviteeViewController *)newInvNC.topViewController;
     newInvVC.delegate = whoView;
+    newInvVC.eventName = whenView.titleBox.text; // Tentative event name
     [self presentViewController:newInvNC animated:YES completion:nil];
 }
 

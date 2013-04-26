@@ -21,7 +21,7 @@
 
 @implementation NewLocationViewController
 
-@synthesize searchBox, resultsTable;
+@synthesize searchBox, resultsTable, searchView;
 
 - (void)viewDidLoad
 {
@@ -34,6 +34,8 @@
                         selectedImage:[UIImage imageNamed:@"closeSelected.png"]
                                target:self
                                action:@selector(performDismiss)];
+
+    searchView.frame = CGRectMake(0, 0, self.view.frame.size.width, 50);
 
     locationMgr = [[CLLocationManager alloc] init];
     locationMgr.desiredAccuracy = kCLLocationAccuracyBest;

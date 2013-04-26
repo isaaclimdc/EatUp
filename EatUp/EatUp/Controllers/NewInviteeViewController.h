@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 #import "EUUser.h"
 #import "EUInviteeCell.h"
 
@@ -16,15 +17,17 @@
 
 @end
 
-@interface NewInviteeViewController : UIViewController <UITextFieldDelegate>
+@interface NewInviteeViewController : UIViewController <UITextFieldDelegate, ILAlertViewDelegate, MFMailComposeViewControllerDelegate>
 {
     UITextField *searchBox;
     UITableView *resultsTable;
+    NSString *eventName;
 }
 
 @property (nonatomic, weak) id <NewInviteeViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UITextField *searchBox;
 @property (strong, nonatomic) IBOutlet UITableView *resultsTable;
+@property (strong, nonatomic) NSString *eventName;
 
 - (IBAction)searchFriends:(id)sender;
 

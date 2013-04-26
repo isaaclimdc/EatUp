@@ -11,12 +11,13 @@
 @interface NewInviteeViewController ()
 {
     NSMutableArray *results;
+    EUUser *selectedUser;
 }
 @end
 
 @implementation NewInviteeViewController
 
-@synthesize searchBox, resultsTable;
+@synthesize searchBox, resultsTable, eventName;
 
 - (void)viewDidLoad
 {
@@ -121,8 +122,99 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EUUser *user = [results objectAtIndex:indexPath.row];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self.delegate didDismissWithNewUser:user];
+    selectedUser = user;
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    /* Query server for user */
+    EUHTTPClient *client = [EUHTTPClient newClientInView:[[UIView alloc] init]];
+    [client getPath:@"/info/user/"
+         parameters:@{kEURequestKeyUserUID : [NSNumber numberWithDouble:user.uid]}
+        loadingText:@"Checking user"
+        successText:nil
+            success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                NSDictionary *resp = [response JSONValue];
+                if ([resp objectForKey:@"error"]) {
+
+                    /* User does not exist, so create a new user! */
+                    NSLog(@"Error: %@", [resp objectForKey:@"error"]);
+                    NSString *title = [NSString stringWithFormat:@"%@ is not on EatUp!", user.firstName];
+                    NSString *msg = [NSString stringWithFormat:@"Would you like to send %@ an email to download the app?", user.firstName];
+                    ILAlertView *alert = [ILAlertView showWithTitle:title
+                                                            message:msg
+                                                   closeButtonTitle:@"Nope"
+                                                  secondButtonTitle:@"Yes, please!"];
+                    alert.tag = 13; // Magic Number
+                    alert.delegate = self;
+                }
+                else {
+                    /* Existing user. Dismiss! */
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self.delegate didDismissWithNewUser:user];
+                }
+
+            }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"ERROR: %@", error);
+
+                [ILAlertView showWithTitle:@"Error!"
+                                   message:@"Something went wrong :( Please try creating the event again in a few minutes."
+                          closeButtonTitle:@"OK"
+                         secondButtonTitle:nil];
+            }];
+}
+
+- (void)alertView:(ILAlertView *)alertView tappedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 13) { //Magic Number
+        if (buttonIndex == 1) {
+            [self sendEmailTo:selectedUser];
+        }
+    }
+}
+
+- (void)sendEmailTo:(EUUser *)user
+{
+    // Email Subject
+    NSString *emailTitle = @"Download EatUp! - A new approach to social eating.";
+    // Email Content
+    NSString *messageBody = [NSString stringWithFormat:@"Hey %@,<br><br>I'm trying to invite you to my event: \"%@\", but you don't seem\
+                             to have EatUp! installed. Please download it from the iOS App Store at <a href='http://isaacl.net/apps'>this link</a>!", user.firstName, eventName];
+    // To address
+//    NSArray *toRecipents = [NSArray arrayWithObject:@"support@appcoda.com"];
+
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:emailTitle];
+    [mc setMessageBody:messageBody isHTML:YES];
+    [mc setToRecipients:nil];
+
+    // Present mail view controller on screen
+    [self presentViewController:mc animated:YES completion:nil];
+}
+
+#pragma mark - MLMailComposer
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result) {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end

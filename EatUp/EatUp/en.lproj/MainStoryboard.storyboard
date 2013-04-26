@@ -200,7 +200,7 @@
                             <constraint firstItem="qyM-oc-v2E" firstAttribute="leading" secondItem="PkD-ui-uuv" secondAttribute="leading" type="default" id="Ay5-oY-CA9"/>
                             <constraint firstItem="mLB-yc-lRn" firstAttribute="trailing" secondItem="PkD-ui-uuv" secondAttribute="trailing" type="default" id="Hbo-dw-RJ5"/>
                             <constraint firstItem="mLB-yc-lRn" firstAttribute="leading" secondItem="PkD-ui-uuv" secondAttribute="leading" type="default" id="Z0y-Kv-aZC"/>
-                            <constraint firstAttribute="bottom" secondItem="mLB-yc-lRn" secondAttribute="bottom" constant="455" id="dDC-40-Y7F"/>
+                            <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="mLB-yc-lRn" secondAttribute="bottom" constant="455" type="user" id="dDC-40-Y7F"/>
                             <constraint firstItem="qyM-oc-v2E" firstAttribute="top" secondItem="PkD-ui-uuv" secondAttribute="top" constant="49" id="eC8-87-UWC"/>
                             <constraint firstItem="mLB-yc-lRn" firstAttribute="top" secondItem="PkD-ui-uuv" secondAttribute="top" type="default" id="vPj-tC-Beu"/>
                         </constraints>
@@ -209,6 +209,7 @@
                     <connections>
                         <outlet property="resultsTable" destination="qyM-oc-v2E" id="U6M-RM-m3A"/>
                         <outlet property="searchBox" destination="BRj-iY-J2y" id="XSV-aa-RWK"/>
+                        <outlet property="searchView" destination="mLB-yc-lRn" id="fi3-Qa-vkr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jOe-pb-eBL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -781,6 +782,104 @@ Abby </string>
         <image name="search.png" width="21" height="21"/>
         <image name="searchSelected.png" width="21" height="21"/>
     </resources>
+    <classes>
+        <class className="AboutViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="versionLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="EUEventCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EUEventCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="dateTimeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="participantsLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="EUEventView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EUEventView.h"/>
+            <relationships>
+                <relationship kind="action" name="segCtrlChanged:"/>
+                <relationship kind="outlet" name="dateTimeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="descriptionTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="goingSegCtrl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="participantsScrollView" candidateClass="ILSideScrollView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="EUInviteeCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EUInviteeCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="profPic" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="EventViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EventViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="goBack:"/>
+                <relationship kind="action" name="showStatusAlert:"/>
+                <relationship kind="outlet" name="eventView" candidateClass="EUEventView"/>
+            </relationships>
+        </class>
+        <class className="EventsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EventsViewController.h"/>
+        </class>
+        <class className="ILSideScrollView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ILSideScrollView.h"/>
+        </class>
+        <class className="LocationsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="goBack:"/>
+            </relationships>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="performLogin:"/>
+                <relationship kind="outlet" name="background" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="NewEventViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewEventViewController.h"/>
+        </class>
+        <class className="NewInviteeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewInviteeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="searchFriends:"/>
+                <relationship kind="outlet" name="resultsTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="searchBox" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="NewLocationViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewLocationViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="searchYelp:"/>
+                <relationship kind="outlet" name="resultsTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="searchBox" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="searchView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="NotificationsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NotificationsViewController.h"/>
+        </class>
+        <class className="SettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+        </class>
+        <class className="SideViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SideViewController.h"/>
+        </class>
+        <class className="UIRefreshControl" superclassName="UIControl">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIRefreshControl.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
