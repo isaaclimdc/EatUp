@@ -25,6 +25,9 @@
     if ([event.dateTime compare:[NSDate date]] == NSOrderedAscending) {
         self.titleLabel.textColor = [UIColor grayColor];
     }
+    else if ([self isUrgent:event.dateTime]) {
+        self.titleLabel.textColor = [UIColor redColor];
+    }
     else {
         self.titleLabel.textColor = [UIColor blackColor];
     }
@@ -36,6 +39,15 @@
                                                                 1)];
     lineView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
     [self.contentView addSubview:lineView];
+}
+
+- (BOOL)isUrgent:(NSDate *)aDate
+{
+    NSTimeInterval distanceBetweenDates = [aDate timeIntervalSinceDate:[NSDate date]];
+    double secondsInAnHour = 3600;
+    NSInteger hoursDiff = distanceBetweenDates / secondsInAnHour;
+
+    return hoursDiff <= 1;
 }
 
 @end

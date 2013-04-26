@@ -194,7 +194,62 @@
     return cell;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    EUEvent *event = [events objectAtIndex:indexPath.row];
+
+    /* Deletable only if I'm the host */
+    if ([self amIHost:event])
+        return YES;
+    else
+        return NO;
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        /* Delete this event */
+        [self deleteEvent:[events objectAtIndex:indexPath.row]];
+    }
+}
+
+- (BOOL)amIHost:(EUEvent *)event
+{
+    double myUID = [[NSUserDefaults standardUserDefaults] doubleForKey:kEUUserDefaultsKeyMyUID];
+    return event.host == myUID;
+}
+
+- (void)deleteEvent:(EUEvent *)event
+{
+    [client getPath:@"/delete/event"
+         parameters:@{@"eid" : [NSNumber numberWithDouble:event.eid]}
+        loadingText:@"Deleting event"
+        successText:nil
+            success:^(AFHTTPRequestOperation *operation, NSString *response) {
+                NSLog(@"SUCCESS: %@", response);
+                
+                ILAlertView *alert = [ILAlertView showWithTitle:@"Event deleted!"
+                                   message:[NSString stringWithFormat:@"The event \"%@\" was successfully deleted.", event.title]
+                          closeButtonTitle:@"OK"
+                         secondButtonTitle:nil];
+                alert.tag = 9; // Magic number
+                alert.delegate = self;
+            }
+            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"ERROR: %@", error);
+            }];
+}
+
+- (void)alertView:(ILAlertView *)alertView tappedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 9) { // Magic number
+        [self fetchData];
+    }
+}
+
 #pragma mark - Table view delegate
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

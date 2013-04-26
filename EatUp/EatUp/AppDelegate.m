@@ -25,7 +25,8 @@
     // PKRevealController.h contains a list of all the specifiable options
     NSDictionary *options = @{
                               PKRevealControllerAllowsOverdrawKey : [NSNumber numberWithBool:YES],
-                              PKRevealControllerDisablesFrontViewInteractionKey : [NSNumber numberWithBool:YES]
+                              PKRevealControllerDisablesFrontViewInteractionKey : [NSNumber numberWithBool:YES],
+                              PKRevealControllerRecognizesPanningOnFrontViewKey : @NO
                               };
 
     // Convenience initializer for a one-sided reveal controller.

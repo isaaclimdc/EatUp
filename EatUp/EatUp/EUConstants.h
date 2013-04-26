@@ -58,7 +58,7 @@
 #define kEURequestKeyUserProfPic @"prof_pic"
 #define kEURequestKeyUserParticipating @"participating"
 #define kEURequestKeyUserFriends @"friends"
-#define kEUFBUserProfPic(fbid) [NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal", (fbid)]]
+#define kEUFBUserProfPic(fbid) [NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", (fbid)]]
 
 #define kEURequestKeyLocationLat @"lat"
 #define kEURequestKeyLocationLng @"lng"

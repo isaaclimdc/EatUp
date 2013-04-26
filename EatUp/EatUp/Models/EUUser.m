@@ -18,7 +18,7 @@
     user.uid = [[params objectForKey:kEURequestKeyUserUID] doubleValue];
     user.firstName = [params objectForKey:kEURequestKeyUserFirstName];
     user.lastName = [params objectForKey:kEURequestKeyUserLastName];
-    user.profPic = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kEUBaseURL,[params objectForKey:kEURequestKeyUserProfPic]]];
+    user.profPic = [NSURL URLWithString:[params objectForKey:kEURequestKeyUserProfPic]];
 
     NSMutableArray *partEvents = [NSMutableArray array];
     for (NSDictionary *partEventsDict in [params objectForKey:kEURequestKeyUserParticipating]) {

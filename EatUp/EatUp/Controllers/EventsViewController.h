@@ -11,7 +11,7 @@
 #import "EventViewController.h"
 #import "EUEventCell.h"
 
-@interface EventsViewController : UITableViewController <NewEventViewControllerDelegate>
+@interface EventsViewController : UITableViewController <NewEventViewControllerDelegate, ILAlertViewDelegate>
 
 @property (nonatomic) BOOL launchedFromSideMenu;
 
