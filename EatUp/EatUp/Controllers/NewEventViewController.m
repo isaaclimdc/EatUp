@@ -134,6 +134,8 @@
 
 - (void)performSave
 {
+    [self hideKeyboard];
+    
     NSMutableDictionary *payload = [NSMutableDictionary dictionary];
 
     NSDictionary *whenDict = [whenView serialize];
@@ -240,6 +242,13 @@
 - (void)performDismiss
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)hideKeyboard
+{
+    for (UIView *view in self.view.subviews) {
+        [view resignFirstResponder];
+    }
 }
 
 #pragma mark - NSURLConnectionDelegate

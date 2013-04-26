@@ -169,6 +169,9 @@
         if (buttonIndex == 1) {
             [self sendEmailTo:selectedUser];
         }
+        else {
+            [searchBox becomeFirstResponder];
+        }
     }
 }
 
@@ -179,8 +182,6 @@
     // Email Content
     NSString *messageBody = [NSString stringWithFormat:@"Hey %@,<br><br>I'm trying to invite you to my event: \"%@\", but you don't seem\
                              to have EatUp! installed. Please download it from the iOS App Store at <a href='http://isaacl.net/apps'>this link</a>!", user.firstName, eventName];
-    // To address
-//    NSArray *toRecipents = [NSArray arrayWithObject:@"support@appcoda.com"];
 
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
     mc.mailComposeDelegate = self;
@@ -214,7 +215,9 @@
     }
 
     // Close the Mail Interface
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [searchBox becomeFirstResponder];
+    }];
 }
 
 @end
